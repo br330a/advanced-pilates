@@ -1,7 +1,12 @@
-export default function Brand() {
+export default function Brand({ inverted = false }) {
   return (
-    <span className="brand" aria-label="Advanced Studio Pilates e Fisioterapia">
-      <img src="/logo-advanced-clean.png" alt="Advanced Studio" className="brand-logo" />
-    </span>
+    <img
+      src={inverted ? '/brand-black.png' : '/brand-color.png'}
+      alt="Pilates Advanced Studio"
+      className="brand-logo"
+      width="1080"
+      height="305"
+      decoding="async"
+    />
   )
 }

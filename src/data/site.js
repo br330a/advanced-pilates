@@ -1,3 +1,4 @@
+// Dados centrais: mantenha somente informações confirmadas pelo estúdio.
 export const studio = {
   name: 'Advanced Studio',
   descriptor: 'Pilates & Fisioterapia',
@@ -15,89 +16,92 @@ export const whatsappURL = (message) =>
   `https://wa.me/55${studio.phone}?text=${encodeURIComponent(message)}`
 
 export const highlights = [
-  { icon: 'user', title: 'Atendimento próximo', description: 'Contato direto para tirar dúvidas e entender qual caminho faz mais sentido para você.' },
-  { icon: 'layers', title: 'Estrutura equipada', description: 'Aparelhos de Pilates em um espaço organizado, iluminado e pensado para receber bem.' },
-  { icon: 'sun', title: 'Ambiente acolhedor', description: 'Uma presença visual mais calma, moderna e confortável para diferentes idades.' },
-  { icon: 'message', title: 'Contato simples', description: 'WhatsApp e Instagram sempre à mão para facilitar o primeiro passo.' },
+  {
+    icon: 'activity',
+    title: 'Movimento com propósito',
+    description: 'Uma prática que reúne consciência corporal, força e mobilidade.',
+  },
+  {
+    icon: 'heart',
+    title: 'Atenção a cada pessoa',
+    description: 'Um atendimento próximo, valorizado por quem já frequenta o estúdio.',
+  },
+  {
+    icon: 'layers',
+    title: 'Espaço equipado',
+    description: 'Conheça um ambiente real, com aparelhos para a prática de Pilates.',
+  },
 ]
 
 export const services = [
   {
     number: '01',
-    slug: 'pilates',
-    label: 'Pilates com aparelhos',
     icon: 'activity',
-    description: 'Prática com foco em mobilidade, consciência corporal, força e controle do movimento.',
-    points: ['Estrutura com aparelhos específicos', 'Boa opção para quem está começando ou retomando', 'Contato direto para entender a melhor proposta'],
+    label: 'Pilates com aparelhos',
+    kicker: 'MOVIMENTO E EQUILÍBRIO',
+    description: 'Explore o movimento com o suporte de aparelhos específicos, trabalhando força, mobilidade e consciência corporal.',
+    points: ['Para quem quer começar ou retomar a prática', 'Consulte a equipe sobre aulas e disponibilidade'],
   },
   {
     number: '02',
-    slug: 'fisioterapia',
-    label: 'Fisioterapia',
     icon: 'heart',
-    description: 'O estúdio também comunica atendimento em fisioterapia, com informações alinhadas diretamente com a equipe.',
-    points: ['Atendimento de acordo com a necessidade de cada pessoa', 'Disponibilidade confirmada pelo contato direto', 'Integração natural com a proposta do estúdio'],
-  },
-  {
-    number: '03',
-    slug: 'experimental',
-    label: 'Aula experimental',
-    icon: 'calendar',
-    description: 'Uma forma leve de conhecer o espaço, tirar dúvidas e entender como começar.',
-    points: ['Solicitação rápida pelo WhatsApp', 'Você informa o melhor período para atendimento', 'Horários e vagas são confirmados pela equipe'],
+    label: 'Fisioterapia',
+    kicker: 'ATENÇÃO AO SEU BEM-ESTAR',
+    description: 'Entre em contato para conhecer os atendimentos de fisioterapia oferecidos e esclarecer suas dúvidas com a equipe.',
+    points: ['Informações diretamente com o estúdio', 'Atendimentos e horários sujeitos à confirmação'],
   },
 ]
 
-export const showcase = [
+// Trechos de avaliações espontâneas encaminhadas pelo estúdio.
+// Os originais ficam acessíveis ao clicar em cada cartão. Não representam uma nota geral agregada.
+export const reviews = [
   {
-    src: '/images/studio-room.webp',
-    title: 'Espaço do estúdio',
-    text: 'Uma visão do ambiente, dos aparelhos e da circulação com luz natural.',
-    accent: 'Espaço',
-    imageClass: 'showcase-landscape',
+    author: 'Flavia Souza Oliveira Piva',
+    initials: 'FP',
+    text: 'Amooooo fazer Pilates no Advanced!! A Jessica é a melhor profissional para essa modalidade. Atenciosa, muito preocupada com suas limitações e em seu bem estar físico. Indico para todas as idades.',
+    image: '/images/avaliacao-flavia.webp',
+    featured: true,
   },
   {
-    src: '/images/movement-ring-clean.webp',
-    title: 'Movimento com apoio do aparelho',
-    text: 'Uma cena de prática real, com postura bem definida e enquadramento mais limpo.',
-    accent: 'Movimento',
-    imageClass: 'showcase-portrait',
+    author: 'Eliezer Bim',
+    initials: 'EB',
+    text: 'Estou com professora Jéssica a 4 anos, muito satisfeito, tem ótima qualidade técnica e também atendimento profissional, parabéns, muito satisfeito',
+    image: '/images/avaliacao-eliezer.webp',
   },
   {
-    src: '/images/suspension-subject.webp',
-    title: 'Controle, força e mobilidade',
-    text: 'Outra imagem de movimento para reforçar a proposta corporal do estúdio.',
-    accent: 'Postura',
-    imageClass: 'showcase-landscape',
+    author: 'Helena tatayama',
+    initials: 'HT',
+    text: 'Sem contar a estrutura do studio, muito bem equipado, lindo e agradável. Super recomendo 🙏💕',
+    image: '/images/avaliacao-helena.webp',
+    excerpt: true,
   },
   {
-    src: '/images/front-sign-clean.webp',
-    title: 'Marca e reconhecimento do local',
-    text: 'A identidade do Advanced também aparece como apoio visual da experiência.',
-    accent: 'Identidade',
-    imageClass: 'showcase-landscape',
+    author: 'Ricardo Piva',
+    initials: 'RP',
+    text: 'Nunca pensei em fazer Pilates, mas comecei e estou percebendo já diferenças excelentes. Melhoraram minhas dores em geral. Indico agora pra todo mundo, percebi que pilates não é só pra mulher mesmo.',
+    image: '/images/avaliacao-ricardo.webp',
   },
 ]
 
 export const faqs = [
   {
-    question: 'Nunca fiz Pilates. Posso conhecer o estúdio?',
-    answer: 'Sim. O site foi pensado justamente para facilitar esse primeiro contato e apresentar melhor o ambiente antes da conversa.',
+    question: 'Nunca fiz Pilates. Posso entrar em contato?',
+    answer: 'Claro! Você pode conversar com a equipe pelo WhatsApp, contar que está começando e perguntar como funciona a prática no estúdio.',
   },
   {
-    question: 'Como funciona a aula experimental?',
-    answer: 'Você envia uma mensagem pelo WhatsApp com seu nome e seu período de preferência. O estúdio responde com as orientações e a disponibilidade.',
+    question: 'Como posso solicitar uma aula experimental?',
+    answer: 'Clique em “Agendar aula experimental”, informe seu nome e o período de preferência. O site prepara uma mensagem para você enviar pelo WhatsApp. A equipe confirma as possibilidades e a disponibilidade.',
   },
   {
-    question: 'Os horários aparecem no site?',
-    answer: 'Não. O site serve como apresentação e canal de contato. A confirmação de horários e vagas é feita pela equipe do estúdio.',
+    question: 'O Advanced também oferece fisioterapia?',
+    answer: 'Sim, fisioterapia faz parte dos serviços apresentados pelo estúdio. Entre em contato para confirmar modalidades de atendimento, profissionais e agenda.',
   },
   {
-    question: 'O estúdio atende aos sábados?',
-    answer: 'O material divulgado pelo Advanced já mencionou atendimento aos sábados. Ainda assim, o ideal é confirmar a agenda atual pelo WhatsApp.',
+    question: 'Quais são os dias e horários das aulas?',
+    answer: 'Os horários de funcionamento, a disponibilidade de vagas e as opções aos sábados devem ser confirmados diretamente com a equipe.',
   },
   {
-    question: 'Onde fica o Advanced Studio?',
-    answer: 'Na Rua José dos Reis, 719, sala 01, Vila Prudente, em São Paulo. A seção de localização já traz o Google Maps incorporado.',
+    question: 'Onde fica o estúdio?',
+    answer: 'Na Rua José dos Reis, 719, sala 01, Vila Prudente, São Paulo — SP. Nesta página você pode abrir o endereço no Google Maps.',
   },
 ]

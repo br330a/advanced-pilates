@@ -1,16 +1,51 @@
-# React + Vite
+# Advanced Studio — Pilates & Fisioterapia
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Landing page do Advanced Studio, na Vila Prudente (São Paulo), desenvolvida com React, Vite e CSS próprio.
 
-Currently, two official plugins are available:
+## Como executar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Requer Node.js compatível com Vite 8 (Node 20.19+ ou 22.12+).
 
-## React Compiler
+```bash
+npm ci
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Validação antes de publicar:
 
-## Expanding the ESLint configuration
+```bash
+npm run lint
+npm run build
+npm run preview
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Domínio e SEO
+
+Para gerar **canonical, OG URL e sitemap** com seu domínio real durante o build, defina `SITE_URL` (domínio HTTPS público, sem barra final):
+
+```bash
+SITE_URL=https://www.seudominio.com.br npm run build
+```
+
+Sem `SITE_URL`, o projeto compila normalmente, mas não cria URLs canônicas ou sitemap com endereços inventados. A imagem de compartilhamento está em `public/images/social-preview.webp`.
+
+## Onde editar
+
+- `src/data/site.js`: telefone, endereço, Instagram, modalidades, dúvidas e avaliações.
+- `src/App.jsx`: seções e ordem de apresentação.
+- `src/App.css`, `src/index.css`: toda a identidade visual e os estilos responsivos.
+- `src/components/BookingModal.jsx`: formulário que gera mensagem para o WhatsApp (não cria reservas nem armazena dados).
+- `public/brand-color.png`, `public/brand-black.png`: logos exportados dos PDFs oficiais fornecidos.
+- `public/images/`: fotos e capturas originais das avaliações fornecidas pelo estúdio.
+
+## Antes de publicar
+
+1. Conferir todos os dados comerciais (endereço, telefone, serviços, horários e equipe).
+2. Validar autorização para uso das fotos de pessoas e depoimentos; confirmar se é permitido reproduzir as avaliações.
+3. Revisar os textos com os responsáveis pelos serviços de saúde, especialmente afirmações clínicas.
+4. Configurar domínio final por `SITE_URL`, publicar e verificar o sitemap.
+5. Testar navegação, formulário de WhatsApp, menu mobile e mapa em celulares reais.
+
+### Contato / privacidade
+
+O formulário não envia dados a um servidor próprio. Após o clique, ele cria uma URL do WhatsApp com os dados informados, para que a pessoa escolha enviar a mensagem. O mapa do Google é carregado só com consentimento por clique. Fontes do Google Fonts são carregadas remotamente.

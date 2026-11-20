@@ -1,11 +1,11 @@
 {
   "name": "advanced-pilates",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/postbuild-seo.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
