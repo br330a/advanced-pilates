@@ -15,7 +15,7 @@ export const whatsappURL = (message) =>
 
 export const highlights = [
   { icon: 'user', title: 'Atendimento próximo', description: 'Contato direto para tirar dúvidas e entender a melhor forma de começar.' },
-  { icon: 'layers', title: 'Estrutura equipada', description: 'Aparelhos de Pilates em um espaço organizado e bem cuidado.' },
+  { icon: 'layers', title: 'Estrutura equipada', description: 'Aparelhos de Pilates em um espaço organizado, iluminado e bem cuidado.' },
   { icon: 'sun', title: 'Ambiente acolhedor', description: 'Luz natural, conforto e uma proposta leve para diferentes idades.' },
   { icon: 'message', title: 'WhatsApp fácil', description: 'A aula experimental pode começar com uma conversa simples e rápida.' },
 ]
@@ -26,16 +26,16 @@ export const services = [
     slug: 'pilates',
     label: 'Pilates com aparelhos',
     icon: 'activity',
-    description: 'Prática com foco em controle, mobilidade, força e consciência corporal.',
-    points: ['Aparelhos específicos para a prática', 'Ideal para iniciar ou evoluir com acompanhamento', 'Atendimento confirmado diretamente com o estúdio'],
+    description: 'Prática com foco em mobilidade, consciência corporal, força e controle do movimento.',
+    points: ['Aparelhos específicos para a prática', 'Boa opção para quem está começando ou retomando', 'Contato direto para entender o melhor caminho'],
   },
   {
     number: '02',
     slug: 'fisioterapia',
     label: 'Fisioterapia',
     icon: 'heart',
-    description: 'O estúdio também comunica atendimento em fisioterapia. A equipe informa disponibilidade e formato.',
-    points: ['Orientação alinhada à necessidade de cada pessoa', 'Informações e disponibilidade por WhatsApp', 'Confirmação direta com a equipe'],
+    description: 'O estúdio também comunica atendimento em fisioterapia, com informações e disponibilidade confirmadas pela equipe.',
+    points: ['Atendimento alinhado à necessidade de cada pessoa', 'Informações e disponibilidade pelo WhatsApp', 'Conversa direta com a equipe do estúdio'],
   },
   {
     number: '03',
@@ -43,30 +43,30 @@ export const services = [
     label: 'Aula experimental',
     icon: 'calendar',
     description: 'Um primeiro contato para conhecer a proposta, o espaço e tirar suas dúvidas antes de começar.',
-    points: ['Solicitação rápida pelo WhatsApp', 'Período de preferência informado por você', 'Horários sujeitos à confirmação do estúdio'],
+    points: ['Solicitação rápida pelo WhatsApp', 'Você informa seu período de preferência', 'Horários sujeitos à confirmação do estúdio'],
   },
 ]
 
 export const showcase = [
   {
-    src: '/images/hero-real.webp',
-    title: 'Prática com foco no movimento',
-    text: 'Uma imagem real do espaço em uso, com equipamentos de Pilates e postura em destaque.',
+    src: '/images/movement-ring.webp',
+    title: 'Prática guiada e postura em evidência',
+    text: 'Uma imagem mais limpa para mostrar o trabalho corporal e o clima acolhedor do estúdio.',
     accent: 'Movimento',
     span: 'large',
   },
   {
-    src: '/images/studio-signage.webp',
-    title: 'Identidade e localização',
-    text: 'A marca e o endereço ajudam a reforçar o reconhecimento do estúdio.',
-    accent: 'Marca',
+    src: '/images/studio-room.webp',
+    title: 'Espaço do estúdio',
+    text: 'Uma visão do ambiente com aparelhos, circulação e luz natural.',
+    accent: 'Espaço',
     span: 'small',
   },
   {
-    src: '/images/studio-interior-clean.webp',
-    title: 'Ambiente do estúdio',
-    text: 'Uma visão do espaço com aparelhos, circulação livre e luz natural.',
-    accent: 'Espaço',
+    src: '/images/front-sign.webp',
+    title: 'Marca e localização',
+    text: 'A fachada reforça a identidade e facilita o reconhecimento do local.',
+    accent: 'Marca',
     span: 'small',
   },
 ]
@@ -82,7 +82,7 @@ export const faqs = [
   },
   {
     question: 'Os horários aparecem no site?',
-    answer: 'Não. O site direciona o contato, mas a confirmação de horários e vagas é feita diretamente com a equipe do estúdio.',
+    answer: 'Não. O site direciona o contato, mas a confirmação de horários e vagas é feita diretamente com a equipe.',
   },
   {
     question: 'O estúdio atende aos sábados?',

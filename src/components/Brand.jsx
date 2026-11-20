@@ -1,8 +1,7 @@
-export default function Brand({ inverse = false }) {
+export default function Brand() {
   return (
-    <span className={`brand ${inverse ? 'brand-inverse' : ''}`} aria-label="Advanced Studio Pilates e Fisioterapia">
-      <img src="/images/logo-advanced.png" alt="Advanced Studio" className="brand-logo" />
-      <span className="brand-descriptor">Pilates & Fisioterapia</span>
+    <span className="brand" aria-label="Advanced Studio Pilates e Fisioterapia">
+      <img src="/logo-advanced.svg" alt="Advanced Studio" className="brand-logo" />
     </span>
   )
 }

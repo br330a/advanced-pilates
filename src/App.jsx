@@ -52,6 +52,10 @@ function Header({ onBook }) {
               {label}
             </a>
           ))}
+          <a href={studio.instagram} className="mobile-nav-instagram" target="_blank" rel="noopener noreferrer">
+            <Icon name="instagram" size={18} />
+            Instagram
+          </a>
           <button type="button" className="mobile-nav-cta" onClick={() => { close(); onBook() }}>
             <Icon name="whatsapp" size={18} />
             Aula experimental
@@ -59,6 +63,10 @@ function Header({ onBook }) {
         </nav>
 
         <div className="header-actions">
+          <a href={studio.instagram} className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Instagram do Advanced Studio">
+            <Icon name="instagram" size={18} />
+            <span>Instagram</span>
+          </a>
           <button type="button" className="button button-primary header-cta" onClick={onBook}>
             <Icon name="whatsapp" size={18} />
             Agendar aula
@@ -88,7 +96,7 @@ function Hero({ onBook }) {
             Cuidado com presença. <em>Movimento com intenção.</em>
           </h1>
           <p className="hero-lead">
-            Conheça o Advanced Studio e descubra um espaço pensado para acolher, orientar e facilitar o seu primeiro passo.
+            O Advanced Studio recebe quem quer se movimentar com mais consciência, conhecer o espaço e iniciar o contato de um jeito simples e acolhedor.
           </p>
           <div className="hero-actions">
             <button type="button" className="button button-primary" onClick={onBook}>
@@ -102,14 +110,14 @@ function Hero({ onBook }) {
           </div>
           <div className="hero-points">
             <span><Icon name="check" size={16} /> Espaço real e acolhedor</span>
-            <span><Icon name="check" size={16} /> Contato fácil por WhatsApp</span>
-            <span><Icon name="check" size={16} /> Mapa e localização clara</span>
+            <span><Icon name="check" size={16} /> Acesso rápido ao WhatsApp</span>
+            <span><Icon name="check" size={16} /> Localização com Google Maps</span>
           </div>
         </div>
 
         <div className="hero-visual">
           <div className="hero-card">
-            <img src="/images/hero-real.webp" alt="Prática de Pilates em aparelho no Advanced Studio" fetchPriority="high" width="960" height="1340" />
+            <img src="/images/hero-main.webp" alt="Movimento em aparelho de Pilates no Advanced Studio" fetchPriority="high" width="890" height="1112" />
           </div>
           <div className="hero-badge">
             <strong>Advanced Studio</strong>
@@ -144,13 +152,13 @@ function About() {
         <div className="about-copy">
           <SectionLabel>O ESTÚDIO</SectionLabel>
           <h2>
-            Um espaço para conhecer o <em>Advanced de verdade.</em>
+            Um primeiro contato mais claro com o <em>Advanced.</em>
           </h2>
           <p>
-            A proposta do site é apresentar o estúdio com mais clareza: mostrar o ambiente, facilitar o contato e ajudar quem está chegando agora a entender o que encontra no local.
+            A proposta deste site é servir como porta de entrada: apresentar o espaço, a atmosfera do estúdio, a marca e os caminhos principais de contato.
           </p>
           <p>
-            Em vez de depender apenas de posts isolados, o visitante pode ver o espaço, localizar o endereço e iniciar uma conversa direta com a equipe.
+            Em vez de depender apenas de stories ou posts soltos, o visitante passa a entender o local, sentir a identidade visual e encontrar o que precisa com mais facilidade.
           </p>
         </div>
 
@@ -159,8 +167,8 @@ function About() {
             <Brand />
             <ul>
               <li><Icon name="pin" size={16} /> {studio.address}</li>
-              <li><Icon name="message" size={16} /> WhatsApp para aula experimental</li>
-              <li><Icon name="check" size={16} /> Atendimento e horários sob confirmação</li>
+              <li><Icon name="whatsapp" size={16} /> Aula experimental via WhatsApp</li>
+              <li><Icon name="instagram" size={16} /> Acesso rápido ao Instagram do estúdio</li>
             </ul>
           </div>
         </div>
@@ -177,11 +185,11 @@ function Services({ onBook }) {
           <div>
             <SectionLabel>SERVIÇOS E PRIMEIRO CONTATO</SectionLabel>
             <h2>
-              Informação clara, visual leve e <em>menos cara de template.</em>
+              Organização mais elegante, <em>sem cara de página artificial.</em>
             </h2>
           </div>
           <p>
-            Reorganizei esta parte para ficar mais objetiva: sem aparência artificial e com foco no que o cliente realmente quer entender ao entrar no site.
+            Esta seção foi redesenhada para explicar melhor o que o estúdio oferece e, ao mesmo tempo, manter o visual leve, atual e confiável.
           </p>
         </div>
 
@@ -220,13 +228,13 @@ function Showcase() {
       <div className="container">
         <div className="section-heading">
           <div>
-            <SectionLabel>IMAGENS CURADAS</SectionLabel>
+            <SectionLabel>FOTOS DO ESTÚDIO</SectionLabel>
             <h2>
-              Visual mais limpo, com fotos <em>mais bem selecionadas.</em>
+              Imagens mais limpas, melhor recorte e <em>mais equilíbrio visual.</em>
             </h2>
           </div>
           <p>
-            Removi a sensação de “galeria genérica” e deixei uma composição mais editorial, usando melhor o material disponível e evitando imagens com interface aparente.
+            Revisei o uso das imagens para deixar a apresentação mais agradável, evitando aparência de print cru e melhorando o encaixe no layout.
           </p>
         </div>
 
@@ -256,12 +264,12 @@ function Location() {
         <div>
           <SectionLabel>LOCALIZAÇÃO E CONTATO</SectionLabel>
           <h2>
-            Fácil de encontrar. <em>Fácil de entrar em contato.</em>
+            Fácil de encontrar. <em>Fácil de conversar.</em>
           </h2>
           <p className="location-lead">
-            O site agora concentra as informações essenciais para quem quer conhecer o Advanced Studio pela primeira vez.
+            O site concentra as informações essenciais para quem está conhecendo o estúdio pela primeira vez: endereço, mapa, WhatsApp e Instagram.
           </p>
-          <div className="location-cards">
+          <div className="location-cards location-cards-three">
             <div className="info-card">
               <h3>Endereço</h3>
               <p>{studio.address}</p>
@@ -269,9 +277,14 @@ function Location() {
               <a href={mapsLink} target="_blank" rel="noopener noreferrer">Abrir no Google Maps</a>
             </div>
             <div className="info-card">
-              <h3>Contato</h3>
+              <h3>WhatsApp</h3>
               <p>{studio.phoneLabel}</p>
-              <a href={whatsappURL(simpleMessage)} target="_blank" rel="noopener noreferrer">Conversar no WhatsApp</a>
+              <a href={whatsappURL(simpleMessage)} target="_blank" rel="noopener noreferrer">Conversar agora</a>
+            </div>
+            <div className="info-card">
+              <h3>Instagram</h3>
+              <p>@studiopilatesadvanced</p>
+              <a href={studio.instagram} target="_blank" rel="noopener noreferrer">Abrir perfil</a>
             </div>
           </div>
         </div>
@@ -300,7 +313,7 @@ function Faq() {
             O básico para começar <em>sem complicação.</em>
           </h2>
           <p>
-            Mantive uma seção simples e direta para tirar as dúvidas mais comuns antes do contato.
+            Uma área simples, clara e acolhedora para resolver as principais dúvidas antes do contato.
           </p>
         </div>
         <div className="faq-list">
@@ -330,7 +343,7 @@ function FinalCTA({ onBook }) {
             Se interessou pelo espaço, <em>comece pelo WhatsApp.</em>
           </h2>
           <p>
-            É a forma mais prática de pedir informações, confirmar horários e saber mais sobre a aula experimental.
+            É a forma mais prática de pedir informações, confirmar disponibilidade e saber mais sobre a aula experimental.
           </p>
         </div>
         <button type="button" className="button button-white" onClick={onBook}>
@@ -347,7 +360,7 @@ function Footer() {
     <footer className="site-footer">
       <div className="container footer-main">
         <div className="footer-brand">
-          <Brand inverse />
+          <Brand />
           <p>Advanced Studio · Pilates & Fisioterapia · Vila Prudente, São Paulo.</p>
         </div>
         <div className="footer-links">
@@ -399,7 +412,7 @@ export default function App() {
         rel="noopener noreferrer"
         aria-label="Falar com o estúdio pelo WhatsApp"
       >
-        <span className="whatsapp-float-icon"><Icon name="whatsapp" size={18} /></span>
+        <span className="whatsapp-float-icon"><Icon name="whatsapp" size={20} /></span>
         <span>WhatsApp</span>
       </a>
 
