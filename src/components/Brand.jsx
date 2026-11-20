@@ -1,10 +1,8 @@
-function Brand({ compact = false, inverse = false }) {
+export default function Brand({ inverse = false }) {
   return (
-    <span className={`wordmark ${compact ? 'wordmark-compact' : ''} ${inverse ? 'wordmark-inverse' : ''}`} aria-label="Advanced Studio Pilates e Fisioterapia">
-      <span className="wordmark-top">PILATES</span>
-      <span className="wordmark-main"><strong>ADV</strong><b>ANCED</b></span>
-      <span className="wordmark-studio">studio</span>
+    <span className={`brand ${inverse ? 'brand-inverse' : ''}`} aria-label="Advanced Studio Pilates e Fisioterapia">
+      <img src="/images/logo-advanced.png" alt="Advanced Studio" className="brand-logo" />
+      <span className="brand-descriptor">Pilates & Fisioterapia</span>
     </span>
   )
 }
-export default Brand

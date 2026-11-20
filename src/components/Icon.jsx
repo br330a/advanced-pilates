@@ -5,7 +5,7 @@ const paths = {
   upRight: <><path d="M7 17 17 7"/><path d="M8 7h9v9"/></>,
   menu: <><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></>,
   close: <><path d="M6 6l12 12"/><path d="M18 6 6 18"/></>,
-  whatsapp: <><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.43L3 20l1.08-5.26A8.5 8.5 0 1 1 21 11.5Z"/><path d="M9 8.7c-.5-.5-1.15.07-1.2.76-.13 1.6 2.5 5.3 5.4 6.1 1.05.28 2.09-.13 2.31-.69l.24-.68-2.16-1.18-.78.82c-1.02-.3-2.7-1.94-3.04-2.9l.81-.84L9 8.7Z"/></>,
+  whatsapp: <><path d="M12 21a8.8 8.8 0 0 1-4.42-1.18L3.8 21l1.23-3.6A8.96 8.96 0 1 1 12 21Z"/><path d="M9.2 8.8c-.38-.76-1.1-.7-1.42-.71-.36-.02-.77-.02-1.18.38-.4.4-1.54 1.5-1.54 3.67 0 2.16 1.58 4.26 1.8 4.55.21.28 3.02 4.84 7.45 6.58 3.66 1.43 4.4 1.14 5.2 1.07.8-.08 2.57-1.05 2.94-2.06.37-1 .37-1.86.26-2.06-.1-.2-.38-.31-.8-.52-.42-.22-2.47-1.22-2.85-1.36-.39-.14-.66-.21-.94.22-.28.42-1.08 1.36-1.33 1.63-.24.28-.5.31-.91.1-.42-.21-1.75-.64-3.34-2.03-1.23-1.1-2.06-2.45-2.3-2.86-.24-.42-.03-.64.18-.85.2-.2.42-.52.62-.77.2-.25.27-.42.42-.7.14-.28.07-.53-.04-.74-.1-.21-.93-2.24-1.32-3.02Z"/></>,
   pin: <><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.6"/></>,
   calendar: <><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></>,
   activity: <><path d="M2 12h5l3-7 4 14 3-7h5"/></>,
@@ -15,18 +15,28 @@ const paths = {
   sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></>,
   message: <path d="M20 11.6a8 8 0 0 1-8 8 8.5 8.5 0 0 1-3.1-.6L4 20l1.2-4.6A8 8 0 1 1 20 11.6Z"/>,
   plus: <><path d="M12 5v14M5 12h14"/></>,
-  minus: <path d="M5 12h14"/>,
   check: <path d="m5 12 4 4 10-10"/>,
   instagram: <><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.7 6.3h.01"/></>,
-  phone: <path d="M6.3 3.4 9 6.1l-1.5 2.8c1 2.2 2.7 3.8 4.9 4.9l2.7-1.5 2.8 2.7-.9 3c-.3.8-1.1 1.3-2 1.3C8.5 19.3 4.7 15.5 3.5 9c-.2-.9.3-1.7 1.2-2l1.6-3.6Z"/>,
   chevronLeft: <path d="m15 18-6-6 6-6"/>,
   chevronRight: <path d="m9 18 6-6-6-6"/>,
-  clock: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>,
 }
 
 function Icon({ name, size = 22, strokeWidth = 1.8, className = '', ...props }) {
+  const isWhatsapp = name === 'whatsapp'
   return (
-    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill={isWhatsapp ? 'currentColor' : 'none'}
+      stroke={isWhatsapp ? 'none' : 'currentColor'}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
       {paths[name] || paths.arrow}
     </svg>
   )
