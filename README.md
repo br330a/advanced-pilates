@@ -14,6 +14,7 @@ npm run dev
 Validação antes de publicar:
 
 ```bash
+npm run check:content
 npm run lint
 npm run build
 npm run preview
@@ -49,3 +50,42 @@ Sem `SITE_URL`, o projeto compila normalmente, mas não cria URLs canônicas ou 
 ### Contato / privacidade
 
 O formulário não envia dados a um servidor próprio. Após o clique, ele cria uma URL do WhatsApp com os dados informados, para que a pessoa escolha enviar a mensagem. O mapa do Google é carregado só com consentimento por clique. Fontes do Google Fonts são carregadas remotamente.
+
+
+## Segunda etapa — equipe e revisão de UX
+
+**Equipe:** os componentes estão implementados, mas **não aparecem no site público** enquanto
+`src/data/team.js` não tiver profissionais reais, com dados e fotos autorizados.
+
+Para visualizar os 3 cartões demonstrativos SOMENTE no servidor de desenvolvimento local:
+
+```bash
+npm run dev
+# Acesse http://localhost:5173/?equipe-preview=1
+```
+
+Esse modo depende de `import.meta.env.DEV` e não existe na versão de produção.
+Quando as fotos chegarem, exporte-as em WebP (ideal: aproximadamente 900 × 1125 px,
+proporção 4:5), salve em `public/images/equipe/` e preencha `teamMembers` com nomes,
+funções, especialidades, registros aplicáveis e descrições confirmadas.
+A navegação adiciona “Equipe” automaticamente quando há integrantes cadastrados.
+
+**Jornada:** os CTAs de Pilates e Fisioterapia abrem o formulário com o interesse
+correspondente já selecionado. A etapa “Como começar” explica o fluxo sem prometer
+agendamento automático.
+
+**Privacidade:** há uma página em `/privacidade.html` descrevendo tecnicamente o
+site atual e os serviços externos. A equipe deve validá-la antes de publicar.
+
+**Fotos pendentes:** substituir as atuais pelas fotografias profissionais
+selecionadas, com autorização de imagem e recortes adequados a cada seção.
+
+**Checagem antes do commit:**
+
+```bash
+npm ci
+npm run lint
+npm run build
+```
+
+Você também pode executar `npm run verify` para validar conteúdo, lint e build de uma vez.

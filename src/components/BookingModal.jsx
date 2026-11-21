@@ -9,10 +9,10 @@ const defaults = {
   detail: '',
 }
 
-export default function BookingModal({ open, onClose }) {
+export default function BookingModal({ open, onClose, initialInterest = defaults.interest }) {
   const dialogRef = useRef(null)
   const firstInputRef = useRef(null)
-  const [values, setValues] = useState(defaults)
+  const [values, setValues] = useState(() => ({ ...defaults, interest: initialInterest }))
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function BookingModal({ open, onClose }) {
             value={values.name}
             onChange={(event) => update('name', event.target.value)}
             autoComplete="name"
-            maxLength="70"
+            maxLength={70}
             placeholder="Seu nome"
             aria-invalid={Boolean(error)}
             aria-describedby={error ? 'booking-error' : undefined}
@@ -119,7 +119,7 @@ export default function BookingModal({ open, onClose }) {
             <option>Sábado, se houver disponibilidade</option>
           </select>
           <label htmlFor="booking-detail">Quer acrescentar algo? <span className="optional">(opcional)</span></label>
-          <textarea id="booking-detail" rows="2" maxLength="220" placeholder="Uma dúvida, por exemplo" value={values.detail} onChange={(event) => update('detail', event.target.value)} />
+          <textarea id="booking-detail" rows={2} maxLength={220} placeholder="Uma dúvida, por exemplo" value={values.detail} onChange={(event) => update('detail', event.target.value)} />
           {error && <p role="alert" className="form-error" id="booking-error">{error}</p>}
           <p className="booking-footnote"><Icon name="info" size={17} /> A solicitação não cria uma reserva. A equipe confirma os horários pelo WhatsApp.</p>
           <button type="submit" className="button button-accent booking-submit">

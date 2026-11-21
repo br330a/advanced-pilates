@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build && node scripts/postbuild-seo.mjs",
     "lint": "eslint .",
+    "check:content": "node scripts/validate-content.mjs",
+    "verify": "npm run check:content && npm run lint && npm run build",
     "preview": "vite preview"
   },
   "dependencies": {

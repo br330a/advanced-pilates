@@ -4,10 +4,15 @@ import Brand from './components/Brand'
 import BookingModal from './components/BookingModal'
 import Icon from './components/Icon'
 import { faqs, highlights, reviews, services, studio, whatsappURL } from './data/site'
+import { teamLayoutPreview, teamMembers } from './data/team'
+
+const isTeamPreview = import.meta.env.DEV && new URLSearchParams(window.location.search).get('equipe-preview') === '1'
+const visibleTeam = teamMembers.length > 0 ? teamMembers : (isTeamPreview ? teamLayoutPreview : [])
 
 const navigation = [
   ['#sobre', 'O estúdio'],
   ['#servicos', 'Serviços'],
+  ...(visibleTeam.length ? [['#equipe', 'Equipe']] : []),
   ['#espaco', 'Nosso espaço'],
   ['#depoimentos', 'Avaliações'],
   ['#localizacao', 'Localização'],
@@ -42,13 +47,21 @@ function Header({ onBook }) {
     }
   }, [open, close])
 
+  // A abertura do menu nunca deve persistir após mudar para a navegação desktop.
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 1001px)')
+    const handleChange = () => { if (media.matches) close() }
+    media.addEventListener('change', handleChange)
+    return () => media.removeEventListener('change', handleChange)
+  }, [close])
+
   return (
     <>
       <div className="topline">
         <div className="container topline-inner">
           <span><Icon name="pin" size={14} /> Vila Prudente · São Paulo</span>
           <span>Movimento, cuidado e bem-estar.</span>
-          <a href={`tel:+55${studio.phone}`}><Icon name="whatsapp" size={14} /> {studio.phoneLabel}</a>
+          <a href={`tel:+55${studio.phone}`}><Icon name="phone" size={14} /> {studio.phoneLabel}</a>
         </div>
       </div>
       <header className="site-header" ref={headerRef}>
@@ -61,7 +74,7 @@ function Header({ onBook }) {
             </button>
           </nav>
           <div className="header-actions">
-            <button className="button button-accent header-book" type="button" onClick={onBook}>Agendar aula <Icon name="upRight" size={17} /></button>
+            <button className="button button-accent header-book" type="button" onClick={() => onBook('Aula experimental de Pilates')}>Agendar aula <Icon name="upRight" size={17} /></button>
             <button
               ref={menuButton}
               type="button"
@@ -86,15 +99,15 @@ function Hero({ onBook }) {
       <div className="container hero-inner">
         <div className="hero-copy">
           <Eyebrow>PILATES & FISIOTERAPIA · VILA PRUDENTE</Eyebrow>
-          <h1 id="hero-title">Seu corpo merece <span>movimento.</span><em> Você merece cuidado.</em></h1>
-          <p>Conheça o Advanced Studio: Pilates com aparelhos, fisioterapia e um espaço para você se conectar com o próprio bem-estar.</p>
+          <h1 id="hero-title">Movimente o corpo. <em>Cuide de você.</em></h1>
+          <p>Pilates com aparelhos e fisioterapia em um espaço feito para quem quer começar, recomeçar ou continuar em movimento, na Vila Prudente.</p>
           <div className="hero-actions">
-            <button className="button button-accent button-large" type="button" onClick={onBook}>Agendar aula experimental <Icon name="upRight" size={19} /></button>
+            <button className="button button-accent button-large" type="button" onClick={() => onBook('Aula experimental de Pilates')}>Agendar aula experimental <Icon name="upRight" size={19} /></button>
             <a className="button button-outline button-large" href="#espaco">Conhecer o espaço <Icon name="arrow" size={18} /></a>
           </div>
           <a className="hero-rating" href="#depoimentos" aria-label="Ler avaliações compartilhadas por alunos do Advanced Studio">
-            <span className="hero-rating-stars" aria-hidden="true">★★★★★</span>
-            <span><strong>Histórias reais, experiências reais.</strong><small>Leia as avaliações de quem conhece o estúdio <Icon name="arrow" size={14} /></small></span>
+            <span className="hero-proof-icon" aria-hidden="true"><Icon name="quote" size={24} /></span>
+            <span><strong>Quem vem, tem histórias para contar.</strong><small>Conheça os depoimentos dos nossos clientes <Icon name="arrow" size={14} /></small></span>
           </a>
         </div>
         <div className="hero-art">
@@ -102,7 +115,7 @@ function Hero({ onBook }) {
             <img src="/images/pilates-pose.webp" alt="Mulher praticando Pilates com aparelhos no Advanced Studio" width="1200" height="1600" fetchPriority="high" />
           </div>
           <div className="hero-image-label"><span className="label-burst" aria-hidden="true">✳</span><span>O seu próximo passo<br /><strong>começa aqui.</strong></span></div>
-          <div className="hero-photo-caption">ADVANCED STUDIO <span>·</span> PILATES</div>
+          <div className="hero-photo-caption">ADVANCED STUDIO <span>·</span> VILA PRUDENTE</div>
         </div>
       </div>
       <div className="hero-bottom-rule" aria-hidden="true" />
@@ -142,7 +155,7 @@ function About({ onBook }) {
             <div><span><Icon name="check" size={19} /></span><p><strong>Contato direto</strong><small>Converse com a equipe sobre seu interesse e sua rotina.</small></p></div>
             <div><span><Icon name="check" size={19} /></span><p><strong>Localização acessível</strong><small>Nos encontre na Vila Prudente, em São Paulo.</small></p></div>
           </div>
-          <button type="button" className="text-link" onClick={onBook}>Quero conhecer o Advanced <Icon name="upRight" size={19} /></button>
+          <button type="button" className="text-link" onClick={() => onBook('Aula experimental de Pilates')}>Quero conhecer o Advanced <Icon name="upRight" size={19} /></button>
         </div>
       </div>
     </section>
@@ -163,15 +176,45 @@ function Services({ onBook }) {
               <div className="service-card-top"><span>{service.number} — SERVIÇOS</span><Icon name={service.icon} size={26} /></div>
               <div><span className="service-kicker">{service.kicker}</span><h3>{service.label}</h3><p>{service.description}</p></div>
               <ul>{service.points.map((point) => <li key={point}><Icon name="check" size={17} /> {point}</li>)}</ul>
-              <button type="button" className="service-link" onClick={onBook}>Tirar dúvidas sobre {service.number === '01' ? 'Pilates' : 'fisioterapia'} <Icon name="upRight" size={18} /></button>
+              <button type="button" className="service-link" onClick={() => onBook(service.number === '01' ? 'Informações sobre Pilates' : 'Informações sobre Fisioterapia')}>Tirar dúvidas sobre {service.number === '01' ? 'Pilates' : 'fisioterapia'} <Icon name="upRight" size={18} /></button>
             </article>
           ))}
         </div>
         <div className="experimental-banner">
           <span className="experimental-symbol" aria-hidden="true">✳</span>
           <div><strong>Quer dar o primeiro passo?</strong><p>Pergunte sobre a aula experimental e os horários disponíveis.</p></div>
-          <button className="button button-dark" type="button" onClick={onBook}>Agendar aula experimental <Icon name="upRight" size={18} /></button>
+          <button className="button button-dark" type="button" onClick={() => onBook('Aula experimental de Pilates')}>Agendar aula experimental <Icon name="upRight" size={18} /></button>
         </div>
+      </div>
+    </section>
+  )
+}
+
+function Team({ onBook }) {
+  if (!visibleTeam.length) return null
+
+  return (
+    <section className="section team-section" id="equipe" aria-labelledby="team-title">
+      <div className="container">
+        {isTeamPreview && !teamMembers.length && (
+          <p className="team-preview-notice" role="status">VISUALIZAÇÃO LOCAL · Cartões demonstrativos. Nenhuma informação fictícia aparece no site publicado.</p>
+        )}
+        <div className="section-heading team-heading">
+          <div><Eyebrow>QUEM FAZ O ADVANCED ACONTECER</Eyebrow><h2 id="team-title">Pessoas que acolhem. <em>Profissionais que acompanham.</em></h2></div>
+          <p>Conheça as pessoas por trás do Advanced Studio e descubra com quem você vai conversar sobre seu movimento e cuidado.</p>
+        </div>
+        <div className={`team-grid team-count-${Math.min(visibleTeam.length, 3)}`}>
+          {visibleTeam.map((member, index) => (
+            <article className="team-card" key={member.id}>
+              <div className={`team-photo ${member.photo ? '' : 'team-photo-placeholder'}`}>
+                {member.photo ? <img src={member.photo} alt={member.photoAlt || `Retrato de ${member.name}`} loading="lazy" width="720" height="900" /> : <div aria-hidden="true"><Icon name="user" size={66} strokeWidth={1} /><span>FOTO EM BREVE</span></div>}
+                <span className="team-index">{String(index + 1).padStart(2, '0')}</span>
+              </div>
+              <div className="team-card-body"><span className="team-role">{member.role}</span><h3>{member.name}</h3>{member.specialty && <p className="team-specialty">{member.specialty}</p>}<p className="team-bio">{member.bio}</p>{member.credential && <span className="team-credential">{member.credential}</span>}</div>
+            </article>
+          ))}
+        </div>
+        <div className="team-tail"><p>Cuidado começa com uma boa conversa.</p><button type="button" className="text-link" onClick={() => onBook('Ainda tenho dúvidas')}>Falar com a equipe <Icon name="upRight" size={19} /></button></div>
       </div>
     </section>
   )
@@ -220,6 +263,25 @@ function Testimonials() {
         </div>
         <div className="reviews-grid">{reviews.map((review) => <ReviewCard key={review.author} review={review} />)}</div>
         <p className="reviews-disclaimer">Os depoimentos representam experiências individuais. Resultados e necessidades variam de pessoa para pessoa.</p>
+      </div>
+    </section>
+  )
+}
+
+function HowItWorks({ onBook }) {
+  const steps = [
+    { number: '01', icon: 'activity', title: 'Conheça os serviços', description: 'Descubra o Pilates com aparelhos e os atendimentos de fisioterapia oferecidos pelo estúdio.' },
+    { number: '02', icon: 'message', title: 'Converse com a equipe', description: 'Conte o que procura e tire suas dúvidas diretamente com o Advanced pelo WhatsApp.' },
+    { number: '03', icon: 'calendar', title: 'Combine seu horário', description: 'Consulte a disponibilidade e receba a confirmação do estúdio antes da sua visita.' },
+  ]
+  return (
+    <section className="process-section" id="como-comecar" aria-labelledby="process-title">
+      <div className="container process-inner">
+        <div className="process-header"><Eyebrow light>SIMPLES ASSIM</Eyebrow><h2 id="process-title">O começo pode ser <em>mais simples do que parece.</em></h2><p>Sem agendamento automático ou complicação. Você fala com pessoas reais e combina a melhor opção com o estúdio.</p></div>
+        <ol className="process-grid">{steps.map((step) => (
+          <li className="process-step" key={step.number}><span className="process-number">{step.number}<Icon name={step.icon} size={25} /></span><h3>{step.title}</h3><p>{step.description}</p></li>
+        ))}</ol>
+        <button type="button" className="button button-accent" onClick={() => onBook('Aula experimental de Pilates')}>Conversar sobre uma aula <Icon name="upRight" size={18} /></button>
       </div>
     </section>
   )
@@ -280,7 +342,7 @@ function FinalCTA({ onBook }) {
       <div className="container final-cta-inner">
         <div className="cta-decor" aria-hidden="true">A<span>✳</span></div>
         <div className="final-cta-content"><Eyebrow light>VAMOS COMEÇAR?</Eyebrow><h2 id="cta-title">O primeiro passo é <em>se permitir começar.</em></h2><p>Entre em contato, tire suas dúvidas e consulte a disponibilidade de uma aula experimental.</p></div>
-        <button className="button button-accent button-large" type="button" onClick={onBook}>Quero conhecer o Advanced <Icon name="upRight" size={19} /></button>
+        <button className="button button-accent button-large" type="button" onClick={() => onBook('Aula experimental de Pilates')}>Quero conhecer o Advanced <Icon name="upRight" size={19} /></button>
       </div>
     </section>
   )
@@ -294,14 +356,15 @@ function Footer() {
         <div className="footer-column"><h3>Explore</h3>{navigation.map(([href, label]) => <a href={href} key={href}>{label}</a>)}<a href="#duvidas">Dúvidas frequentes</a></div>
         <div className="footer-column"><h3>Entre em contato</h3><a href={`tel:+55${studio.phone}`}>{studio.phoneLabel}</a><a href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer">WhatsApp <Icon name="upRight" size={15} /></a><a href={mapsLink} target="_blank" rel="noopener noreferrer">{studio.address}<br />Vila Prudente, São Paulo — SP</a></div>
       </div>
-      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Advanced Studio. Todos os direitos reservados.</span><span>Atendimento e disponibilidade: consulte a equipe.</span><a href="#inicio">Voltar ao topo ↑</a></div>
+      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Advanced Studio. Todos os direitos reservados.</span><span>Atendimento e disponibilidade: consulte a equipe.</span><a href="/privacidade.html">Privacidade</a><a href="#inicio">Voltar ao topo ↑</a></div>
     </footer>
   )
 }
 
 export default function App() {
   const [bookingOpen, setBookingOpen] = useState(false)
-  const openBooking = useCallback(() => setBookingOpen(true), [])
+  const [bookingInterest, setBookingInterest] = useState('Aula experimental de Pilates')
+  const openBooking = useCallback((interest = 'Aula experimental de Pilates') => { setBookingInterest(interest); setBookingOpen(true) }, [])
   const closeBooking = useCallback(() => setBookingOpen(false), [])
   return (
     <>
@@ -312,15 +375,17 @@ export default function App() {
         <Highlights />
         <About onBook={openBooking} />
         <Services onBook={openBooking} />
+        <Team onBook={openBooking} />
         <Showcase />
         <Testimonials />
+        <HowItWorks onBook={openBooking} />
         <Faq />
         <Location />
         <FinalCTA onBook={openBooking} />
       </main>
       <Footer />
-      <a className="whatsapp-float" href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer" aria-label="Conversar com o Advanced Studio no WhatsApp"><Icon name="whatsapp" size={26} /><span>WhatsApp</span></a>
-      <BookingModal open={bookingOpen} onClose={closeBooking} />
+      {!bookingOpen && <a className="whatsapp-float" href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer" aria-label="Conversar com o Advanced Studio no WhatsApp"><Icon name="whatsapp" size={26} /><span>WhatsApp</span></a>}
+      {bookingOpen && <BookingModal open onClose={closeBooking} initialInterest={bookingInterest} />}
     </>
   )
 }
