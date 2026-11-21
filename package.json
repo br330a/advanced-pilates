@@ -8,8 +8,10 @@
     "build": "vite build && node scripts/postbuild-seo.mjs",
     "lint": "eslint .",
     "check:content": "node scripts/validate-content.mjs",
-    "verify": "npm run check:content && npm run lint && npm run build",
-    "preview": "vite preview"
+    "verify": "npm run check:content && npm run check:publication && npm run test && npm run lint && npm run build",
+    "preview": "vite preview",
+    "check:publication": "node scripts/validate-publication.mjs",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "react": "^19.3.1",

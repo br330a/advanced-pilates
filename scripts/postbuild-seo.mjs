@@ -26,12 +26,16 @@ html = html.replace('<title>', `${tag}\n    <title>`)
 html = html.replace('property="og:image" content="/images/social-preview.webp"', `property="og:image" content="${base}/images/social-preview.webp"`)
 html = html.replace('name="twitter:image" content="/images/social-preview.webp"', `name="twitter:image" content="${base}/images/social-preview.webp"`)
 await writeFile(indexPath, html)
-const privacyPath = resolve('dist/privacidade.html')
-try {
-  let privacy = await readFile(privacyPath, 'utf8')
-  privacy = privacy.replace('</head>', `  <link rel="canonical" href="${base}/privacidade.html" />\n</head>`)
-  await writeFile(privacyPath, privacy)
-} catch (error) { console.warn(`SEO: privacidade.html não processado: ${error.message}`) }
-await writeFile(resolve('dist/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${base}/</loc></url><url><loc>${base}/privacidade.html</loc></url></urlset>\n`)
+for (const page of ['privacidade.html', 'termos.html']) {
+  try {
+    const pagePath = resolve('dist', page)
+    let content = await readFile(pagePath, 'utf8')
+    content = content.replace('</head>', `  <link rel="canonical" href="${base}/${page}" />\n</head>`)
+    await writeFile(pagePath, content)
+  } catch (error) {
+    console.warn(`SEO: ${page} não processado: ${error.message}`)
+  }
+}
+await writeFile(resolve('dist/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${base}/</loc></url><url><loc>${base}/privacidade.html</loc></url><url><loc>${base}/termos.html</loc></url></urlset>\n`)
 await writeFile(resolve('dist/robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`)
 console.log(`SEO: canonical, previews e sitemap configurados para ${base}`)

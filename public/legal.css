@@ -1,0 +1,27 @@
+:root { color-scheme: light; font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background: #f8f8f4; color:#123647; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin:0; line-height:1.8; min-width: 320px; }
+a { color:#08697b; text-underline-offset: 3px; }
+a:hover { color:#a34c28; }
+a:focus-visible { outline: 3px solid #08697b; outline-offset: 4px; }
+.top { background:#092f42; color:#fff; padding:18px max(22px,calc((100vw - 880px)/2)); }
+.top a { color:#fff; text-decoration:none; font-weight:800; letter-spacing:.01em; }
+main { max-width:880px; margin:0 auto; padding:clamp(45px,8vw,84px) 22px 94px; }
+.kicker { color:#08697b; font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+h1 { max-width:790px; font-size:clamp(36px,6vw,58px); line-height:1.1; letter-spacing:-.055em; margin:14px 0 24px; }
+h2 { font-size:clamp(21px,3vw,26px); letter-spacing:-.035em; line-height:1.3; margin:40px 0 11px; }
+p,li { color:#526872; font-size:15px; }
+.lead { font-size:17px; color:#385e65; }
+.date { font-size:13px; color:#597279; }
+.note { margin-top:44px; padding:20px 22px; border-left:4px solid #df6c38; border-radius:0 12px 12px 0; background:#e7f3ee; color:#385b63; font-size:14px; }
+.actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:32px; }
+.action { display:inline-flex; align-items:center; justify-content:center; padding:13px 20px; background:#e66b36; color:#fff; border-radius:9px; text-decoration:none; font-size:14px; font-weight:800; }
+.action:hover { background:#ce5527; color:#fff; }
+.action.secondary { color:#092f42; background:#e1efeb; }
+.action.secondary:hover { background:#d3e4de; color:#092f42; }
+footer { background:#062535; padding:26px 22px; color:#c0d8da; font-size:13px; }
+.footer-inner { max-width:836px; margin:auto; display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between; }
+footer a { color:#bce7e2; }
+.error-number { color:#08697b; font-size:clamp(92px,19vw,170px); font-weight:800; line-height:1; letter-spacing:-.08em; margin:8px 0 16px; }
+.error-copy { max-width:550px; }

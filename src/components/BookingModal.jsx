@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import Icon from './Icon'
 import { whatsappURL } from '../data/site'
-
+import { contactInterests as interests, contactPeriods as periods, createContactMessage } from '../utils/contact'
 const defaults = {
   name: '',
-  interest: 'Aula experimental de Pilates',
-  period: 'A combinar',
+  interest: interests[0],
+  period: periods[0],
   detail: '',
 }
 
 export default function BookingModal({ open, onClose, initialInterest = defaults.interest }) {
   const dialogRef = useRef(null)
   const firstInputRef = useRef(null)
-  const [values, setValues] = useState(() => ({ ...defaults, interest: initialInterest }))
+  const consentRef = useRef(null)
+  const [values, setValues] = useState(() => ({ ...defaults, interest: interests.includes(initialInterest) ? initialInterest : defaults.interest }))
+  const [understood, setUnderstood] = useState(false)
   const [error, setError] = useState('')
+  const [preparedUrl, setPreparedUrl] = useState('')
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -32,41 +35,38 @@ export default function BookingModal({ open, onClose, initialInterest = defaults
   }
 
   function update(key, value) {
-    if (error) setError('')
+    setError('')
+    setPreparedUrl('')
     setValues((previous) => ({ ...previous, [key]: value }))
   }
 
   function submit(event) {
     event.preventDefault()
-    const name = values.name.trim().replace(/\s+/g, ' ')
-    if (name.length < 2) {
-      setError('Digite seu nome com pelo menos dois caracteres.')
-      firstInputRef.current?.focus()
+    setError('')
+
+    let message
+    try {
+      message = createContactMessage(values)
+    } catch (validationError) {
+      setError(validationError.message)
+      if (values.name.trim().length < 2) firstInputRef.current?.focus()
+      return
+    }
+    if (!understood) {
+      setError('Confirme que leu as informações sobre o contato e privacidade.')
+      consentRef.current?.focus()
       return
     }
 
-    const message = [
-      'Olá! Conheci o Advanced Studio pelo site e gostaria de saber mais.',
-      '',
-      `Nome: ${name}`,
-      `Interesse: ${values.interest}`,
-      `Período de preferência: ${values.period}`,
-      ...(values.detail.trim() ? [`Observação: ${values.detail.trim()}`] : []),
-      '',
-      'Podemos conversar sobre a disponibilidade?',
-    ].join('\n')
-
     const url = whatsappURL(message)
-    // A abertura ocorre diretamente na ação do usuário; navegadores que bloqueiam
-    // novas abas continuam funcionando com a navegação na aba atual.
-    const popup = window.open(url, '_blank')
-    if (popup) {
-      popup.opener = null
-    } else {
-      window.location.assign(url)
+    setPreparedUrl(url)
+    // O link é criado somente após o clique e nenhum dado vai a um servidor nosso.
+    // Se o navegador bloquear a janela, oferecemos o link de recuperação na tela.
+    try {
+      window.open(url, '_blank', 'noopener,noreferrer')
+    } catch {
+      // A alternativa acessível é o link exibido abaixo do formulário.
     }
-    setValues(defaults)
-    close()
   }
 
   return (
@@ -89,7 +89,7 @@ export default function BookingModal({ open, onClose, initialInterest = defaults
         <p id="booking-description" className="booking-intro">
           Conte um pouco sobre o que procura. Vamos preparar uma mensagem para o WhatsApp do estúdio.
         </p>
-        <form className="booking-form" onSubmit={submit}>
+        <form className="booking-form" onSubmit={submit} noValidate>
           <label htmlFor="booking-name">Como podemos chamar você? <span aria-hidden="true">*</span></label>
           <input
             id="booking-name"
@@ -99,32 +99,42 @@ export default function BookingModal({ open, onClose, initialInterest = defaults
             autoComplete="name"
             maxLength={70}
             placeholder="Seu nome"
-            aria-invalid={Boolean(error)}
-            aria-describedby={error ? 'booking-error' : undefined}
+            aria-invalid={Boolean(error) && values.name.trim().length < 2}
             required
           />
           <label htmlFor="booking-interest">O que você procura?</label>
           <select id="booking-interest" value={values.interest} onChange={(event) => update('interest', event.target.value)}>
-            <option>Aula experimental de Pilates</option>
-            <option>Informações sobre Pilates</option>
-            <option>Informações sobre Fisioterapia</option>
-            <option>Ainda tenho dúvidas</option>
+            {interests.map((interest) => <option key={interest}>{interest}</option>)}
           </select>
           <label htmlFor="booking-period">Qual período é melhor para você?</label>
           <select id="booking-period" value={values.period} onChange={(event) => update('period', event.target.value)}>
-            <option>A combinar</option>
-            <option>Manhã</option>
-            <option>Tarde</option>
-            <option>Noite</option>
-            <option>Sábado, se houver disponibilidade</option>
+            {periods.map((period) => <option key={period}>{period}</option>)}
           </select>
           <label htmlFor="booking-detail">Quer acrescentar algo? <span className="optional">(opcional)</span></label>
-          <textarea id="booking-detail" rows={2} maxLength={220} placeholder="Uma dúvida, por exemplo" value={values.detail} onChange={(event) => update('detail', event.target.value)} />
+          <textarea id="booking-detail" rows={2} maxLength={220} placeholder="Uma dúvida, por exemplo. Não inclua dados de saúde." value={values.detail} onChange={(event) => update('detail', event.target.value)} />
+          <label className="booking-consent" htmlFor="booking-consent">
+            <input
+              id="booking-consent"
+              ref={consentRef}
+              type="checkbox"
+              checked={understood}
+              onChange={(event) => { setUnderstood(event.target.checked); setError(''); setPreparedUrl('') }}
+              required
+            />
+            <span>Li as <a href="/privacidade.html" target="_blank" rel="noopener noreferrer">informações de privacidade</a> e entendo que o envio acontecerá somente quando eu confirmar a mensagem no WhatsApp.</span>
+          </label>
           {error && <p role="alert" className="form-error" id="booking-error">{error}</p>}
-          <p className="booking-footnote"><Icon name="info" size={17} /> A solicitação não cria uma reserva. A equipe confirma os horários pelo WhatsApp.</p>
-          <button type="submit" className="button button-accent booking-submit">
-            Continuar no WhatsApp <Icon name="upRight" size={17} />
-          </button>
+          <p className="booking-footnote"><Icon name="info" size={17} /> Preencher este formulário não reserva horários. A equipe confirmará a disponibilidade pelo WhatsApp.</p>
+          {preparedUrl ? (
+            <div className="booking-ready" role="status">
+              <strong>Mensagem preparada!</strong>
+              <p>A conversa é aberta no WhatsApp. Caso uma nova aba não tenha aparecido, use este link para continuar.</p>
+              <a href={preparedUrl} target="_blank" rel="noopener noreferrer" className="button button-accent booking-submit">Abrir WhatsApp <Icon name="upRight" size={17} /></a>
+              <button type="button" className="booking-secondary" onClick={close}>Fechar</button>
+            </div>
+          ) : (
+            <button type="submit" className="button button-accent booking-submit">Preparar mensagem no WhatsApp <Icon name="upRight" size={17} /></button>
+          )}
         </form>
       </div>
     </dialog>

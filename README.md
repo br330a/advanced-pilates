@@ -1,91 +1,72 @@
-# Advanced Studio — Pilates & Fisioterapia
+# Advanced Studio — site institucional
 
-Landing page do Advanced Studio, na Vila Prudente (São Paulo), desenvolvida com React, Vite e CSS próprio.
+Landing page do **Advanced Studio Pilates & Fisioterapia**, em Vila Prudente, São Paulo.
+Projeto estático em React 19 + Vite 8, com CSS próprio. O contato é iniciado via WhatsApp; **não existe banco de dados nem reserva automática**.
 
 ## Como executar
 
-Requer Node.js compatível com Vite 8 (Node 20.19+ ou 22.12+).
+Requisitos: Node.js compatível com o Vite 8 e npm.
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Validação antes de publicar:
+Verifique as mudanças antes de registrar o commit:
 
 ```bash
-npm run check:content
-npm run lint
-npm run build
-npm run preview
+npm run verify
 ```
 
-## Domínio e SEO
+O comando executa validação de conteúdo, verificações de publicação, testes do formulário, ESLint e build. No GitHub Actions, ele roda automaticamente em pushes/PRs para `main`.
 
-Para gerar **canonical, OG URL e sitemap** com seu domínio real durante o build, defina `SITE_URL` (domínio HTTPS público, sem barra final):
+Comandos separados: `npm run check:content`, `npm run check:publication`, `npm test`, `npm run lint`, `npm run build`, `npm run preview`.
 
-```bash
-SITE_URL=https://www.seudominio.com.br npm run build
+## Onde alterar informações
+
+- `src/data/site.js`: telefone, endereço, Instagram, serviços, FAQ e avaliações.
+- `src/data/team.js`: profissionais reais, especialidades, biografias, registros e fotos autorizadas.
+- `public/images/equipe/`: retratos individuais em WebP.
+- `src/App.jsx`: seções e navegação.
+- `src/App.css` e `src/index.css`: identidade visual e responsividade.
+
+Enquanto não existem profissionais reais em `teamMembers`, a seção de equipe fica oculta no site público. Uma prévia com cartões genéricos aparece **somente em ambiente de desenvolvimento** usando `http://localhost:5173/?equipe-preview=1`.
+
+**Não publique dados, nomes, diplomas, registros, depoimentos ou fotografias sem conferir com a responsável e obter as autorizações necessárias.**
+
+## Privacidade e segurança
+
+- O formulário prepara a mensagem no navegador e só a transmite após confirmação pelo WhatsApp. Não existe backend nem armazenamento próprio dos campos.
+- A pessoa deve marcar a ciência sobre privacidade antes de seguir; o texto de observação orienta a não informar dados sensíveis.
+- A preferência sobre o carregamento do Google Maps fica no armazenamento local. Recusar mantém a incorporação bloqueada; o visitante ainda pode abrir o Google Maps por um link externo de forma independente. No rodapé há opção para alterar essa decisão.
+- `public/_headers` configura CSP e headers para **Cloudflare Pages**. É necessário conferir esses headers na URL pública depois do deploy. O servidor local do Vite não aplica esse arquivo.
+- `public/404.html` é a página de erro para hospedagem estática compatível (Cloudflare Pages). `public/termos.html` e `public/privacidade.html` são páginas informativas e requerem aprovação da responsável antes do lançamento.
+- A página não inclui scripts de anúncios ou analytics. O Google Fonts é solicitado externamente. Reavalie consentimento e política de privacidade se isso mudar.
+- Anti-SQL Injection, rate limiting e CAPTCHA de servidor não são aplicáveis na arquitetura estática sem backend. Se for acrescentado um serviço de formulário, essas proteções deverão ser implementadas nele.
+
+## SEO e domínio
+
+O build usa `scripts/postbuild-seo.mjs`. Sem `SITE_URL`, o projeto **não inventa** URL canônica nem gera sitemap. Quando o domínio definitivo estiver ativo, configure a variável de ambiente na hospedagem (somente origem HTTPS):
+
+```
+SITE_URL=https://seudominio.com.br
 ```
 
-Sem `SITE_URL`, o projeto compila normalmente, mas não cria URLs canônicas ou sitemap com endereços inventados. A imagem de compartilhamento está em `public/images/social-preview.webp`.
+O script gera canonical, `og:url`, URLs absolutas da imagem social, `sitemap.xml` e `robots.txt`, incluindo as páginas institucionais e legais. Confira qual versão com/sem `www` deve ser a oficial e configure o redirecionamento de domínio na plataforma de hospedagem.
 
-## Onde editar
+**Ainda pendente de configuração externa:** compra do `.com.br`, conexão de DNS/HTTPS, configuração de `SITE_URL`, verificação no Google Search Console, atualização/verificação do Perfil da Empresa no Google, revisão jurídica, dados oficiais do estabelecimento, autorizações de uso de imagem e depoimentos, fotografias finais e profissionais.
 
-- `src/data/site.js`: telefone, endereço, Instagram, modalidades, dúvidas e avaliações.
-- `src/App.jsx`: seções e ordem de apresentação.
-- `src/App.css`, `src/index.css`: toda a identidade visual e os estilos responsivos.
-- `src/components/BookingModal.jsx`: formulário que gera mensagem para o WhatsApp (não cria reservas nem armazena dados).
-- `public/brand-color.png`, `public/brand-black.png`: logos exportados dos PDFs oficiais fornecidos.
-- `public/images/`: fotos e capturas originais das avaliações fornecidas pelo estúdio.
+## Checklist antes de publicar
 
-## Antes de publicar
+1. Confirmar telefone, endereço, serviços e oferta de aula experimental com a responsável.
+2. Confirmar informações legais e do controlador, autorização de imagens, avaliações e equipe; aprovar Termos e Privacidade.
+3. Receber e otimizar fotografias do ambiente e retratos da equipe; conferir alt e enquadramentos.
+4. Rodar `npm run verify` e conferir o workflow verde no GitHub.
+5. Testar visualmente o site nas larguras 320, **360**, 390, 768, 1024 e 1440 px, sem rolagem horizontal.
+6. Testar teclado, foco, menu mobile, o modal, recusa e aceitação do mapa e alternativas quando WhatsApp/Maps forem bloqueados.
+7. Publicar em hospedagem para uso comercial, verificar CSP/headers na resposta real e validar página 404 em URL inexistente.
+8. Configurar domínio, `SITE_URL`, SEO social, sitemap, Search Console e Perfil da Empresa.
+9. Executar Lighthouse/PageSpeed em dispositivos reais e revisar desempenho, acessibilidade e links.
+10. Registrar a titularidade do domínio na conta da responsável e ativar autenticação em dois fatores nos serviços relacionados.
 
-1. Conferir todos os dados comerciais (endereço, telefone, serviços, horários e equipe).
-2. Validar autorização para uso das fotos de pessoas e depoimentos; confirmar se é permitido reproduzir as avaliações.
-3. Revisar os textos com os responsáveis pelos serviços de saúde, especialmente afirmações clínicas.
-4. Configurar domínio final por `SITE_URL`, publicar e verificar o sitemap.
-5. Testar navegação, formulário de WhatsApp, menu mobile e mapa em celulares reais.
-
-### Contato / privacidade
-
-O formulário não envia dados a um servidor próprio. Após o clique, ele cria uma URL do WhatsApp com os dados informados, para que a pessoa escolha enviar a mensagem. O mapa do Google é carregado só com consentimento por clique. Fontes do Google Fonts são carregadas remotamente.
-
-
-## Segunda etapa — equipe e revisão de UX
-
-**Equipe:** os componentes estão implementados, mas **não aparecem no site público** enquanto
-`src/data/team.js` não tiver profissionais reais, com dados e fotos autorizados.
-
-Para visualizar os 3 cartões demonstrativos SOMENTE no servidor de desenvolvimento local:
-
-```bash
-npm run dev
-# Acesse http://localhost:5173/?equipe-preview=1
-```
-
-Esse modo depende de `import.meta.env.DEV` e não existe na versão de produção.
-Quando as fotos chegarem, exporte-as em WebP (ideal: aproximadamente 900 × 1125 px,
-proporção 4:5), salve em `public/images/equipe/` e preencha `teamMembers` com nomes,
-funções, especialidades, registros aplicáveis e descrições confirmadas.
-A navegação adiciona “Equipe” automaticamente quando há integrantes cadastrados.
-
-**Jornada:** os CTAs de Pilates e Fisioterapia abrem o formulário com o interesse
-correspondente já selecionado. A etapa “Como começar” explica o fluxo sem prometer
-agendamento automático.
-
-**Privacidade:** há uma página em `/privacidade.html` descrevendo tecnicamente o
-site atual e os serviços externos. A equipe deve validá-la antes de publicar.
-
-**Fotos pendentes:** substituir as atuais pelas fotografias profissionais
-selecionadas, com autorização de imagem e recortes adequados a cada seção.
-
-**Checagem antes do commit:**
-
-```bash
-npm ci
-npm run lint
-npm run build
-```
-
-Você também pode executar `npm run verify` para validar conteúdo, lint e build de uma vez.
+A lista não é uma garantia automática de conformidade legal ou de aprovação em auditorias externas: é um roteiro verificável de publicação.

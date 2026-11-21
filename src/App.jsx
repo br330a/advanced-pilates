@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Brand from './components/Brand'
 import BookingModal from './components/BookingModal'
+import PrivacyBanner from './components/PrivacyBanner'
+import { useExternalContentPreference } from './utils/privacyPreference'
 import Icon from './components/Icon'
 import { faqs, highlights, reviews, services, studio, whatsappURL } from './data/site'
 import { teamLayoutPreview, teamMembers } from './data/team'
@@ -242,7 +244,7 @@ function Showcase() {
 function ReviewCard({ review }) {
   return (
     <article className={`review-card ${review.featured ? 'review-card-featured' : ''}`}>
-      <div className="review-card-top"><span className="review-stars" aria-label="Avaliação de 5 de 5 estrelas">★★★★★</span><span className="review-quote" aria-hidden="true">“</span></div>
+      <div className="review-card-top"><span className="review-stars" aria-label="Depoimento compartilhado pelo estúdio"><Icon name="quote" size={23} /></span><span className="review-quote" aria-hidden="true">“</span></div>
       <blockquote>“{review.text}”</blockquote>
       <div className="review-footer">
         <div className="review-avatar" aria-hidden="true">{review.initials}</div>
@@ -303,8 +305,9 @@ function Faq() {
   )
 }
 
-function Location() {
+function Location({ externalContentAllowed, onAllowExternalContent }) {
   const [mapLoaded, setMapLoaded] = useState(false)
+  const [mapError, setMapError] = useState(false)
   return (
     <section className="section location-section" id="localizacao" aria-labelledby="location-title">
       <div className="container location-grid">
@@ -317,17 +320,23 @@ function Location() {
             <div className="location-item"><span><Icon name="whatsapp" size={21} /></span><div><strong>Fale com a equipe</strong><p>{studio.phoneLabel}</p><a href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer">Abrir WhatsApp <Icon name="upRight" size={15} /></a></div></div>
           </div>
         </div>
-        <div className={`map-panel ${mapLoaded ? 'map-loaded' : ''}`}>
-          {mapLoaded ? (
-            <iframe title="Mapa interativo da localização do Advanced Studio" src={mapsEmbed} referrerPolicy="no-referrer-when-downgrade" loading="lazy" allowFullScreen />
+        <div className={`map-panel ${mapLoaded && externalContentAllowed && !mapError ? 'map-loaded' : ''}`}>
+          {mapLoaded && externalContentAllowed && !mapError ? (
+            <iframe title="Mapa interativo da localização do Advanced Studio" src={mapsEmbed} referrerPolicy="strict-origin-when-cross-origin" loading="lazy" onError={() => setMapError(true)} allowFullScreen />
           ) : (
             <div className="map-cover">
               <div className="map-pin-large"><Icon name="pin" size={28} /></div>
               <strong>Advanced Studio</strong>
               <span>Vila Prudente · São Paulo</span>
-              <p>Quer ver exatamente onde estamos?</p>
-              <button type="button" className="button button-dark" onClick={() => setMapLoaded(true)}>Carregar mapa <Icon name="arrow" size={18} /></button>
-              <small>O mapa do Google só é carregado quando você solicitar.</small>
+              <p>{mapError ? 'Não foi possível exibir o mapa aqui.' : 'Quer ver exatamente onde estamos?'}</p>
+              {mapError ? (
+                <a href={mapsLink} className="button button-dark" target="_blank" rel="noopener noreferrer">Abrir no Google Maps <Icon name="upRight" size={18} /></a>
+              ) : (
+                <button type="button" className="button button-dark" onClick={() => { onAllowExternalContent(); setMapLoaded(true) }}>
+                  {externalContentAllowed ? 'Carregar mapa' : 'Permitir e carregar mapa'} <Icon name="arrow" size={18} />
+                </button>
+              )}
+              <small>O mapa externo só carrega com sua autorização. Você também pode usar o link “Traçar rota”, sem incorporar o mapa à página.</small>
             </div>
           )}
         </div>
@@ -348,7 +357,7 @@ function FinalCTA({ onBook }) {
   )
 }
 
-function Footer() {
+function Footer({ onPrivacySettings }) {
   return (
     <footer className="site-footer">
       <div className="container footer-main">
@@ -356,7 +365,7 @@ function Footer() {
         <div className="footer-column"><h3>Explore</h3>{navigation.map(([href, label]) => <a href={href} key={href}>{label}</a>)}<a href="#duvidas">Dúvidas frequentes</a></div>
         <div className="footer-column"><h3>Entre em contato</h3><a href={`tel:+55${studio.phone}`}>{studio.phoneLabel}</a><a href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer">WhatsApp <Icon name="upRight" size={15} /></a><a href={mapsLink} target="_blank" rel="noopener noreferrer">{studio.address}<br />Vila Prudente, São Paulo — SP</a></div>
       </div>
-      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Advanced Studio. Todos os direitos reservados.</span><span>Atendimento e disponibilidade: consulte a equipe.</span><a href="/privacidade.html">Privacidade</a><a href="#inicio">Voltar ao topo ↑</a></div>
+      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Advanced Studio. Todos os direitos reservados.</span><span>Atendimento e disponibilidade: consulte a equipe.</span><a href="/privacidade.html">Privacidade</a><a href="/termos.html">Termos de Uso</a><button type="button" className="footer-privacy-button" onClick={onPrivacySettings}>Preferências de privacidade</button><a href="#inicio">Voltar ao topo ↑</a></div>
     </footer>
   )
 }
@@ -364,12 +373,14 @@ function Footer() {
 export default function App() {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [bookingInterest, setBookingInterest] = useState('Aula experimental de Pilates')
+  const [privacyPreference, setPrivacyPreference] = useExternalContentPreference()
   const openBooking = useCallback((interest = 'Aula experimental de Pilates') => { setBookingInterest(interest); setBookingOpen(true) }, [])
   const closeBooking = useCallback(() => setBookingOpen(false), [])
   return (
     <>
       <a href="#conteudo" className="skip-link">Pular para o conteúdo</a>
       <Header onBook={openBooking} />
+      <PrivacyBanner preference={privacyPreference} onChoose={setPrivacyPreference} />
       <main id="conteudo">
         <Hero onBook={openBooking} />
         <Highlights />
@@ -380,11 +391,11 @@ export default function App() {
         <Testimonials />
         <HowItWorks onBook={openBooking} />
         <Faq />
-        <Location />
+        <Location externalContentAllowed={privacyPreference === 'allow'} onAllowExternalContent={() => setPrivacyPreference('allow')} />
         <FinalCTA onBook={openBooking} />
       </main>
-      <Footer />
-      {!bookingOpen && <a className="whatsapp-float" href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer" aria-label="Conversar com o Advanced Studio no WhatsApp"><Icon name="whatsapp" size={26} /><span>WhatsApp</span></a>}
+      <Footer onPrivacySettings={() => setPrivacyPreference(null)} />
+      {!bookingOpen && privacyPreference !== null && <a className="whatsapp-float" href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer" aria-label="Conversar com o Advanced Studio no WhatsApp"><Icon name="whatsapp" size={26} /><span>WhatsApp</span></a>}
       {bookingOpen && <BookingModal open onClose={closeBooking} initialInterest={bookingInterest} />}
     </>
   )
