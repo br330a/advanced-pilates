@@ -24,13 +24,15 @@ Comandos separados: `npm run check:content`, `npm run check:publication`, `npm t
 
 ## Onde alterar informações
 
-- `src/data/site.js`: telefone, endereço, Instagram, serviços, FAQ e avaliações.
+- `src/data/site.js`: telefone, endereço, Instagram, serviços, FAQ, avaliações e `googleReviewsUrl` (opcional, somente com URL confirmada).
 - `src/data/team.js`: profissionais reais, especialidades, biografias, registros e fotos autorizadas.
 - `public/images/equipe/`: retratos individuais em WebP.
 - `src/App.jsx`: seções e navegação.
 - `src/App.css` e `src/index.css`: identidade visual e responsividade.
 
-Enquanto não existem profissionais reais em `teamMembers`, a seção de equipe fica oculta no site público. Uma prévia com cartões genéricos aparece **somente em ambiente de desenvolvimento** usando `http://localhost:5173/?equipe-preview=1`.
+Enquanto não existem profissionais reais em `teamMembers`, a seção de equipe fica oculta no site público. Para ver como ficará, use `npm run dev` e clique em **“Prévia da equipe (local)” no rodapé**, ou acesse `http://localhost:5173/?equipe-preview=1#equipe`. A prévia apresenta três cartões genéricos e um aviso de conteúdo demonstrativo, mas **não é incluída no build de produção**. O link "Sair da prévia" volta ao site normalmente.
+
+Os quatro depoimentos são exibidos **como texto na própria página**, sem links para capturas de tela. Os arquivos de referência são mantidos no projeto e identificados como `sourceScreenshot` para conferência editorial. **Não exiba botão “Ver avaliações no Google” até preencher `googleReviewsUrl` com um endereço oficial verificado**. Confira com a responsável os nomes, textos e autorizações antes de publicar.
 
 **Não publique dados, nomes, diplomas, registros, depoimentos ou fotografias sem conferir com a responsável e obter as autorizações necessárias.**
 

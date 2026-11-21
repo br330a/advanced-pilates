@@ -9,6 +9,9 @@ export const studio = {
   postalCode: '03139-040',
   instagram: 'https://www.instagram.com/studiopilatesadvanced/',
   instagramHandle: '@studiopilatesadvanced',
+  // Preencha apenas com a URL real e conferida das avaliações do estúdio no Google.
+  // Em branco, o site não exibe um botão externo sem destino confirmado.
+  googleReviewsUrl: '',
   mapQuery: 'Rua José dos Reis, 719, sala 01, Vila Prudente, São Paulo, SP, 03139-040',
 }
 
@@ -53,33 +56,34 @@ export const services = [
 ]
 
 // Trechos de avaliações espontâneas encaminhadas pelo estúdio.
-// Os originais ficam acessíveis ao clicar em cada cartão. Não representam uma nota geral agregada.
+// As capturas servem apenas de referência editorial e NÃO são links no site.
+// Não representam nota agregada ou depoimentos previamente autorizados para publicação.
 export const reviews = [
   {
     author: 'Flavia Souza Oliveira Piva',
     initials: 'FP',
     text: 'Amooooo fazer Pilates no Advanced!! A Jessica é a melhor profissional para essa modalidade. Atenciosa, muito preocupada com suas limitações e em seu bem estar físico. Indico para todas as idades.',
-    image: '/images/avaliacao-flavia.webp',
+    sourceScreenshot: '/images/avaliacao-flavia.webp',
     featured: true,
   },
   {
     author: 'Eliezer Bim',
     initials: 'EB',
     text: 'Estou com professora Jéssica a 4 anos, muito satisfeito, tem ótima qualidade técnica e também atendimento profissional, parabéns, muito satisfeito',
-    image: '/images/avaliacao-eliezer.webp',
+    sourceScreenshot: '/images/avaliacao-eliezer.webp',
   },
   {
     author: 'Helena tatayama',
     initials: 'HT',
     text: 'Sem contar a estrutura do studio, muito bem equipado, lindo e agradável. Super recomendo 🙏💕',
-    image: '/images/avaliacao-helena.webp',
+    sourceScreenshot: '/images/avaliacao-helena.webp',
     excerpt: true,
   },
   {
     author: 'Ricardo Piva',
     initials: 'RP',
     text: 'Nunca pensei em fazer Pilates, mas comecei e estou percebendo já diferenças excelentes. Melhoraram minhas dores em geral. Indico agora pra todo mundo, percebi que pilates não é só pra mulher mesmo.',
-    image: '/images/avaliacao-ricardo.webp',
+    sourceScreenshot: '/images/avaliacao-ricardo.webp',
   },
 ]
 

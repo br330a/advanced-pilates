@@ -30,6 +30,11 @@ if (!/^\d{10,11}$/.test(studio.phone)) errors.push('Telefone: informe DDD + núm
 try {
   if (new URL(studio.instagram).protocol !== 'https:') errors.push('Instagram: use HTTPS')
 } catch { errors.push('Instagram: URL inválida') }
+if (studio.googleReviewsUrl) {
+  try {
+    if (new URL(studio.googleReviewsUrl).protocol !== 'https:') errors.push('Avaliações no Google: use HTTPS')
+  } catch { errors.push('Avaliações no Google: URL inválida') }
+}
 
 if (!Array.isArray(services) || services.length === 0) errors.push('Serviços: lista vazia')
 for (const [i, service] of services.entries()) {
@@ -39,7 +44,7 @@ for (const [i, service] of services.entries()) {
 for (const [i, review] of reviews.entries()) {
   required(review.author, `Avaliação ${i + 1}: autor`)
   required(review.text, `Avaliação ${i + 1}: texto`)
-  await checkImage(review.image, `Avaliação ${i + 1}`)
+  await checkImage(review.sourceScreenshot, `Avaliação ${i + 1}: referência interna`)
 }
 if (!Array.isArray(teamMembers)) errors.push('Equipe: deve ser uma lista')
 else {

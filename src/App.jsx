@@ -8,7 +8,8 @@ import Icon from './components/Icon'
 import { faqs, highlights, reviews, services, studio, whatsappURL } from './data/site'
 import { teamLayoutPreview, teamMembers } from './data/team'
 
-const isTeamPreview = import.meta.env.DEV && new URLSearchParams(window.location.search).get('equipe-preview') === '1'
+const canPreviewTeam = import.meta.env.DEV && teamMembers.length === 0
+const isTeamPreview = canPreviewTeam && new URLSearchParams(window.location.search).get('equipe-preview') === '1'
 const visibleTeam = teamMembers.length > 0 ? teamMembers : (isTeamPreview ? teamLayoutPreview : [])
 
 const navigation = [
@@ -199,7 +200,10 @@ function Team({ onBook }) {
     <section className="section team-section" id="equipe" aria-labelledby="team-title">
       <div className="container">
         {isTeamPreview && !teamMembers.length && (
-          <p className="team-preview-notice" role="status">VISUALIZAÇÃO LOCAL · Cartões demonstrativos. Nenhuma informação fictícia aparece no site publicado.</p>
+          <div className="team-preview-notice" role="note">
+            <div><strong>PRÉVIA LOCAL · NÃO PUBLICADA</strong><p>Esses três perfis são apenas exemplos de layout. A seção aparecerá para visitantes somente após cadastrarmos as fotos e informações reais, com autorização.</p></div>
+            <a href="/#inicio">Sair da prévia <Icon name="arrow" size={16} /></a>
+          </div>
         )}
         <div className="section-heading team-heading">
           <div><Eyebrow>QUEM FAZ O ADVANCED ACONTECER</Eyebrow><h2 id="team-title">Pessoas que acolhem. <em>Profissionais que acompanham.</em></h2></div>
@@ -244,12 +248,14 @@ function Showcase() {
 function ReviewCard({ review }) {
   return (
     <article className={`review-card ${review.featured ? 'review-card-featured' : ''}`}>
-      <div className="review-card-top"><span className="review-stars" aria-label="Depoimento compartilhado pelo estúdio"><Icon name="quote" size={23} /></span><span className="review-quote" aria-hidden="true">“</span></div>
+      <div className="review-card-top">
+        <span className="review-label"><Icon name="quote" size={16} /> Depoimento de cliente</span>
+        <span className="review-quote" aria-hidden="true">“</span>
+      </div>
       <blockquote>“{review.text}”</blockquote>
       <div className="review-footer">
         <div className="review-avatar" aria-hidden="true">{review.initials}</div>
-        <div className="review-person"><strong>{review.author}</strong><span>{review.excerpt ? 'Trecho de avaliação' : 'Avaliação de cliente'}</span></div>
-        <a href={review.image} target="_blank" rel="noopener noreferrer" className="review-original" aria-label={`Ver captura original da avaliação de ${review.author}`} title="Ver avaliação original"><Icon name="upRight" size={19} /></a>
+        <div className="review-person"><strong>{review.author}</strong><span>{review.excerpt ? 'Trecho de depoimento' : 'Experiência compartilhada'}</span></div>
       </div>
     </article>
   )
@@ -261,10 +267,13 @@ function Testimonials() {
       <div className="container">
         <div className="reviews-head">
           <div><Eyebrow>QUEM CONHECE, CONTA</Eyebrow><h2 id="reviews-title">O melhor do Advanced <em>é o que dizem sobre nós.</em></h2></div>
-          <p>Palavras de pessoas que já passaram pelo estúdio. Avaliações reais compartilhadas pela equipe — clique em cada seta para ler a captura original.</p>
+          <p>Experiências de quem conhece o espaço, os profissionais e o cuidado do Advanced Studio — contadas por quem viveu cada momento.</p>
         </div>
         <div className="reviews-grid">{reviews.map((review) => <ReviewCard key={review.author} review={review} />)}</div>
-        <p className="reviews-disclaimer">Os depoimentos representam experiências individuais. Resultados e necessidades variam de pessoa para pessoa.</p>
+        <div className="reviews-bottom">
+          <p className="reviews-disclaimer">Depoimentos compartilhados pelo estúdio. Os relatos representam experiências individuais, e os resultados podem variar.</p>
+          {studio.googleReviewsUrl && <a className="text-link" href={studio.googleReviewsUrl} target="_blank" rel="noopener noreferrer">Ver avaliações no Google <Icon name="upRight" size={18} /></a>}
+        </div>
       </div>
     </section>
   )
@@ -365,7 +374,7 @@ function Footer({ onPrivacySettings }) {
         <div className="footer-column"><h3>Explore</h3>{navigation.map(([href, label]) => <a href={href} key={href}>{label}</a>)}<a href="#duvidas">Dúvidas frequentes</a></div>
         <div className="footer-column"><h3>Entre em contato</h3><a href={`tel:+55${studio.phone}`}>{studio.phoneLabel}</a><a href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer">WhatsApp <Icon name="upRight" size={15} /></a><a href={mapsLink} target="_blank" rel="noopener noreferrer">{studio.address}<br />Vila Prudente, São Paulo — SP</a></div>
       </div>
-      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Advanced Studio. Todos os direitos reservados.</span><span>Atendimento e disponibilidade: consulte a equipe.</span><a href="/privacidade.html">Privacidade</a><a href="/termos.html">Termos de Uso</a><button type="button" className="footer-privacy-button" onClick={onPrivacySettings}>Preferências de privacidade</button><a href="#inicio">Voltar ao topo ↑</a></div>
+      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Advanced Studio. Todos os direitos reservados.</span><span>Atendimento e disponibilidade: consulte a equipe.</span><a href="/privacidade.html">Privacidade</a><a href="/termos.html">Termos de Uso</a><button type="button" className="footer-privacy-button" onClick={onPrivacySettings}>Preferências de privacidade</button>{canPreviewTeam && <a className="footer-team-preview" href={isTeamPreview ? '/#inicio' : '/?equipe-preview=1#equipe'}>{isTeamPreview ? 'Sair da prévia da equipe' : 'Prévia da equipe (local)'}</a>}<a href="#inicio">Voltar ao topo ↑</a></div>
     </footer>
   )
 }
