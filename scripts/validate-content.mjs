@@ -45,7 +45,6 @@ for (const [i, service] of services.entries()) {
 for (const [i, review] of reviews.entries()) {
   required(review.author, `Avaliação ${i + 1}: autor`)
   required(review.text, `Avaliação ${i + 1}: texto`)
-  await checkImage(review.sourceScreenshot, `Avaliação ${i + 1}: referência interna`)
 }
 if (!Array.isArray(gallery) || gallery.length < 4 || gallery.length > 7) errors.push('Galeria: use de 4 a 7 fotos selecionadas')
 else {

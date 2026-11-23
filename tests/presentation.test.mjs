@@ -1,32 +1,43 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
-import { reviews, studio } from '../src/data/site.js'
+import { access, readFile } from 'node:fs/promises'
+import { reviews, services, studio } from '../src/data/site.js'
 import { gallery } from '../src/data/gallery.js'
 import { teamMembers } from '../src/data/team.js'
 
 const app = await readFile(new URL('../src/App.jsx', import.meta.url), 'utf8')
 const css = await readFile(new URL('../src/App.css', import.meta.url), 'utf8')
+const privacy = await readFile(new URL('../src/components/PrivacyBanner.jsx', import.meta.url), 'utf8')
 
-test('depoimentos permanecem como texto, sem abrir capturas de tela', () => {
+const expectAbsent = async (path) => {
+  await assert.rejects(access(new URL(path, import.meta.url)), { code: 'ENOENT' })
+}
+
+test('depoimentos ficam na página e screenshots não são expostos publicamente', async () => {
   assert.equal(reviews.length, 4)
   for (const review of reviews) {
     assert.ok(review.author.trim())
     assert.ok(review.text.trim())
-    assert.match(review.sourceScreenshot, /^\/images\/avaliacao-[\w-]+\.webp$/)
+    assert.equal(Object.hasOwn(review, 'sourceScreenshot'), false)
   }
   assert.match(app, /<blockquote>“\{review\.text\}”<\/blockquote>/)
+  assert.match(app, /reviews\.slice\(0, 2\)/)
+  assert.match(app, /reviews\.slice\(2\)/)
+  assert.match(app, /id="additional-reviews" hidden=\{!expanded\}/)
+  assert.match(app, /aria-expanded=\{expanded\}/)
   assert.doesNotMatch(app, /review-original|href=\{review\.(?:image|sourceScreenshot)\}/)
-  assert.doesNotMatch(css, /\.review-original\s*\{/)
+  for (const name of ['eliezer', 'flavia', 'helena', 'ricardo']) {
+    await expectAbsent(`../public/images/avaliacao-${name}.webp`)
+  }
 })
 
-test('link para avaliações do Google só é exibido com URL configurada', () => {
+test('link para Google avaliações só aparece após URL real configurada', () => {
   assert.equal(studio.googleReviewsUrl, '')
   assert.match(app, /studio\.googleReviewsUrl\s*&&\s*<a/)
   assert.match(app, /href=\{studio\.googleReviewsUrl\}/)
 })
 
-test('a seção profissional contém somente a pessoa real fornecida', () => {
+test('a profissional é real e seus cursos continuam disponíveis sob demanda', () => {
   assert.equal(teamMembers.length, 1)
   const member = teamMembers[0]
   assert.equal(member.name, 'Jessica Edwirges Alves Silva')
@@ -34,10 +45,9 @@ test('a seção profissional contém somente a pessoa real fornecida', () => {
   assert.equal(member.continuingEducation.length, 9)
   assert.match(app, /<details className="professional-more">/)
   assert.doesNotMatch(app, /equipe-preview|PRÉVIA LOCAL|teamLayoutPreview/)
-  assert.doesNotMatch(app, /professional\.age|35 anos/)
 })
 
-test('galeria usa cinco fotos reais e oferece navegação manual acessível', () => {
+test('galeria conserva cinco fotos reais com controle manual e teclado', () => {
   assert.equal(gallery.length, 5)
   for (const photo of gallery) {
     assert.match(photo.src, /^\/images\/[\w-]+\.webp$/)
@@ -53,10 +63,19 @@ test('galeria usa cinco fotos reais e oferece navegação manual acessível', ()
   assert.match(app, /src="\/images\/pilates-pose\.webp"/)
 })
 
-test('página compacta remove seções redundantes sem perder serviços e contato', () => {
+test('página é mais direta, sem três blocos repetitivos', () => {
+  assert.equal(services.length, 2)
   assert.match(app, /<Services onBook=\{openBooking\} \/>/)
-  assert.match(app, /<Team onBook=\{openBooking\} \/>/)
+  assert.match(app, /<Team \/>/)
   assert.match(app, /<Showcase \/>/)
-  assert.doesNotMatch(app, /<About |<HowItWorks /)
   assert.match(app, /<Location externalContentAllowed=/)
+  assert.doesNotMatch(app, /<Highlights \/>|<FinalCTA |<About |<HowItWorks |experimental-banner/)
+  assert.doesNotMatch(css, /\.highlights\s*\{|\.experimental-banner\s*\{|\.final-cta\s*\{/)
+  assert.match(app, /className="button button-accent location-book"/)
+})
+
+test('preferência externa descreve especificamente o mapa, não todos os serviços', () => {
+  assert.match(privacy, /Não carregar mapa/)
+  assert.match(privacy, /Google Fonts/)
+  assert.doesNotMatch(privacy, /Recusar conteúdo externo/)
 })

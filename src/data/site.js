@@ -18,72 +18,46 @@ export const studio = {
 export const whatsappURL = (message) =>
   `https://wa.me/55${studio.phone}?text=${encodeURIComponent(message)}`
 
-export const highlights = [
-  {
-    icon: 'activity',
-    title: 'Movimento com propósito',
-    description: 'Uma prática que reúne consciência corporal, força e mobilidade.',
-  },
-  {
-    icon: 'heart',
-    title: 'Atenção a cada pessoa',
-    description: 'Um atendimento próximo, valorizado por quem já frequenta o estúdio.',
-  },
-  {
-    icon: 'layers',
-    title: 'Espaço equipado',
-    description: 'Conheça um ambiente real, com aparelhos para a prática de Pilates.',
-  },
-]
-
 export const services = [
   {
     number: '01',
     icon: 'activity',
     label: 'Pilates com aparelhos',
-    kicker: 'MOVIMENTO E EQUILÍBRIO',
-    description: 'Explore o movimento com o suporte de aparelhos específicos, trabalhando força, mobilidade e consciência corporal.',
-    points: ['Para quem quer começar ou retomar a prática', 'Consulte a equipe sobre aulas e disponibilidade'],
+    description: 'Prática com equipamentos específicos, voltada ao trabalho de força, mobilidade e consciência corporal.',
   },
   {
     number: '02',
     icon: 'heart',
     label: 'Fisioterapia',
-    kicker: 'ATENÇÃO AO SEU BEM-ESTAR',
-    description: 'Entre em contato para conhecer os atendimentos de fisioterapia oferecidos e esclarecer suas dúvidas com a equipe.',
-    points: ['Informações diretamente com o estúdio', 'Atendimentos e horários sujeitos à confirmação'],
+    description: 'Entre em contato para conhecer as modalidades de atendimento e a disponibilidade do estúdio.',
   },
 ]
 
 // Trechos de avaliações espontâneas encaminhadas pelo estúdio.
-// As capturas servem apenas de referência editorial e NÃO são links no site.
-// Não representam nota agregada ou depoimentos previamente autorizados para publicação.
+// As capturas originais foram retiradas do diretório público.
+// Os depoimentos dependem de autorização de publicação; não implicam nota agregada.
 export const reviews = [
   {
     author: 'Flavia Souza Oliveira Piva',
     initials: 'FP',
     text: 'Amooooo fazer Pilates no Advanced!! A Jessica é a melhor profissional para essa modalidade. Atenciosa, muito preocupada com suas limitações e em seu bem estar físico. Indico para todas as idades.',
-    sourceScreenshot: '/images/avaliacao-flavia.webp',
     featured: true,
   },
   {
     author: 'Eliezer Bim',
     initials: 'EB',
     text: 'Estou com professora Jéssica a 4 anos, muito satisfeito, tem ótima qualidade técnica e também atendimento profissional, parabéns, muito satisfeito',
-    sourceScreenshot: '/images/avaliacao-eliezer.webp',
   },
   {
     author: 'Helena tatayama',
     initials: 'HT',
     text: 'Sem contar a estrutura do studio, muito bem equipado, lindo e agradável. Super recomendo 🙏💕',
-    sourceScreenshot: '/images/avaliacao-helena.webp',
     excerpt: true,
   },
   {
     author: 'Ricardo Piva',
     initials: 'RP',
     text: 'Nunca pensei em fazer Pilates, mas comecei e estou percebendo já diferenças excelentes. Melhoraram minhas dores em geral. Indico agora pra todo mundo, percebi que pilates não é só pra mulher mesmo.',
-    sourceScreenshot: '/images/avaliacao-ricardo.webp',
   },
 ]
 

@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Materiais originais e autorizações nunca devem ser publicados
+private/
+originais/

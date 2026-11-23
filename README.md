@@ -1,86 +1,74 @@
 # Advanced Studio — site institucional
 
-Landing page do **Advanced Studio Pilates & Fisioterapia**, em Vila Prudente, São Paulo.
-Projeto estático em React 19 + Vite 8, com CSS próprio. O contato é iniciado via WhatsApp; **não existe banco de dados nem reserva automática**.
+Site institucional do **Advanced Studio Pilates & Fisioterapia**, na Vila Prudente, São Paulo. Construído em React 19, Vite 8 e CSS próprio. A página é estática, sem backend: o formulário apenas prepara uma mensagem para o WhatsApp; **não realiza reservas automáticas**.
 
-## Como executar
+## Desenvolvimento e validação
 
-Requisitos: Node.js compatível com o Vite 8 e npm.
+Requer Node.js compatível com o Vite 8 e npm. Na raiz do projeto:
 
 ```bash
 npm ci
 npm run dev
-```
-
-Verifique as mudanças antes de registrar o commit:
-
-```bash
 npm run verify
+npm run preview
 ```
 
-O comando executa validação de conteúdo, verificações de publicação, testes do formulário, ESLint e build. No GitHub Actions, ele roda automaticamente em pushes/PRs para `main`.
+`npm run verify` executa `check:content`, `check:publication`, testes Node (`npm test`), ESLint e build de produção. No GitHub, `.github/workflows/quality.yml` verifica pushes e pull requests. O comando `npm run preview` depende de um build anterior. Execute `npm audit --omit=dev` periodicamente para revisar vulnerabilidades de dependências de produção, avaliando cada alerta antes de modificar versões.
 
-Comandos separados: `npm run check:content`, `npm run check:publication`, `npm test`, `npm run lint`, `npm run build`, `npm run preview`.
+## Estrutura da página
 
-## Etapa 5 — fotografias e apresentação profissional
+A apresentação é deliberadamente curta e cada seção tem um papel distinto:
 
-Esta atualização foi planejada para **encurtar a página sem perder credibilidade**:
+1. **Hero:** posicionamento do estúdio e primeiro agendamento; fotografia original mantida em `/images/pilates-pose.webp`.
+2. **Serviços:** duas opções concretas — Pilates com aparelhos e Fisioterapia.
+3. **Profissional:** retrato e qualificações de Jessica Edwirges Alves Silva. As três formações em destaque aparecem inicialmente; os outros nove cursos e eventos ficam recolhidos.
+4. **Espaço:** carrossel com cinco fotos reais, setas, indicadores, swipe e teclado. Sem reprodução automática.
+5. **Avaliações:** duas visíveis por padrão; outras duas mediante escolha da pessoa. Os depoimentos são texto, não imagens clicáveis.
+6. **FAQ:** perguntas sob demanda, sem expansão automática.
+7. **Localização:** endereço, mapa opcional e CTA de aula experimental no mesmo bloco.
 
-- Mantém a fotografia original do **hero** (`/images/pilates-pose.webp`), conforme solicitado.
-- Substitui a antiga galeria por **cinco fotografias reais** em um carrossel de navegação manual (setas, botões de seleção, swipe e teclado, **sem autoplay**).
-- Mostra **Jessica Edwirges Alves Silva**, usando seu retrato enviado e uma seção editorial (em lugar dos cartões genéricos de equipe).
-- Exibe as **três formações principais** e recolhe os **nove cursos e eventos adicionais** em um elemento expansível.
-- Incorpora a descrição do estúdio à galeria e aos serviços, retirando as antigas seções separadas de "Sobre" e "Como começar".
-- Mantém quatro depoimentos como texto sem links para prints, agendamento pelo WhatsApp, mapa por escolha de privacidade, FAQ, páginas legais e infraestrutura de qualidade.
+Removemos a faixa de diferenciais, o segundo convite de agendamento dentro dos serviços e o CTA final isolado porque repetiam informações. O layout usa contrastes de seção e espaçamentos menores para reduzir a sensação de página interminável, sem retirar conteúdos importantes.
 
-**Fontes:** informações de formação e curso fornecidas pelo estúdio em 22/11/2026; fotografias de `imagens.zip` e foto ampla recebida na conversa. Fotos foram reduzidas e convertidas para WebP, sem alterar o conteúdo das cenas. Os originais em alta definição devem ser arquivados pela responsável fora do repositório.
+### Arquivos para manutenção
 
-### Arquivos importantes
+| Arquivo | Conteúdo |
+|---|---|
+| `src/data/site.js` | Endereço, WhatsApp, Instagram, serviços, avaliações, FAQ |
+| `src/data/team.js` | Perfil real, registro profissional, formações e cursos |
+| `src/data/gallery.js` | Sequência e descrições das cinco fotos |
+| `src/App.jsx` | Seções, navegação e interações |
+| `src/App.css` e `src/index.css` | Identidade visual, responsividade e tokens de cor |
+| `src/components/BookingModal.jsx` | Formulário que prepara a mensagem WhatsApp |
+| `src/components/PrivacyBanner.jsx` | Preferência de incorporação do Google Maps |
+| `scripts/validate-content.mjs` | Checagem de conteúdo, imagens e avisos profissionais |
+| `scripts/validate-publication.mjs` | Checagem de páginas, headers, âncoras e SEO básico |
+| `public/_headers` | CSP e headers configurados para Cloudflare Pages |
+| `scripts/postbuild-seo.mjs` | Canonical, sitemap, robots e URLs de compartilhamento |
 
-- `src/data/site.js`: telefone, endereço, Instagram, serviços, perguntas e avaliações.
-- `src/data/team.js`: nome, cargo, biografia, três formações em destaque e cursos/eventos adicionais da Jessica.
-- `src/data/gallery.js`: sequência, legendas, descrições e enquadramento das cinco fotografias.
-- `public/images/01-estudio.webp` a `05-identidade.webp`: fotografias do carrossel.
-- `public/images/jessica-edwirges.webp`: retrato da profissional.
-- `src/App.jsx` e `src/App.css`: apresentação e responsividade.
+## Privacidade e materiais originais
 
-**PENDÊNCIA IMPORTANTE ANTES DA PUBLICAÇÃO:** confirmar **o número de registro CREFITO** da Jessica e a grafia preferida do nome profissional, além de conferir cursos, autorizações de imagem e avaliações com a responsável. O número não foi fornecido e **não foi inventado nem colocado como placeholder público**. A verificação de conteúdo emite um aviso, sem impedir o desenvolvimento local. Se houver qualquer divergência, ajuste o cadastro antes de usar o site comercialmente.
+As **quatro capturas originais das avaliações não são arquivos públicos**. Não as coloque em `public/` nem faça commit de documentos originais com dados pessoais: guarde o material, autorizações e fotografias em alta resolução em uma pasta privada sob controle do estabelecimento. O código contém apenas o texto dos depoimentos, sujeito à aprovação dos respectivos titulares. O site não exibe nota agregada que não tenha sido verificada.
 
-O parâmetro antigo `?equipe-preview=1` não é mais necessário: a seção da profissional contém dados reais fornecidos e já aparece normalmente no site.
+Os dados digitados no formulário não são transmitidos a um servidor do site. O visitante decide se continua no WhatsApp. O mapa externo só é carregado com permissão; as preferências são armazenadas localmente e podem ser alteradas no rodapé. **As fontes visuais ainda são obtidas externamente pelo Google Fonts**, conforme informado na Política de Privacidade: a escolha “Não carregar mapa” controla apenas o mapa, não todas as conexões externas. Não há scripts de publicidade ou analytics na versão atual.
 
-## Privacidade e segurança
+`public/privacidade.html` e `public/termos.html` descrevem o funcionamento atual, mas exigem aprovação e validação dos dados empresariais e jurídicos antes do lançamento. As páginas públicas não devem apresentar notas internas de preparação. Não presuma que este README substitui revisão legal ou profissional.
 
-- O formulário prepara a mensagem no navegador e só a transmite após confirmação pelo WhatsApp. Não existe backend nem armazenamento próprio dos campos.
-- A pessoa deve marcar a ciência sobre privacidade antes de seguir; o texto de observação orienta a não informar dados sensíveis.
-- A preferência sobre o carregamento do Google Maps fica no armazenamento local. Recusar mantém a incorporação bloqueada; o visitante ainda pode abrir o Google Maps por um link externo de forma independente. No rodapé há opção para alterar essa decisão.
-- `public/_headers` configura CSP e headers para **Cloudflare Pages**. É necessário conferir esses headers na URL pública depois do deploy. O servidor local do Vite não aplica esse arquivo.
-- `public/404.html` é a página de erro para hospedagem estática compatível (Cloudflare Pages). `public/termos.html` e `public/privacidade.html` são páginas informativas e requerem aprovação da responsável antes do lançamento.
-- A página não inclui scripts de anúncios ou analytics. O Google Fonts é solicitado externamente. Reavalie consentimento e política de privacidade se isso mudar.
-- Anti-SQL Injection, rate limiting e CAPTCHA de servidor não são aplicáveis na arquitetura estática sem backend. Se for acrescentado um serviço de formulário, essas proteções deverão ser implementadas nele.
+## Publicação com domínio
 
-## SEO e domínio
+A hospedagem recomendada é Cloudflare Pages, com build `npm run build` e pasta de saída `dist`. Após comprar o domínio definitivo, configurar a variável `SITE_URL` com a **origem HTTPS canônica**, sem barra final, por exemplo:
 
-O build usa `scripts/postbuild-seo.mjs`. Sem `SITE_URL`, o projeto **não inventa** URL canônica nem gera sitemap. Quando o domínio definitivo estiver ativo, configure a variável de ambiente na hospedagem (somente origem HTTPS):
-
+```text
+SITE_URL=https://dominio-oficial.com.br
 ```
-SITE_URL=https://seudominio.com.br
-```
 
-O script gera canonical, `og:url`, URLs absolutas da imagem social, `sitemap.xml` e `robots.txt`, incluindo as páginas institucionais e legais. Confira qual versão com/sem `www` deve ser a oficial e configure o redirecionamento de domínio na plataforma de hospedagem.
+Sem `SITE_URL`, o projeto não inventa domínio nem produz sitemap canônico. Após o deploy, confira redirecionamento entre `www` e domínio raiz, HTTPS, `Content-Security-Policy` e demais headers, status HTTP 404, páginas legais, prévia de compartilhamento e indexação. O arquivo `_headers` não é aplicado pelo servidor local do Vite.
 
-**Ainda pendente de configuração externa:** compra do `.com.br`, conexão de DNS/HTTPS, configuração de `SITE_URL`, verificação no Google Search Console, atualização/verificação do Perfil da Empresa no Google, revisão jurídica, dados oficiais do estabelecimento, autorizações de uso de imagem e depoimentos, confirmação do CREFITO, do nome profissional e das autorizações.
+## Pendências bloqueantes antes do lançamento
 
-## Checklist antes de publicar
+- **CREFITO da Jéssica:** o campo `credential` em `src/data/team.js` permanece vazio, pois o número não foi fornecido. A checagem de conteúdo avisa sobre isso, mas não impede desenvolvimento local. Não publique a identificação profissional sem confirmar os dados reais e requisitos aplicáveis.
+- **Autorizações:** confirmar autorização de uso de retrato, imagens de terceiros, depoimentos com nome e respectivas qualificações.
+- **Dados e conformidade:** validar telefone, endereço, serviços oferecidos, horários e textos de Privacidade/Termos com a responsável; verificar controlador de dados, finalidades e meios de atendimento às solicitações dos titulares.
+- **Validação final:** `npm run verify`, `npm audit --omit=dev`, GitHub Actions, testes de largura 320/360/390/768/1024/1440, navegação com teclado, modal, mapa, links, console e Lighthouse mobile/desktop.
+- **Infraestrutura:** registrar domínio na titularidade do estabelecimento, conectar DNS e HTTPS, definir `SITE_URL`, verificar Search Console e Perfil da Empresa, testar o ambiente público em dispositivos reais.
 
-1. Confirmar telefone, endereço, serviços e oferta de aula experimental com a responsável.
-2. Confirmar informações legais e do controlador, autorização de imagens, avaliações e equipe; aprovar Termos e Privacidade.
-3. Conferir em desktop/mobile o enquadramento das fotos novas, a navegação manual do carrossel e a expansão da formação da Jessica; validar registro CREFITO antes de publicar.
-4. Rodar `npm run verify` e conferir o workflow verde no GitHub.
-5. Testar visualmente o site nas larguras 320, **360**, 390, 768, 1024 e 1440 px, sem rolagem horizontal.
-6. Testar teclado, foco, menu mobile, o modal, recusa e aceitação do mapa e alternativas quando WhatsApp/Maps forem bloqueados.
-7. Publicar em hospedagem para uso comercial, verificar CSP/headers na resposta real e validar página 404 em URL inexistente.
-8. Configurar domínio, `SITE_URL`, SEO social, sitemap, Search Console e Perfil da Empresa.
-9. Executar Lighthouse/PageSpeed em dispositivos reais e revisar desempenho, acessibilidade e links.
-10. Registrar a titularidade do domínio na conta da responsável e ativar autenticação em dois fatores nos serviços relacionados.
-
-A lista não é uma garantia automática de conformidade legal ou de aprovação em auditorias externas: é um roteiro verificável de publicação.
+A aprovação técnica do código não comprova, por si só, autorização de imagem, cumprimento de normas profissionais nem conformidade integral com a LGPD.

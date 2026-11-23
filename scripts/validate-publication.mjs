@@ -38,6 +38,22 @@ const requiredAnchors = ['inicio', 'sobre', 'servicos', 'espaco', 'depoimentos',
 for (const id of requiredAnchors) {
   if (!app.includes(`id="${id}"`)) issues.push(`Navegação: seção #${id} ausente`)
 }
+// Materiais editoriais e assets de modelos antigos não devem ir para produção.
+const retired = [
+  'public/icons.svg', 'public/logo-advanced-clean.png', 'public/logo-advanced.svg',
+  'src/assets/react.svg', 'src/assets/vite.svg', 'src/assets/hero.png',
+  'public/images/equipe/.gitkeep',
+  ...['eliezer', 'flavia', 'helena', 'ricardo'].map((name) => `public/images/avaliacao-${name}.webp`),
+]
+for (const file of retired) {
+  try { await access(file); issues.push(`Arquivo retirado ainda presente: ${file}`) }
+  catch { /* ausência esperada */ }
+}
+for (const [file, html] of [['privacidade', privacy], ['termos', await read('public/termos.html')]]) {
+  if (/(Revisão pendente antes da publicação oficial|Antes da publicação:<\/strong>)/i.test(html)) {
+    issues.push(`${file}: lembrete interno não deve ficar no HTML público`)
+  }
+}
 const fontCss = await read('src/index.css')
 if (fontCss.includes('fonts.googleapis.com') && !headers.includes('https://fonts.googleapis.com')) issues.push('CSP: fonte externa não autorizada')
 

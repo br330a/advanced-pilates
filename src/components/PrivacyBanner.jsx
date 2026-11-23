@@ -4,14 +4,14 @@ export default function PrivacyBanner({ preference, onChoose }) {
   return (
     <aside className="privacy-banner" aria-label="Preferências de privacidade">
       <span className="privacy-banner-kicker">SUA PRIVACIDADE IMPORTA</span>
-      <h2>Você escolhe o que carregar.</h2>
+      <h2>Mapa opcional, você decide.</h2>
       <p>
-        Não usamos cookies de anúncios ou estatísticas. O mapa do Google é um recurso opcional
-        e só aparece se você permitir. <a href="/privacidade.html">Saiba mais sobre privacidade</a>.
+        Não usamos rastreadores de anúncios ou analytics. O mapa do Google só carrega com sua permissão;
+        as fontes do site são obtidas do Google Fonts. <a href="/privacidade.html">Saiba mais sobre privacidade</a>.
       </p>
       <div className="privacy-banner-actions">
         <button type="button" className="button button-outline" onClick={() => onChoose('decline')}>
-          Recusar conteúdo externo
+          Não carregar mapa
         </button>
         <button type="button" className="button button-accent" onClick={() => onChoose('allow')}>
           Permitir mapa do Google
