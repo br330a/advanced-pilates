@@ -76,7 +76,7 @@ test('página é mais direta, sem três blocos repetitivos', () => {
 
 test('preferência externa descreve especificamente o mapa, não todos os serviços', () => {
   assert.match(privacy, /Não carregar mapa/)
-  assert.match(privacy, /Google Fonts/)
+  assert.match(privacy, /fontes do site são carregadas localmente/)
   assert.doesNotMatch(privacy, /Recusar conteúdo externo/)
 })
 

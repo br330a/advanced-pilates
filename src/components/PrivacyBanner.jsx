@@ -7,7 +7,7 @@ export default function PrivacyBanner({ preference, onChoose }) {
       <h2>Mapa opcional, você decide.</h2>
       <p>
         Não usamos rastreadores de anúncios ou analytics. O mapa do Google só carrega com sua permissão;
-        as fontes do site são obtidas do Google Fonts. <a href="/privacidade.html">Saiba mais sobre privacidade</a>.
+        as fontes do site são carregadas localmente. <a href="/privacidade.html">Saiba mais sobre privacidade</a>.
       </p>
       <div className="privacy-banner-actions">
         <button type="button" className="button button-outline" onClick={() => onChoose('decline')}>

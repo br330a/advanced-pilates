@@ -54,8 +54,16 @@ for (const [file, html] of [['privacidade', privacy], ['termos', await read('pub
     issues.push(`${file}: lembrete interno não deve ficar no HTML público`)
   }
 }
+// Fontes devem ser compiladas e servidas pela própria origem (Fontsource via Vite).
 const fontCss = await read('src/index.css')
-if (fontCss.includes('fonts.googleapis.com') && !headers.includes('https://fonts.googleapis.com')) issues.push('CSP: fonte externa não autorizada')
+const entry = await read('src/main.jsx')
+const bookingBanner = await read('src/components/PrivacyBanner.jsx')
+if (/fonts\.(?:googleapis|gstatic)\.com/.test(`${index}\n${fontCss}\n${entry}\n${headers}`)) issues.push('Fontes: há referência ao Google Fonts externo')
+for (const specifier of ['@fontsource-variable/dm-sans/wght.css', '@fontsource-variable/manrope/wght.css', '@fontsource/dm-serif-display/latin-400-italic.css']) {
+  if (!entry.includes(specifier)) issues.push(`Fontes locais: falta ${specifier}`)
+}
+if (!/font-src 'self'/.test(headers)) issues.push('CSP: fontes devem vir da própria origem')
+if (/fontes do site são obtidas do Google Fonts/i.test(bookingBanner)) issues.push('Privacidade: banner ainda descreve fontes externas')
 
 // Confere imagens locais usadas no JSX.
 for (const match of app.matchAll(/src="(\/images\/[^"\s]+)"/g)) {

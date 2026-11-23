@@ -2,24 +2,23 @@
 
 Site institucional do **Advanced Studio Pilates & Fisioterapia**, na Vila Prudente, São Paulo. Construído em React 19, Vite 8 e CSS próprio. A página é estática, sem backend: o formulário apenas prepara uma mensagem para o WhatsApp; **não realiza reservas automáticas**.
 
-## Performance (Etapa 9)
+## Performance e tipografia (Etapa 10)
 
 - O hero utiliza `srcset` e `sizes` com versões otimizadas para telas menores, preservando a composição original.
 - O retrato da profissional e as fotos da galeria têm versões leves para dispositivos móveis.
 - A galeria continua **manual**. Apenas a primeira foto é montada na renderização inicial do React; as demais são pré-carregadas individualmente ao aproximar a galeria da tela ou ao escolher uma foto. Isso evita baixar as cinco fotos na abertura do site.
-- O CSS do Google Fonts foi movido do `@import` encadeado para um `<link>` no HTML, permitindo o download em paralelo com o CSS principal. As fontes continuam externas nesta etapa; não foram incluídos arquivos de fontes no projeto.
+- **Fontes locais:** DM Sans Variable, Manrope Variable e DM Serif Display Italic são instaladas pelo npm via Fontsource e incluídas pelo Vite nos arquivos gerados. Não há requisições ao Google Fonts durante a visita. São usadas versões variáveis para reduzir downloads de pesos diferentes, mantendo os tipos e pesos originais. Os pacotes incluem suas respectivas licenças de fontes.
 - O logotipo exibido pela aplicação usa WebP em largura adequada ao cabeçalho.
 - Confira o impacto em `npm run build && npm run preview` e rode o Lighthouse Mobile em `http://localhost:4173/`. Compare três execuções antes/depois; a nota varia conforme rede, CPU e cache.
 
 ## Desenvolvimento e validação
 
-Requer Node.js compatível com o Vite 8 e npm. Na raiz do projeto:
+Requer Node.js compatível com o Vite 8 e npm. Após esta atualização (Etapa 10), **execute `npm install` uma vez** para instalar as novas dependências e atualizar `package-lock.json` antes de `npm run verify` e do commit. Em máquinas novas/CI, use `npm ci` após registrar o lockfile atualizado. Na raiz do projeto:
 
 ```bash
-npm ci
-npm run dev
-npm run verify
-npm run preview
+npm install        # primeira instalação desta etapa; atualiza o package-lock.json
+npm run verify     # valida testes, lint e gera dist/
+npm run preview    # confira o build localmente
 ```
 
 `npm run verify` executa `check:content`, `check:publication`, testes Node (`npm test`), ESLint e build de produção. No GitHub, `.github/workflows/quality.yml` verifica pushes e pull requests. O comando `npm run preview` depende de um build anterior. Execute `npm audit --omit=dev` periodicamente para revisar vulnerabilidades de dependências de produção, avaliando cada alerta antes de modificar versões.
@@ -46,7 +45,8 @@ Removemos a faixa de diferenciais, o segundo convite de agendamento dentro dos s
 | `src/data/team.js` | Perfil real, registro profissional, formações e cursos |
 | `src/data/gallery.js` | Sequência e descrições das cinco fotos |
 | `src/App.jsx` | Seções, navegação e interações |
-| `src/App.css` e `src/index.css` | Identidade visual, responsividade e tokens de cor |
+| `src/App.css` e `src/index.css` | Identidade visual, responsividade e tokens de cor; famílias variáveis |
+| `src/main.jsx` | Importações do Fontsource incorporadas ao build do Vite |
 | `src/components/BookingModal.jsx` | Formulário que prepara a mensagem WhatsApp |
 | `src/components/PrivacyBanner.jsx` | Preferência de incorporação do Google Maps |
 | `scripts/validate-content.mjs` | Checagem de conteúdo, imagens e avisos profissionais |
@@ -58,7 +58,7 @@ Removemos a faixa de diferenciais, o segundo convite de agendamento dentro dos s
 
 As **quatro capturas originais das avaliações não são arquivos públicos**. Não as coloque em `public/` nem faça commit de documentos originais com dados pessoais: guarde o material, autorizações e fotografias em alta resolução em uma pasta privada sob controle do estabelecimento. O código contém os textos e as notas **individuais** dos depoimentos, conferidas nas capturas originais e sujeitas à aprovação dos respectivos titulares. O site não exibe nota agregada que não tenha sido verificada.
 
-Os dados digitados no formulário não são transmitidos a um servidor do site. O visitante decide se continua no WhatsApp. O mapa externo só é carregado com permissão; as preferências são armazenadas localmente e podem ser alteradas no rodapé. **As fontes visuais ainda são obtidas externamente pelo Google Fonts**, conforme informado na Política de Privacidade: a escolha “Não carregar mapa” controla apenas o mapa, não todas as conexões externas. Não há scripts de publicidade ou analytics na versão atual.
+Os dados digitados no formulário não são transmitidos a um servidor do site. O visitante decide se continua no WhatsApp. O mapa externo só é carregado com permissão; as preferências são armazenadas localmente e podem ser alteradas no rodapé. **As fontes são hospedadas junto do site** e não fazem requisições ao Google Fonts: a escolha “Não carregar mapa” controla a incorporação do mapa de terceiros. Não há scripts de publicidade ou analytics na versão atual.
 
 `public/privacidade.html` e `public/termos.html` descrevem o funcionamento atual, mas exigem aprovação e validação dos dados empresariais e jurídicos antes do lançamento. As páginas públicas não devem apresentar notas internas de preparação. Não presuma que este README substitui revisão legal ou profissional.
 
