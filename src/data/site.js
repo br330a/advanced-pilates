@@ -23,13 +23,13 @@ export const services = [
     number: '01',
     icon: 'activity',
     label: 'Pilates com aparelhos',
-    description: 'Prática com equipamentos específicos, voltada ao trabalho de força, mobilidade e consciência corporal.',
+    description: 'As aulas não ficam concentradas em um só aparelho: os exercícios alternam entre equipamentos, com atenção às necessidades e à evolução de cada aluno.',
   },
   {
     number: '02',
     icon: 'heart',
     label: 'Fisioterapia',
-    description: 'Entre em contato para conhecer as modalidades de atendimento e a disponibilidade do estúdio.',
+    description: 'O estúdio também oferece atendimento de fisioterapia. Consulte a equipe sobre modalidades e horários disponíveis.',
   },
 ]
 

@@ -79,3 +79,17 @@ test('preferência externa descreve especificamente o mapa, não todos os servi�
   assert.match(privacy, /Google Fonts/)
   assert.doesNotMatch(privacy, /Recusar conteúdo externo/)
 })
+
+test('diferenciais solicitados pela cliente estão explícitos sem aumentar a página', () => {
+  assert.match(app, /Pilates com acompanhamento individualizado, aulas em diferentes aparelhos e atendimento de fisioterapia/)
+  const pilates = services.find((service) => service.label === 'Pilates com aparelhos')
+  const physio = services.find((service) => service.label === 'Fisioterapia')
+  assert.ok(pilates, 'Serviço Pilates deve existir')
+  assert.ok(physio, 'Serviço Fisioterapia deve existir')
+  assert.match(pilates.description, /não ficam concentradas em um só aparelho/)
+  assert.match(pilates.description, /alternam entre equipamentos/)
+  assert.match(pilates.description, /necessidades e à evolução de cada aluno/)
+  assert.match(physio.description, /oferece atendimento de fisioterapia/)
+  assert.match(teamMembers[0].bio, /acompanhamento próximo/)
+  assert.doesNotMatch(app, /setInterval|autoplay/)
+})

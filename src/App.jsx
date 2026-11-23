@@ -91,7 +91,7 @@ function Hero({ onBook }) {
         <div className="hero-copy">
           <Eyebrow>PILATES & FISIOTERAPIA · VILA PRUDENTE</Eyebrow>
           <h1 id="hero-title">Movimente o corpo. <em>Cuide de você.</em></h1>
-          <p>Pilates com aparelhos e fisioterapia em um espaço feito para quem quer começar, recomeçar ou continuar em movimento, na Vila Prudente.</p>
+          <p>Pilates com acompanhamento individualizado, aulas em diferentes aparelhos e atendimento de fisioterapia na Vila Prudente.</p>
           <div className="hero-actions">
             <button className="button button-accent button-large" type="button" onClick={() => onBook('Aula experimental de Pilates')}>Agendar aula experimental <Icon name="upRight" size={19} /></button>
             <a className="button button-outline button-large" href="#espaco">Conhecer o espaço <Icon name="arrow" size={18} /></a>

@@ -10,7 +10,7 @@ export const teamMembers = [
     credential: '',
     photo: '/images/jessica-edwirges.webp',
     photoAlt: 'Retrato de Jessica Edwirges Alves Silva',
-    bio: 'Graduada em Fisioterapia, com pós-graduação em Reabilitação Aplicada ao Esporte e formação em Pilates. Segue ampliando seus conhecimentos por meio de cursos e encontros profissionais.',
+    bio: 'Fisioterapeuta com pós-graduação em Reabilitação Aplicada ao Esporte e formação em Pilates. Sua atuação valoriza o acompanhamento próximo e o respeito ao ritmo e às necessidades de cada aluno.',
     featuredEducation: [
       { year: '2012', title: 'Graduação em Fisioterapia', institution: 'Centro Universitário São Camilo' },
       { year: '2014–2015', title: 'Pós-graduação em Reabilitação Aplicada ao Esporte', institution: 'Universidade Federal de São Paulo (UNIFESP)' },
