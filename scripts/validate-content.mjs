@@ -59,6 +59,10 @@ else {
     if (srcs.has(photo.src)) errors.push(`Galeria: imagem repetida (${photo.src})`)
     srcs.add(photo.src)
     await checkImage(photo.src, `Galeria ${i + 1}`)
+    if (!photo.srcSet || !photo.mobileSrcSet || !photo.sizes) errors.push(`Galeria ${i + 1}: falta srcSet/mobileSrcSet/sizes`)
+    for (const candidate of `${photo.srcSet || ''},${photo.mobileSrcSet || ''}`.split(',').map((value) => value.trim().split(' ')[0]).filter(Boolean)) {
+      await checkImage(candidate, `Galeria ${i + 1}: variante`)
+    }
   }
 }
 if (!Array.isArray(teamMembers)) errors.push('Profissionais: deve ser uma lista')

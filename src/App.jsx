@@ -100,7 +100,16 @@ function Hero({ onBook }) {
         </div>
         <div className="hero-art">
           <div className="hero-image-shape">
-            <img src="/images/pilates-pose.webp" alt="Mulher praticando Pilates com aparelhos no Advanced Studio" width="1200" height="1600" fetchPriority="high" />
+            <picture>
+              <source media="(max-width: 700px)" srcSet="/images/pilates-pose-480.webp 480w, /images/pilates-pose-800.webp 800w" sizes="345px" />
+              <img
+                src="/images/pilates-pose-800.webp"
+                srcSet="/images/pilates-pose-480.webp 480w, /images/pilates-pose-800.webp 800w, /images/pilates-pose.webp 1200w"
+                sizes="(max-width: 1000px) 395px, 42vw"
+                alt="Mulher praticando Pilates com aparelhos no Advanced Studio"
+                width="1200" height="1600" fetchPriority="high" decoding="async"
+              />
+            </picture>
           </div>
           <div className="hero-image-label"><span className="label-burst" aria-hidden="true">✳</span><span>O seu próximo passo<br /><strong>começa aqui.</strong></span></div>
           <div className="hero-photo-caption">ADVANCED STUDIO <span>·</span> VILA PRUDENTE</div>
@@ -145,7 +154,15 @@ function Team() {
       <div className="container professional-layout">
         <div className="professional-portrait">
           <div className="professional-photo-frame">
-            <img src={professional.photo} alt={professional.photoAlt} loading="lazy" decoding="async" width="960" height="1280" />
+            <picture>
+              <source media="(max-width: 700px)" srcSet="/images/jessica-edwirges-480.webp 480w, /images/jessica-edwirges-800.webp 800w" sizes="90vw" />
+              <img
+                src="/images/jessica-edwirges-800.webp"
+                srcSet="/images/jessica-edwirges-480.webp 480w, /images/jessica-edwirges-800.webp 800w, /images/jessica-edwirges.webp 960w"
+                sizes="(max-width: 980px) 46vw, 430px"
+                alt={professional.photoAlt} loading="lazy" decoding="async" width="960" height="1280"
+              />
+            </picture>
           </div>
           <span className="professional-photo-tag">ADVANCED STUDIO <span>✳</span> PILATES & FISIOTERAPIA</span>
         </div>
@@ -187,13 +204,63 @@ function Team() {
 
 function Showcase() {
   const [active, setActive] = useState(0)
+  // Only the first slide has a src on initial render: off-screen photos must not
+  // compete with the hero for bandwidth, even inside a translated carousel.
+  const [mounted, setMounted] = useState([0])
+  const mountedRef = useRef(new Set([0]))
+  const pendingRef = useRef(new Map())
+  const requestRef = useRef(0)
+  const viewportRef = useRef(null)
   const startX = useRef(null)
+
+  const preload = useCallback((index) => {
+    if (mountedRef.current.has(index)) return Promise.resolve()
+    if (pendingRef.current.has(index)) return pendingRef.current.get(index)
+    const photo = gallery[index]
+    const promise = new Promise((resolve) => {
+      const img = new Image()
+      img.srcset = window.matchMedia('(max-width: 700px)').matches ? photo.mobileSrcSet : photo.srcSet
+      img.sizes = photo.sizes
+      img.onload = () => {
+        mountedRef.current.add(index)
+        setMounted((previous) => previous.includes(index) ? previous : [...previous, index])
+        resolve()
+      }
+      img.onerror = () => resolve()
+      img.src = photo.src
+    })
+    pendingRef.current.set(index, promise)
+    promise.finally(() => pendingRef.current.delete(index))
+    return promise
+  }, [])
+
+  useEffect(() => {
+    const viewport = viewportRef.current
+    if (!viewport || typeof IntersectionObserver === 'undefined') return undefined
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        // Only one neighboring slide is prefetched; never start all five downloads.
+        void preload(1)
+        observer.disconnect()
+      }
+    }, { rootMargin: '250px' })
+    observer.observe(viewport)
+    return () => observer.disconnect()
+  }, [preload])
+
   const select = useCallback((index) => {
-    setActive((index + gallery.length) % gallery.length)
-  }, [])
-  const move = useCallback((step) => {
-    setActive((current) => (current + step + gallery.length) % gallery.length)
-  }, [])
+    const next = (index + gallery.length) % gallery.length
+    const request = ++requestRef.current
+    void preload(next).then(() => {
+      if (request !== requestRef.current || !mountedRef.current.has(next)) return
+      // Let React mount the decoded slide before the horizontal transition.
+      requestAnimationFrame(() => {
+        if (request === requestRef.current) setActive(next)
+      })
+      void preload((next + 1) % gallery.length)
+    })
+  }, [preload])
+  const move = (step) => select(active + step)
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowLeft') { event.preventDefault(); move(-1) }
     if (event.key === 'ArrowRight') { event.preventDefault(); move(1) }
@@ -209,32 +276,32 @@ function Showcase() {
     <section className="section showcase-section" id="espaco" aria-labelledby="showcase-title">
       <div className="container">
         <div className="showcase-intro">
-          <div>
-            <Eyebrow>NOSSO ESTÚDIO</Eyebrow>
-            <h2 id="showcase-title">Conheça o <em>espaço.</em></h2>
-          </div>
+          <div><Eyebrow>NOSSO ESTÚDIO</Eyebrow><h2 id="showcase-title">Conheça o <em>espaço.</em></h2></div>
         </div>
         <div className="studio-carousel" role="region" aria-roledescription="carrossel" aria-label="Fotografias do Advanced Studio" onKeyDown={handleKeyDown}>
-          <div className="studio-carousel-viewport" tabIndex={0} aria-label="Galeria de fotos: use as setas do teclado para trocar a imagem" onTouchStart={(event) => { startX.current = event.touches[0].clientX }} onTouchEnd={handleTouchEnd} onTouchCancel={() => { startX.current = null }}>
+          <div ref={viewportRef} className="studio-carousel-viewport" tabIndex={0} aria-label="Galeria de fotos: use as setas do teclado para trocar a imagem" onTouchStart={(event) => { startX.current = event.touches[0].clientX }} onTouchEnd={handleTouchEnd} onTouchCancel={() => { startX.current = null }}>
             <div className="studio-carousel-track" style={{ transform: `translateX(-${active * 100}%)` }}>
               {gallery.map((photo, index) => (
                 <figure className="studio-carousel-slide" key={photo.src} aria-hidden={index !== active}>
-                  <img src={photo.src} alt={photo.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" width={photo.width} height={photo.height} style={{objectPosition: photo.position}} />
+                  {mounted.includes(index) && (
+                    <picture>
+                      <source media="(max-width: 700px)" srcSet={photo.mobileSrcSet} sizes={photo.sizes} />
+                      <img src={photo.src} srcSet={photo.srcSet} sizes={photo.sizes} alt={photo.alt} loading="lazy" decoding="async" fetchPriority="low" width={photo.width} height={photo.height} style={{ objectPosition: photo.position }} />
+                    </picture>
+                  )}
                 </figure>
               ))}
             </div>
             <div className="studio-carousel-photo-index" aria-hidden="true">{String(active + 1).padStart(2, '0')} / {String(gallery.length).padStart(2, '0')}</div>
           </div>
           <div className="studio-carousel-bottom">
-            <div className="studio-carousel-caption" aria-live="polite" aria-atomic="true">
-              <strong>{gallery[active].title}</strong>
-            </div>
+            <div className="studio-carousel-caption" aria-live="polite" aria-atomic="true"><strong>{gallery[active].title}</strong></div>
             <div className="studio-carousel-controls">
-              <button type="button" className="studio-carousel-arrow is-previous" onClick={() => move(-1)} aria-label="Foto anterior"><Icon name="arrow" size={19} /></button>
+              <button type="button" className="studio-carousel-arrow is-previous" onPointerEnter={() => { void preload((active - 1 + gallery.length) % gallery.length) }} onFocus={() => { void preload((active - 1 + gallery.length) % gallery.length) }} onClick={() => move(-1)} aria-label="Foto anterior"><Icon name="arrow" size={19} /></button>
               <div className="studio-carousel-dots" aria-label="Selecionar fotografia">
-                {gallery.map((photo, index) => <button key={photo.src} type="button" className={`studio-carousel-dot ${active === index ? 'is-active' : ''}`} onClick={() => select(index)} aria-label={`Ver foto ${index + 1}: ${photo.title}`} aria-current={active === index ? 'true' : undefined} />)}
+                {gallery.map((photo, index) => <button key={photo.src} type="button" className={`studio-carousel-dot ${active === index ? 'is-active' : ''}`} onPointerEnter={() => { void preload(index) }} onFocus={() => { void preload(index) }} onClick={() => select(index)} aria-label={`Ver foto ${index + 1}: ${photo.title}`} aria-current={active === index ? 'true' : undefined} />)}
               </div>
-              <button type="button" className="studio-carousel-arrow" onClick={() => move(1)} aria-label="Próxima foto"><Icon name="arrow" size={19} /></button>
+              <button type="button" className="studio-carousel-arrow" onPointerEnter={() => { void preload((active + 1) % gallery.length) }} onFocus={() => { void preload((active + 1) % gallery.length) }} onClick={() => move(1)} aria-label="Próxima foto"><Icon name="arrow" size={19} /></button>
             </div>
           </div>
         </div>

@@ -2,6 +2,15 @@
 
 Site institucional do **Advanced Studio Pilates & Fisioterapia**, na Vila Prudente, São Paulo. Construído em React 19, Vite 8 e CSS próprio. A página é estática, sem backend: o formulário apenas prepara uma mensagem para o WhatsApp; **não realiza reservas automáticas**.
 
+## Performance (Etapa 9)
+
+- O hero utiliza `srcset` e `sizes` com versões otimizadas para telas menores, preservando a composição original.
+- O retrato da profissional e as fotos da galeria têm versões leves para dispositivos móveis.
+- A galeria continua **manual**. Apenas a primeira foto é montada na renderização inicial do React; as demais são pré-carregadas individualmente ao aproximar a galeria da tela ou ao escolher uma foto. Isso evita baixar as cinco fotos na abertura do site.
+- O CSS do Google Fonts foi movido do `@import` encadeado para um `<link>` no HTML, permitindo o download em paralelo com o CSS principal. As fontes continuam externas nesta etapa; não foram incluídos arquivos de fontes no projeto.
+- O logotipo exibido pela aplicação usa WebP em largura adequada ao cabeçalho.
+- Confira o impacto em `npm run build && npm run preview` e rode o Lighthouse Mobile em `http://localhost:4173/`. Compare três execuções antes/depois; a nota varia conforme rede, CPU e cache.
+
 ## Desenvolvimento e validação
 
 Requer Node.js compatível com o Vite 8 e npm. Na raiz do projeto:

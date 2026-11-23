@@ -60,7 +60,7 @@ test('galeria conserva cinco fotos reais com controle manual e teclado', () => {
   assert.match(app, /ArrowLeft/)
   assert.match(app, /ArrowRight/)
   assert.doesNotMatch(app, /setInterval|autoplay/)
-  assert.match(app, /src="\/images\/pilates-pose\.webp"/)
+  assert.match(app, /src="\/images\/pilates-pose-800\.webp"/)
 })
 
 test('página é mais direta, sem três blocos repetitivos', () => {
