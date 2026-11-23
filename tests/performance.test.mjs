@@ -72,3 +72,12 @@ test('versões menores de imagens existem e são mais leves', async () => {
 test('links e preferências do rodapé têm área de toque adequada', () => {
   assert.match(appCss, /\.footer-bottom a, \.footer-bottom button \{[^}]*min-height: 44px/)
 })
+
+
+test('fontes não são incorporadas em Base64, respeitando a CSP', async () => {
+  const viteConfig = await readFile(new URL('../vite.config.js', import.meta.url), 'utf8')
+  const headers = await readFile(new URL('../public/_headers', import.meta.url), 'utf8')
+  assert.match(viteConfig, /assetsInlineLimit:\s*0/)
+  assert.match(headers, /font-src 'self'/)
+  assert.doesNotMatch(headers, /font-src[^;\n]*data:/)
+})
