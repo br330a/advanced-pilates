@@ -23,6 +23,7 @@ export const services = [
     number: '01',
     icon: 'activity',
     label: 'Pilates com aparelhos',
+    plans: 'Planos: mensal, trimestral e semestral',
     description: 'As aulas não ficam concentradas em um só aparelho: os exercícios alternam entre equipamentos, com atenção às necessidades e à evolução de cada aluno.',
   },
   {
@@ -39,48 +40,50 @@ export const services = [
 // Os depoimentos dependem de autorização de publicação.
 export const reviews = [
   {
-    author: 'Flávia Souza Oliveira Piva',
+    author: 'Flávia P.',
     rating: 5,
     initials: 'FP',
     text: 'Amooooo fazer Pilates no Advanced!! A Jessica é a melhor profissional para essa modalidade. Atenciosa, muito preocupada com suas limitações e em seu bem estar físico. Indico para todas as idades.',
     featured: true,
   },
   {
-    author: 'Eliezer Bim',
+    author: 'Eliezer B.',
     rating: 5,
     initials: 'EB',
     text: 'Estou com professora Jéssica a 4 anos, muito satisfeito, tem ótima qualidade técnica e também atendimento profissional, parabéns, muito satisfeito',
   },
   {
-    author: 'Helena Tateyama',
+    author: 'Helena T.',
     rating: 5,
     initials: 'HT',
     text: 'Sem contar a estrutura do studio, muito bem equipado, lindo e agradável. Super recomendo 🙏💕',
     excerpt: true,
   },
   {
-    author: 'Ricardo Piva',
+    author: 'Ricardo P.',
     rating: 5,
     initials: 'RP',
     text: 'Nunca pensei em fazer Pilates, mas comecei e estou percebendo já diferenças excelentes. Melhoraram minhas dores em geral. Indico agora pra todo mundo, percebi que pilates não é só pra mulher mesmo.',
   },
 ]
 
+// Perguntas relatadas pela responsável como dúvidas recorrentes dos interessados.
+// Horários específicos variam conforme a agenda e não são prometidos pelo site.
 export const faqs = [
   {
-    question: 'Nunca fiz Pilates. Posso entrar em contato?',
-    answer: 'Claro! Você pode conversar com a equipe pelo WhatsApp, contar que está começando e perguntar como funciona a prática no estúdio.',
+    question: 'Quais são os planos e valores?',
+    answer: 'Trabalhamos com planos mensais, trimestrais e semestrais. Para conhecer os valores e as condições atuais, converse com a equipe pelo WhatsApp.',
   },
   {
-    question: 'Como posso solicitar uma aula experimental?',
-    answer: 'Clique em “Agendar aula experimental”, informe seu nome e o período de preferência. O site prepara uma mensagem para você enviar pelo WhatsApp. A equipe confirma as possibilidades e a disponibilidade.',
+    question: 'O estúdio aceita TotalPass ou Wellhub?',
+    answer: 'Não. Atualmente, o Advanced Studio não aceita TotalPass nem Wellhub.',
   },
   {
-    question: 'O Advanced também oferece fisioterapia?',
-    answer: 'Sim, fisioterapia faz parte dos serviços apresentados pelo estúdio. Entre em contato para confirmar modalidades de atendimento, profissionais e agenda.',
+    question: 'Quantas pessoas participam de cada sessão?',
+    answer: 'As sessões de Pilates têm no máximo quatro pessoas, com atenção às necessidades e à evolução de cada aluno.',
   },
   {
-    question: 'Quais são os dias e horários das aulas?',
-    answer: 'Os horários de funcionamento, a disponibilidade de vagas e as opções aos sábados devem ser confirmados diretamente com a equipe.',
+    question: 'Quais são os dias e horários de atendimento?',
+    answer: 'Atendemos de segunda a sábado. Os horários variam conforme o dia e a disponibilidade da agenda. Entre em contato pelo WhatsApp para consultar as vagas.',
   },
 ]

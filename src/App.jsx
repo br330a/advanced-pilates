@@ -134,6 +134,7 @@ function Services({ onBook }) {
               <div className="service-card-top"><span>{service.number} / 02</span><Icon name={service.icon} size={25} /></div>
               <h3>{service.label}</h3>
               <p>{service.description}</p>
+              {service.plans && <p className="service-plan-note">{service.plans}</p>}
               <button type="button" className="service-link" onClick={() => onBook(service.number === '01' ? 'Informações sobre Pilates' : 'Informações sobre Fisioterapia')}>
                 Consultar {service.number === '01' ? 'aulas' : 'atendimentos'} <Icon name="upRight" size={18} />
               </button>
@@ -172,6 +173,7 @@ function Team() {
           <div className="professional-name-block">
             <h3>{professional.name}</h3>
             <p>{professional.role}</p>
+            {professional.credential && <p className="professional-credential">{professional.credential}</p>}
           </div>
           <p className="professional-bio">{professional.bio}</p>
           <div className="professional-education">

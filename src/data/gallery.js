@@ -1,17 +1,17 @@
 // Fotografias reais recebidas em novembro de 2026.
-// Sequência editorial: visão geral, equipamentos, ambiente, aparelhos e identidade.
+// Sequência editorial aprovada: visão da sala, equipamentos, espelhos e área de prática, aparelhos e identidade.
 export const gallery = [
   {
     src: '/images/01-estudio-960.webp',
-    srcSet: '/images/01-estudio-480.webp 480w, /images/01-estudio-960.webp 960w, /images/01-estudio.webp 1600w',
+    srcSet: '/images/01-estudio-480.webp 480w, /images/01-estudio-960.webp 960w, /images/01-estudio.webp 1200w',
     mobileSrcSet: '/images/01-estudio-480.webp 480w, /images/01-estudio-960.webp 960w',
     sizes: '(max-width: 700px) 94vw, (max-width: 1200px) 90vw, 1130px',
-    alt: 'Visão ampla do Advanced Studio com equipamentos de Pilates, piso de madeira e painel com a marca',
-    title: 'Um espaço feito para se movimentar',
-    description: 'Ambiente equipado e acolhedor',
-    position: 'center center',
-    width: 1600,
-    height: 1200,
+    alt: 'Vista do estúdio com espelhos, aparelhos de Pilates, piso de madeira e a área de atendimento',
+    title: 'Um espaço acolhedor',
+    description: 'Ambiente equipado para as sessões',
+    position: 'center 57%',
+    width: 1200,
+    height: 1600,
   },
   {
     src: '/images/02-equipamentos-960.webp',
@@ -30,10 +30,10 @@ export const gallery = [
     srcSet: '/images/03-ambiente-480.webp 480w, /images/03-ambiente-960.webp 960w, /images/03-ambiente.webp 1600w',
     mobileSrcSet: '/images/03-ambiente-480.webp 480w, /images/03-ambiente-960.webp 960w',
     sizes: '(max-width: 700px) 94vw, (max-width: 1200px) 90vw, 1130px',
-    alt: 'Sala iluminada do Advanced Studio com aparelhos e painel de madeira com o logotipo',
-    title: 'Cada detalhe importa',
-    description: 'Conforto e cuidado com o ambiente',
-    position: 'center 52%',
+    alt: 'Vista do Advanced Studio com espelho amplo, janelas iluminadas e aparelhos de Pilates',
+    title: 'Ambiente para cada prática',
+    description: 'Iluminação natural e equipamentos à disposição',
+    position: 'center 59%',
     width: 1600,
     height: 1067,
   },

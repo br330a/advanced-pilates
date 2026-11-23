@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { access, readFile } from 'node:fs/promises'
-import { reviews, services, studio } from '../src/data/site.js'
+import { faqs, reviews, services, studio } from '../src/data/site.js'
 import { gallery } from '../src/data/gallery.js'
 import { teamMembers } from '../src/data/team.js'
 
@@ -120,4 +120,45 @@ test('mapa tem zoom mais aberto, instrução touch e exploração externa acess�
   assert.match(app, /rel="noopener noreferrer"/)
   assert.match(css, /\.map-tools\s*\{/)
   assert.match(css, /\.map-touch-hint\s*\{/)
+})
+
+
+test('feedback da cliente: FAQ reúne quatro dúvidas reais, sem grade extensa', () => {
+  assert.equal(faqs.length, 4)
+  const answers = faqs.map((item) => `${item.question} ${item.answer}`).join('\n')
+  assert.match(answers, /planos mensais, trimestrais e semestrais/i)
+  assert.match(answers, /valores/i)
+  assert.match(answers, /não aceita TotalPass nem Wellhub/i)
+  assert.match(answers, /no máximo quatro pessoas/i)
+  assert.match(answers, /segunda a sábado/i)
+  assert.match(answers, /horários variam/i)
+  assert.doesNotMatch(answers, /7h|20h|11h|15h/)
+  assert.equal(services[0].plans, 'Planos: mensal, trimestral e semestral')
+  assert.match(app, /service-plan-note/)
+  assert.match(css, /\.service-card \.service-plan-note/)
+})
+
+test('registro profissional visível e dados de avaliações abreviados', () => {
+  const member = teamMembers[0]
+  assert.equal(member.credential, 'CREFITO-3 190575-F')
+  assert.match(app, /professional-credential/)
+  assert.match(css, /\.professional-name-block \.professional-credential/)
+  assert.deepEqual(reviews.map((r) => r.author), ['Flávia P.', 'Eliezer B.', 'Helena T.', 'Ricardo P.'])
+  for (const r of reviews) assert.match(r.author, /^\S+\s[A-Z]\.$/)
+})
+
+test('novo enquadramento do hero mostra mais do rosto e o carrossel preserva as cinco posições', () => {
+  assert.match(css, /\.hero-image-shape img \{[^}]*object-position: 50% 9%/)
+  assert.match(css, /\.hero-image-shape img \{ object-position: 50% 0%; \}/)
+  assert.equal(gallery.length, 5)
+  assert.deepEqual(gallery.map((p) => p.src), [
+    '/images/01-estudio-960.webp', '/images/02-equipamentos-960.webp',
+    '/images/03-ambiente-960.webp', '/images/04-aparelhos-960.webp',
+    '/images/05-identidade-960.webp',
+  ])
+  assert.equal(gallery[0].width, 1200)
+  assert.equal(gallery[0].height, 1600)
+  assert.match(gallery[0].alt, /espelhos/i)
+  assert.match(gallery[2].alt, /janelas iluminadas/i)
+  assert.doesNotMatch(app, /setInterval|autoplay/)
 })

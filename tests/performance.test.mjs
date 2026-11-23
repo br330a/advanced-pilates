@@ -47,7 +47,7 @@ test('galeria não descarrega todas as imagens na primeira visita e segue manual
   assert.doesNotMatch(app, /setInterval|autoplay/)
   assert.equal(gallery.length, 5)
   for (const photo of gallery) {
-    assert.match(photo.srcSet, /480w.*960w.*1600w/)
+    assert.match(photo.srcSet, /480w.*960w.*(?:1200|1600)w/)
     assert.match(photo.mobileSrcSet, /480w.*960w/)
     assert.doesNotMatch(photo.mobileSrcSet, /1600w/)
     assert.match(photo.sizes, /vw/)

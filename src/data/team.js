@@ -1,13 +1,11 @@
-// Dados profissionais fornecidos para a página do estúdio em 22/11/2026.
-// Antes de publicar, confirmar com a responsável o CREFITO da fisioterapeuta
-// e a autorização de uso do retrato e das qualificações listadas.
+// Dados profissionais encaminhados e registro CREFITO informado pela cliente em 23/11/2026.
+// Confirmar com a responsável as autorizações do retrato e das qualificações antes da divulgação.
 export const teamMembers = [
   {
     id: 'jessica-edwirges-alves-silva',
     name: 'Jessica Edwirges Alves Silva',
     role: 'Fisioterapeuta e instrutora de Pilates',
-    // Número não fornecido. Não inventar; confirmar antes do lançamento.
-    credential: '',
+    credential: 'CREFITO-3 190575-F',
     photo: '/images/jessica-edwirges.webp',
     photoAlt: 'Retrato de Jessica Edwirges Alves Silva',
     bio: 'Fisioterapeuta com pós-graduação em Reabilitação Aplicada ao Esporte e formação em Pilates. Sua atuação valoriza o acompanhamento próximo e o respeito ao ritmo e às necessidades de cada aluno.',

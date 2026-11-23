@@ -73,10 +73,10 @@ else {
     for (const key of ['id', 'name', 'role', 'bio', 'photo']) required(member[key], `${label}: ${key}`)
     if (ids.has(member.id)) errors.push(`${label}: identificador repetido`)
     ids.add(member.id)
-    // O número CREFITO não foi fornecido. Avisar, mas não inventar nem impedir
-    // a revisão técnica local. A publicação ainda depende dessa confirmação.
-    if (/fisioterapeut/i.test(member.role) && !member.credential?.trim()) {
-      console.warn(`PENDÊNCIA DE PUBLICAÇÃO: ${member.name} — confirmar número CREFITO com a responsável.`)
+    // O registro informado pela cliente deve permanecer preenchido no site.
+    // Esta validação confere o formato, não substitui conferência perante o CREFITO.
+    if (/fisioterapeut/i.test(member.role) && !/^CREFITO-\d+\s+\d+-F$/.test(member.credential || '')) {
+      errors.push(`${label}: CREFITO em formato inválido ou não preenchido`)
     }
     if (!Array.isArray(member.featuredEducation) || member.featuredEducation.length !== 3) errors.push(`${label}: informe 3 formações em destaque`)
     else for (const course of member.featuredEducation) {
