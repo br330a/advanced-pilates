@@ -93,3 +93,31 @@ test('diferenciais solicitados pela cliente estão explícitos sem aumentar a p�
   assert.match(teamMembers[0].bio, /acompanhamento próximo/)
   assert.doesNotMatch(app, /setInterval|autoplay/)
 })
+
+
+test('as notas individuais dos quatro depoimentos correspondem às capturas originais', () => {
+  assert.equal(reviews.length, 4)
+  assert.deepEqual(reviews.map((review) => review.rating), [5, 5, 5, 5])
+  assert.match(app, /className="review-stars"/)
+  assert.match(app, /review\.rating} de 5 estrelas/)
+  assert.match(css, /\.review-stars\s*\{/)
+  assert.doesNotMatch(app, /AggregateRating|aggregateRating/)
+})
+
+test('FAQ não acompanha a rolagem', () => {
+  const rule = css.match(/\.faq-heading\s*\{([^}]*)\}/)
+  assert.ok(rule, 'Estilo do título do FAQ deve existir')
+  assert.match(rule[1], /position:\s*static/)
+  assert.doesNotMatch(rule[1], /position:\s*sticky/)
+  assert.doesNotMatch(rule[1], /top:\s*\d/)
+})
+
+test('mapa tem zoom mais aberto, instrução touch e exploração externa acessível', () => {
+  assert.match(app, /&z=15&output=embed/)
+  assert.match(app, /use dois dedos para mover o mapa/)
+  assert.match(app, /Explorar no Google Maps/)
+  assert.match(app, /className="map-open-link" href=\{mapsLink\}/)
+  assert.match(app, /rel="noopener noreferrer"/)
+  assert.match(css, /\.map-tools\s*\{/)
+  assert.match(css, /\.map-touch-hint\s*\{/)
+})

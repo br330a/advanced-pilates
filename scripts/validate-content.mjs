@@ -45,6 +45,9 @@ for (const [i, service] of services.entries()) {
 for (const [i, review] of reviews.entries()) {
   required(review.author, `Avaliação ${i + 1}: autor`)
   required(review.text, `Avaliação ${i + 1}: texto`)
+  if (!Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5) {
+    errors.push(`Avaliação ${i + 1}: nota deve ser um inteiro entre 1 e 5, conferido na fonte original`)
+  }
 }
 if (!Array.isArray(gallery) || gallery.length < 4 || gallery.length > 7) errors.push('Galeria: use de 4 a 7 fotos selecionadas')
 else {

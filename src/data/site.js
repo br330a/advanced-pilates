@@ -35,27 +35,32 @@ export const services = [
 
 // Trechos de avaliações espontâneas encaminhadas pelo estúdio.
 // As capturas originais foram retiradas do diretório público.
-// Os depoimentos dependem de autorização de publicação; não implicam nota agregada.
+// As quatro notas individuais (5/5) foram conferidas nas capturas originais; não implicam nota agregada.
+// Os depoimentos dependem de autorização de publicação.
 export const reviews = [
   {
-    author: 'Flavia Souza Oliveira Piva',
+    author: 'Flávia Souza Oliveira Piva',
+    rating: 5,
     initials: 'FP',
     text: 'Amooooo fazer Pilates no Advanced!! A Jessica é a melhor profissional para essa modalidade. Atenciosa, muito preocupada com suas limitações e em seu bem estar físico. Indico para todas as idades.',
     featured: true,
   },
   {
     author: 'Eliezer Bim',
+    rating: 5,
     initials: 'EB',
     text: 'Estou com professora Jéssica a 4 anos, muito satisfeito, tem ótima qualidade técnica e também atendimento profissional, parabéns, muito satisfeito',
   },
   {
-    author: 'Helena tatayama',
+    author: 'Helena Tateyama',
+    rating: 5,
     initials: 'HT',
     text: 'Sem contar a estrutura do studio, muito bem equipado, lindo e agradável. Super recomendo 🙏💕',
     excerpt: true,
   },
   {
     author: 'Ricardo Piva',
+    rating: 5,
     initials: 'RP',
     text: 'Nunca pensei em fazer Pilates, mas comecei e estou percebendo já diferenças excelentes. Melhoraram minhas dores em geral. Indico agora pra todo mundo, percebi que pilates não é só pra mulher mesmo.',
   },

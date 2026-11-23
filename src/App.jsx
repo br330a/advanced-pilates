@@ -17,7 +17,8 @@ const navigation = [
 ]
 const whatsMessage = 'Olá! Conheci o Advanced Studio pelo site e gostaria de saber mais sobre as aulas.'
 const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(studio.mapQuery)}`
-const mapsEmbed = `https://www.google.com/maps?q=${encodeURIComponent(studio.mapQuery)}&output=embed`
+// Zoom 15: mostra um pouco mais do entorno, preservando o endereço como referência.
+const mapsEmbed = `https://www.google.com/maps?q=${encodeURIComponent(studio.mapQuery)}&z=15&output=embed`
 
 function Eyebrow({ children }) {
   return <span className="eyebrow"><span className="eyebrow-dot" />{children}</span>
@@ -247,7 +248,9 @@ function ReviewCard({ review }) {
     <article className={`review-card ${review.featured ? 'review-card-featured' : ''}`}>
       <div className="review-card-top">
         <span className="review-label"><Icon name="quote" size={16} /> Depoimento de cliente</span>
-        <span className="review-quote" aria-hidden="true">“</span>
+        <span className="review-stars" role="img" aria-label={`Avaliação de ${review.author}: ${review.rating} de 5 estrelas`}>
+          {Array.from({ length: review.rating }, (_, index) => <Icon name="star" size={16} key={index} />)}
+        </span>
       </div>
       <blockquote>“{review.text}”</blockquote>
       <div className="review-footer">
@@ -323,7 +326,15 @@ function Location({ externalContentAllowed, onAllowExternalContent, onBook }) {
         </div>
         <div className={`map-panel ${mapLoaded && externalContentAllowed && !mapError ? 'map-loaded' : ''}`}>
           {mapLoaded && externalContentAllowed && !mapError ? (
-            <iframe title="Mapa interativo da localização do Advanced Studio" src={mapsEmbed} referrerPolicy="strict-origin-when-cross-origin" loading="lazy" onError={() => setMapError(true)} allowFullScreen />
+            <>
+              <iframe title="Mapa interativo da localização do Advanced Studio" src={mapsEmbed} referrerPolicy="strict-origin-when-cross-origin" loading="lazy" onError={() => setMapError(true)} allowFullScreen />
+              <div className="map-tools">
+                <span className="map-touch-hint">No celular, use dois dedos para mover o mapa.</span>
+                <a className="map-open-link" href={mapsLink} target="_blank" rel="noopener noreferrer">
+                  Explorar no Google Maps <Icon name="upRight" size={16} />
+                </a>
+              </div>
+            </>
           ) : (
             <div className="map-cover">
               <div className="map-pin-large"><Icon name="pin" size={28} /></div>

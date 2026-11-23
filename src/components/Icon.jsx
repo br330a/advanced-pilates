@@ -17,6 +17,7 @@ const paths = {
   message: <path d="M20 11.6a8 8 0 0 1-8 8 8.5 8.5 0 0 1-3.1-.6L4 20l1.2-4.6A8 8 0 1 1 20 11.6Z"/>,
   plus: <><path d="M12 5v14M5 12h14"/></>,
   quote: <><path d="M11 11H5v8h8v-8H8.5c.2-2.3 1.5-3.8 4-4.8V4C7.9 4.8 5 7.5 5 11M21 11h-6v8h8v-8h-4.5c.2-2.3 1.5-3.8 4-4.8V4c-4.6.8-7.5 3.5-7.5 7"/></>,
+  star: <path d="m12 2 3.1 6.6 7.3.9-5.3 5.1 1.3 7.2L12 18.3l-6.4 3.5 1.3-7.2L1.6 9.5l7.3-.9L12 2Z"/>,
   info: <><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></>,
   clock: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>,
   check: <path d="m5 12 4 4 10-10"/>,
@@ -24,7 +25,7 @@ const paths = {
 }
 
 function Icon({ name, size = 22, strokeWidth = 1.8, className = '', ...props }) {
-  const isFilled = name === 'whatsapp' || name === 'heart'
+  const isFilled = name === 'whatsapp' || name === 'heart' || name === 'star'
   return (
     <svg
       className={className}

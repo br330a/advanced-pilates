@@ -23,9 +23,9 @@ A apresentação é deliberadamente curta e cada seção tem um papel distinto:
 2. **Serviços:** duas opções concretas — Pilates com aparelhos e Fisioterapia.
 3. **Profissional:** retrato e qualificações de Jessica Edwirges Alves Silva. As três formações em destaque aparecem inicialmente; os outros nove cursos e eventos ficam recolhidos.
 4. **Espaço:** carrossel com cinco fotos reais, setas, indicadores, swipe e teclado. Sem reprodução automática.
-5. **Avaliações:** duas visíveis por padrão; outras duas mediante escolha da pessoa. Os depoimentos são texto, não imagens clicáveis.
-6. **FAQ:** perguntas sob demanda, sem expansão automática.
-7. **Localização:** endereço, mapa opcional e CTA de aula experimental no mesmo bloco.
+5. **Avaliações:** duas visíveis por padrão; outras duas mediante escolha da pessoa. As quatro notas individuais de cinco estrelas foram conferidas nas capturas originais, sem exibir nota média do estúdio. Os depoimentos são texto, não imagens clicáveis.
+6. **FAQ:** perguntas sob demanda, sem expansão automática; o título não acompanha a rolagem.
+7. **Localização:** endereço, mapa opcional com zoom inicial 15 e CTA de aula experimental no mesmo bloco. Em celulares, o mapa incorporado exige dois dedos para deslocar; o botão “Explorar no Google Maps” abre a navegação completa com gestos de toque convencionais.
 
 Removemos a faixa de diferenciais, o segundo convite de agendamento dentro dos serviços e o CTA final isolado porque repetiam informações. O layout usa contrastes de seção e espaçamentos menores para reduzir a sensação de página interminável, sem retirar conteúdos importantes.
 
@@ -47,7 +47,7 @@ Removemos a faixa de diferenciais, o segundo convite de agendamento dentro dos s
 
 ## Privacidade e materiais originais
 
-As **quatro capturas originais das avaliações não são arquivos públicos**. Não as coloque em `public/` nem faça commit de documentos originais com dados pessoais: guarde o material, autorizações e fotografias em alta resolução em uma pasta privada sob controle do estabelecimento. O código contém apenas o texto dos depoimentos, sujeito à aprovação dos respectivos titulares. O site não exibe nota agregada que não tenha sido verificada.
+As **quatro capturas originais das avaliações não são arquivos públicos**. Não as coloque em `public/` nem faça commit de documentos originais com dados pessoais: guarde o material, autorizações e fotografias em alta resolução em uma pasta privada sob controle do estabelecimento. O código contém os textos e as notas **individuais** dos depoimentos, conferidas nas capturas originais e sujeitas à aprovação dos respectivos titulares. O site não exibe nota agregada que não tenha sido verificada.
 
 Os dados digitados no formulário não são transmitidos a um servidor do site. O visitante decide se continua no WhatsApp. O mapa externo só é carregado com permissão; as preferências são armazenadas localmente e podem ser alteradas no rodapé. **As fontes visuais ainda são obtidas externamente pelo Google Fonts**, conforme informado na Política de Privacidade: a escolha “Não carregar mapa” controla apenas o mapa, não todas as conexões externas. Não há scripts de publicidade ou analytics na versão atual.
 
