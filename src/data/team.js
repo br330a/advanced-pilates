@@ -1,23 +1,31 @@
-// PREPARAÇÃO DA EQUIPE — publique somente informações confirmadas e autorizadas.
-// Preencha como nos campos abaixo e a seção aparecerá automaticamente no site.
-// Profissionais de saúde: confirme especialidade, registro profissional e autorização de imagem.
-//
-// {
-//   id: 'nome-sobrenome',
-//   name: 'Nome e sobrenome',
-//   role: 'Fisioterapeuta',
-//   credential: 'CREFITO-3 XXXXX-F',
-//   specialty: 'Pilates e fisioterapia',
-//   bio: 'Uma apresentação curta, verdadeira e aprovada pela profissional.',
-//   photo: '/images/equipe/nome-sobrenome.webp',
-//   photoAlt: 'Retrato da profissional no Advanced Studio',
-// },
-export const teamMembers = []
-
-// Somente para visualização local, com ?equipe-preview=1 na URL do npm run dev.
-// Estes exemplos NUNCA são publicados no ambiente de produção.
-export const teamLayoutPreview = [
-  { id: 'preview-1', name: 'Nome da profissional', role: 'Área de atuação', credential: 'Registro, quando aplicável', specialty: 'Especialidade / atuação', bio: 'Aqui vai uma apresentação humana e objetiva sobre a profissional e sua atuação no estúdio.', photo: '', photoAlt: '' },
-  { id: 'preview-2', name: 'Nome da profissional', role: 'Área de atuação', credential: 'Registro, quando aplicável', specialty: 'Especialidade / atuação', bio: 'Neste espaço, vamos destacar a experiência e o jeito de atender, sempre com informações confirmadas.', photo: '', photoAlt: '' },
-  { id: 'preview-3', name: 'Nome da profissional', role: 'Área de atuação', credential: 'Registro, quando aplicável', specialty: 'Especialidade / atuação', bio: 'Uma descrição breve e acolhedora para aproximar quem visita o site da equipe.', photo: '', photoAlt: '' },
+// Dados profissionais fornecidos para a página do estúdio em 22/11/2026.
+// Antes de publicar, confirmar com a responsável o CREFITO da fisioterapeuta
+// e a autorização de uso do retrato e das qualificações listadas.
+export const teamMembers = [
+  {
+    id: 'jessica-edwirges-alves-silva',
+    name: 'Jessica Edwirges Alves Silva',
+    role: 'Fisioterapeuta e instrutora de Pilates',
+    // Número não fornecido. Não inventar; confirmar antes do lançamento.
+    credential: '',
+    photo: '/images/jessica-edwirges.webp',
+    photoAlt: 'Retrato de Jessica Edwirges Alves Silva',
+    bio: 'Graduada em Fisioterapia, com pós-graduação em Reabilitação Aplicada ao Esporte e formação em Pilates. Segue ampliando seus conhecimentos por meio de cursos e encontros profissionais.',
+    featuredEducation: [
+      { year: '2012', title: 'Graduação em Fisioterapia', institution: 'Centro Universitário São Camilo' },
+      { year: '2014–2015', title: 'Pós-graduação em Reabilitação Aplicada ao Esporte', institution: 'Universidade Federal de São Paulo (UNIFESP)' },
+      { year: '2015', title: 'Formação Completa em Pilates: Aparelhos, Solo e Bola', institution: 'VOLL Pilates' },
+    ],
+    continuingEducation: [
+      { year: '2011', title: 'Auriculoterapia e Acupuntura', institution: 'Centro Universitário São Camilo', type: 'Curso' },
+      { year: '2011', title: 'Análise de Imagens e Patologias', institution: 'Centro Universitário São Camilo', type: 'Curso' },
+      { year: '2016', title: 'Pilates Suspensus', institution: 'VOLL Pilates', type: 'Curso' },
+      { year: '2019', title: 'Aprimoramento em Patologias da Coluna', institution: 'Instituto de Ortopedia e Traumatologia (IOT), Hospital das Clínicas', type: 'Curso' },
+      { year: '2019', title: 'Ventosaterapia', institution: 'Reposte Cursos', type: 'Curso' },
+      { year: '2022', title: 'Pilates na Gestação', institution: 'VOLL Pilates', type: 'Curso' },
+      { year: '2024', title: '9º Encontro de Pilates', institution: 'VOLL Pilates', type: 'Encontro' },
+      { year: '2025', title: 'Encontro Internacional de Pilates e Contrologia', institution: 'Equipilates', type: 'Encontro' },
+      { year: '2026', title: 'Jornada Sul-Americana de Pilates', institution: 'VOLL Pilates', type: 'Jornada' },
+    ],
+  },
 ]

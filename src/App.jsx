@@ -6,17 +6,13 @@ import PrivacyBanner from './components/PrivacyBanner'
 import { useExternalContentPreference } from './utils/privacyPreference'
 import Icon from './components/Icon'
 import { faqs, highlights, reviews, services, studio, whatsappURL } from './data/site'
-import { teamLayoutPreview, teamMembers } from './data/team'
-
-const canPreviewTeam = import.meta.env.DEV && teamMembers.length === 0
-const isTeamPreview = canPreviewTeam && new URLSearchParams(window.location.search).get('equipe-preview') === '1'
-const visibleTeam = teamMembers.length > 0 ? teamMembers : (isTeamPreview ? teamLayoutPreview : [])
+import { teamMembers } from './data/team'
+import { gallery } from './data/gallery'
 
 const navigation = [
-  ['#sobre', 'O estúdio'],
   ['#servicos', 'Serviços'],
-  ...(visibleTeam.length ? [['#equipe', 'Equipe']] : []),
-  ['#espaco', 'Nosso espaço'],
+  ['#sobre', 'Profissional'],
+  ['#espaco', 'Espaço'],
   ['#depoimentos', 'Avaliações'],
   ['#localizacao', 'Localização'],
 ]
@@ -141,30 +137,6 @@ function Highlights() {
   )
 }
 
-function About({ onBook }) {
-  return (
-    <section className="section about-section" id="sobre" aria-labelledby="about-title">
-      <div className="container about-grid">
-        <div className="about-visual">
-          <img className="about-image" src="/images/studio-interior-clean.webp" alt="Interior do Advanced Studio com aparelhos de Pilates e iluminação natural" loading="lazy" width="920" height="1030" />
-          <div className="about-photo-stamp"><span>UM ESPAÇO PARA</span><strong>se movimentar.</strong></div>
-        </div>
-        <div className="about-copy">
-          <Eyebrow>CONHEÇA O ADVANCED</Eyebrow>
-          <h2 id="about-title">Um espaço para você cuidar de <em>si, no seu ritmo.</em></h2>
-          <p className="section-lead">Acreditamos na importância de encontrar tempo para o próprio corpo. No Advanced Studio, o movimento encontra um ambiente equipado e uma equipe com quem você pode conversar de perto.</p>
-          <div className="about-list">
-            <div><span><Icon name="check" size={19} /></span><p><strong>Prática com aparelhos</strong><small>Conheça a estrutura e as possibilidades do Pilates.</small></p></div>
-            <div><span><Icon name="check" size={19} /></span><p><strong>Contato direto</strong><small>Converse com a equipe sobre seu interesse e sua rotina.</small></p></div>
-            <div><span><Icon name="check" size={19} /></span><p><strong>Localização acessível</strong><small>Nos encontre na Vila Prudente, em São Paulo.</small></p></div>
-          </div>
-          <button type="button" className="text-link" onClick={() => onBook('Aula experimental de Pilates')}>Quero conhecer o Advanced <Icon name="upRight" size={19} /></button>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function Services({ onBook }) {
   return (
     <section className="section services-section" id="servicos" aria-labelledby="services-title">
@@ -194,52 +166,111 @@ function Services({ onBook }) {
 }
 
 function Team({ onBook }) {
-  if (!visibleTeam.length) return null
+  const professional = teamMembers[0]
+  if (!professional) return null
 
   return (
-    <section className="section team-section" id="equipe" aria-labelledby="team-title">
-      <div className="container">
-        {isTeamPreview && !teamMembers.length && (
-          <div className="team-preview-notice" role="note">
-            <div><strong>PRÉVIA LOCAL · NÃO PUBLICADA</strong><p>Esses três perfis são apenas exemplos de layout. A seção aparecerá para visitantes somente após cadastrarmos as fotos e informações reais, com autorização.</p></div>
-            <a href="/#inicio">Sair da prévia <Icon name="arrow" size={16} /></a>
+    <section className="section professional-section" id="sobre" aria-labelledby="professional-title">
+      <div className="container professional-layout">
+        <div className="professional-portrait">
+          <div className="professional-photo-frame">
+            <img src={professional.photo} alt={professional.photoAlt} loading="lazy" decoding="async" width="960" height="1280" />
           </div>
-        )}
-        <div className="section-heading team-heading">
-          <div><Eyebrow>QUEM FAZ O ADVANCED ACONTECER</Eyebrow><h2 id="team-title">Pessoas que acolhem. <em>Profissionais que acompanham.</em></h2></div>
-          <p>Conheça as pessoas por trás do Advanced Studio e descubra com quem você vai conversar sobre seu movimento e cuidado.</p>
+          <span className="professional-photo-tag">ADVANCED STUDIO <span>✳</span> PILATES & FISIOTERAPIA</span>
         </div>
-        <div className={`team-grid team-count-${Math.min(visibleTeam.length, 3)}`}>
-          {visibleTeam.map((member, index) => (
-            <article className="team-card" key={member.id}>
-              <div className={`team-photo ${member.photo ? '' : 'team-photo-placeholder'}`}>
-                {member.photo ? <img src={member.photo} alt={member.photoAlt || `Retrato de ${member.name}`} loading="lazy" width="720" height="900" /> : <div aria-hidden="true"><Icon name="user" size={66} strokeWidth={1} /><span>FOTO EM BREVE</span></div>}
-                <span className="team-index">{String(index + 1).padStart(2, '0')}</span>
-              </div>
-              <div className="team-card-body"><span className="team-role">{member.role}</span><h3>{member.name}</h3>{member.specialty && <p className="team-specialty">{member.specialty}</p>}<p className="team-bio">{member.bio}</p>{member.credential && <span className="team-credential">{member.credential}</span>}</div>
-            </article>
-          ))}
+        <div className="professional-copy">
+          <Eyebrow>QUEM CUIDA DE VOCÊ</Eyebrow>
+          <h2 id="professional-title">Experiência que inspira <em>confiança.</em></h2>
+          <div className="professional-name-block">
+            <h3>{professional.name}</h3>
+            <p>{professional.role}</p>
+          </div>
+          <p className="professional-bio">{professional.bio}</p>
+          <div className="professional-education">
+            <h4>Formação em destaque</h4>
+            <ul>
+              {professional.featuredEducation.map((item) => (
+                <li key={item.title}>
+                  <span className="professional-education-year">{item.year}</span>
+                  <div><strong>{item.title}</strong><small>{item.institution}</small></div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <details className="professional-more">
+            <summary>Ver cursos e eventos de atualização ({professional.continuingEducation.length}) <Icon name="plus" size={18} /></summary>
+            <ul className="professional-course-list">
+              {professional.continuingEducation.map((course) => (
+                <li key={`${course.year}-${course.title}`}>
+                  <span className="professional-course-year">{course.year}</span>
+                  <div><strong>{course.title}</strong><small>{course.type} · {course.institution}</small></div>
+                </li>
+              ))}
+            </ul>
+          </details>
+          <button type="button" className="text-link professional-contact" onClick={() => onBook('Aula experimental de Pilates')}>
+            Conversar sobre uma aula <Icon name="upRight" size={18} />
+          </button>
         </div>
-        <div className="team-tail"><p>Cuidado começa com uma boa conversa.</p><button type="button" className="text-link" onClick={() => onBook('Ainda tenho dúvidas')}>Falar com a equipe <Icon name="upRight" size={19} /></button></div>
       </div>
     </section>
   )
 }
 
 function Showcase() {
+  const [active, setActive] = useState(0)
+  const startX = useRef(null)
+  const select = useCallback((index) => {
+    setActive((index + gallery.length) % gallery.length)
+  }, [])
+  const move = useCallback((step) => {
+    setActive((current) => (current + step + gallery.length) % gallery.length)
+  }, [])
+  const handleKeyDown = (event) => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); move(-1) }
+    if (event.key === 'ArrowRight') { event.preventDefault(); move(1) }
+  }
+  const handleTouchEnd = (event) => {
+    if (startX.current === null) return
+    const difference = event.changedTouches[0].clientX - startX.current
+    startX.current = null
+    if (Math.abs(difference) > 50) move(difference < 0 ? 1 : -1)
+  }
+
   return (
     <section className="section showcase-section" id="espaco" aria-labelledby="showcase-title">
       <div className="container">
-        <div className="section-heading showcase-heading">
-          <div><Eyebrow>UM POUCO DO NOSSO DIA A DIA</Eyebrow><h2 id="showcase-title">O espaço fala. <em>O movimento também.</em></h2></div>
-          <p>Imagens reais do Advanced Studio, dos aparelhos e da prática. Um convite para conhecer tudo mais de perto.</p>
+        <div className="showcase-intro">
+          <div>
+            <Eyebrow>CONHEÇA O ADVANCED</Eyebrow>
+            <h2 id="showcase-title">Um espaço para você <em>se movimentar.</em></h2>
+          </div>
+          <p>Veja nosso ambiente, os aparelhos e os detalhes do estúdio. Fotografias reais, sem filtros ou imagens ilustrativas.</p>
         </div>
-        <div className="showcase-grid">
-          <figure className="showcase-photo showcase-photo-main"><img loading="lazy" src="/images/hero-studio.webp" alt="Ambiente interno do estúdio com aparelhos de Pilates" width="920" height="1030" /><figcaption><span>01</span> Nosso espaço</figcaption></figure>
-          <figure className="showcase-photo showcase-photo-top"><img loading="lazy" src="/images/hero-editorial.webp" alt="Praticante realizando movimento de Pilates em aparelho" width="920" height="1030" /><figcaption><span>02</span> Pilates em movimento</figcaption></figure>
-          <figure className="showcase-photo showcase-photo-bottom"><img loading="lazy" src="/images/studio-signage.webp" alt="Letreiro do Advanced Studio com o endereço Rua José dos Reis, 719" width="920" height="1030" /><figcaption><span>03</span> Nosso endereço</figcaption></figure>
+        <div className="studio-carousel" role="region" aria-roledescription="carrossel" aria-label="Fotografias do Advanced Studio" onKeyDown={handleKeyDown}>
+          <div className="studio-carousel-viewport" tabIndex={0} aria-label="Galeria de fotos: use as setas do teclado para trocar a imagem" onTouchStart={(event) => { startX.current = event.touches[0].clientX }} onTouchEnd={handleTouchEnd} onTouchCancel={() => { startX.current = null }}>
+            <div className="studio-carousel-track" style={{ transform: `translateX(-${active * 100}%)` }}>
+              {gallery.map((photo, index) => (
+                <figure className="studio-carousel-slide" key={photo.src} aria-hidden={index !== active}>
+                  <img src={photo.src} alt={photo.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" width={photo.width} height={photo.height} style={{objectPosition: photo.position}} />
+                </figure>
+              ))}
+            </div>
+            <div className="studio-carousel-photo-index" aria-hidden="true">{String(active + 1).padStart(2, '0')} / {String(gallery.length).padStart(2, '0')}</div>
+          </div>
+          <div className="studio-carousel-bottom">
+            <div className="studio-carousel-caption" aria-live="polite" aria-atomic="true">
+              <strong>{gallery[active].title}</strong><span>{gallery[active].description}</span>
+            </div>
+            <div className="studio-carousel-controls">
+              <button type="button" className="studio-carousel-arrow is-previous" onClick={() => move(-1)} aria-label="Foto anterior"><Icon name="arrow" size={19} /></button>
+              <div className="studio-carousel-dots" aria-label="Selecionar fotografia">
+                {gallery.map((photo, index) => <button key={photo.src} type="button" className={`studio-carousel-dot ${active === index ? 'is-active' : ''}`} onClick={() => select(index)} aria-label={`Ver foto ${index + 1}: ${photo.title}`} aria-current={active === index ? 'true' : undefined} />)}
+              </div>
+              <button type="button" className="studio-carousel-arrow" onClick={() => move(1)} aria-label="Próxima foto"><Icon name="arrow" size={19} /></button>
+            </div>
+          </div>
         </div>
-        <div className="showcase-bottom"><p>Quer conhecer o ambiente pessoalmente?</p><a href={studio.instagram} target="_blank" rel="noopener noreferrer" className="text-link">Acompanhe nosso Instagram <Icon name="upRight" size={18} /></a></div>
       </div>
     </section>
   )
@@ -274,25 +305,6 @@ function Testimonials() {
           <p className="reviews-disclaimer">Depoimentos compartilhados pelo estúdio. Os relatos representam experiências individuais, e os resultados podem variar.</p>
           {studio.googleReviewsUrl && <a className="text-link" href={studio.googleReviewsUrl} target="_blank" rel="noopener noreferrer">Ver avaliações no Google <Icon name="upRight" size={18} /></a>}
         </div>
-      </div>
-    </section>
-  )
-}
-
-function HowItWorks({ onBook }) {
-  const steps = [
-    { number: '01', icon: 'activity', title: 'Conheça os serviços', description: 'Descubra o Pilates com aparelhos e os atendimentos de fisioterapia oferecidos pelo estúdio.' },
-    { number: '02', icon: 'message', title: 'Converse com a equipe', description: 'Conte o que procura e tire suas dúvidas diretamente com o Advanced pelo WhatsApp.' },
-    { number: '03', icon: 'calendar', title: 'Combine seu horário', description: 'Consulte a disponibilidade e receba a confirmação do estúdio antes da sua visita.' },
-  ]
-  return (
-    <section className="process-section" id="como-comecar" aria-labelledby="process-title">
-      <div className="container process-inner">
-        <div className="process-header"><Eyebrow light>SIMPLES ASSIM</Eyebrow><h2 id="process-title">O começo pode ser <em>mais simples do que parece.</em></h2><p>Sem agendamento automático ou complicação. Você fala com pessoas reais e combina a melhor opção com o estúdio.</p></div>
-        <ol className="process-grid">{steps.map((step) => (
-          <li className="process-step" key={step.number}><span className="process-number">{step.number}<Icon name={step.icon} size={25} /></span><h3>{step.title}</h3><p>{step.description}</p></li>
-        ))}</ol>
-        <button type="button" className="button button-accent" onClick={() => onBook('Aula experimental de Pilates')}>Conversar sobre uma aula <Icon name="upRight" size={18} /></button>
       </div>
     </section>
   )
@@ -359,7 +371,7 @@ function FinalCTA({ onBook }) {
     <section className="final-cta" aria-labelledby="cta-title">
       <div className="container final-cta-inner">
         <div className="cta-decor" aria-hidden="true">A<span>✳</span></div>
-        <div className="final-cta-content"><Eyebrow light>VAMOS COMEÇAR?</Eyebrow><h2 id="cta-title">O primeiro passo é <em>se permitir começar.</em></h2><p>Entre em contato, tire suas dúvidas e consulte a disponibilidade de uma aula experimental.</p></div>
+        <div className="final-cta-content"><Eyebrow light>VAMOS COMEÇAR?</Eyebrow><h2 id="cta-title">Seu próximo passo <em>começa aqui.</em></h2><p>Tire suas dúvidas e consulte os horários de uma aula experimental.</p></div>
         <button className="button button-accent button-large" type="button" onClick={() => onBook('Aula experimental de Pilates')}>Quero conhecer o Advanced <Icon name="upRight" size={19} /></button>
       </div>
     </section>
@@ -374,7 +386,7 @@ function Footer({ onPrivacySettings }) {
         <div className="footer-column"><h3>Explore</h3>{navigation.map(([href, label]) => <a href={href} key={href}>{label}</a>)}<a href="#duvidas">Dúvidas frequentes</a></div>
         <div className="footer-column"><h3>Entre em contato</h3><a href={`tel:+55${studio.phone}`}>{studio.phoneLabel}</a><a href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer">WhatsApp <Icon name="upRight" size={15} /></a><a href={mapsLink} target="_blank" rel="noopener noreferrer">{studio.address}<br />Vila Prudente, São Paulo — SP</a></div>
       </div>
-      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Advanced Studio. Todos os direitos reservados.</span><span>Atendimento e disponibilidade: consulte a equipe.</span><a href="/privacidade.html">Privacidade</a><a href="/termos.html">Termos de Uso</a><button type="button" className="footer-privacy-button" onClick={onPrivacySettings}>Preferências de privacidade</button>{canPreviewTeam && <a className="footer-team-preview" href={isTeamPreview ? '/#inicio' : '/?equipe-preview=1#equipe'}>{isTeamPreview ? 'Sair da prévia da equipe' : 'Prévia da equipe (local)'}</a>}<a href="#inicio">Voltar ao topo ↑</a></div>
+      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Advanced Studio. Todos os direitos reservados.</span><span>Atendimento e disponibilidade: consulte a equipe.</span><a href="/privacidade.html">Privacidade</a><a href="/termos.html">Termos de Uso</a><button type="button" className="footer-privacy-button" onClick={onPrivacySettings}>Preferências de privacidade</button><a href="#inicio">Voltar ao topo ↑</a></div>
     </footer>
   )
 }
@@ -393,12 +405,10 @@ export default function App() {
       <main id="conteudo">
         <Hero onBook={openBooking} />
         <Highlights />
-        <About onBook={openBooking} />
         <Services onBook={openBooking} />
         <Team onBook={openBooking} />
         <Showcase />
         <Testimonials />
-        <HowItWorks onBook={openBooking} />
         <Faq />
         <Location externalContentAllowed={privacyPreference === 'allow'} onAllowExternalContent={() => setPrivacyPreference('allow')} />
         <FinalCTA onBook={openBooking} />

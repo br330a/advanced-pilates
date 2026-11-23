@@ -104,8 +104,4 @@ export const faqs = [
     question: 'Quais são os dias e horários das aulas?',
     answer: 'Os horários de funcionamento, a disponibilidade de vagas e as opções aos sábados devem ser confirmados diretamente com a equipe.',
   },
-  {
-    question: 'Onde fica o estúdio?',
-    answer: 'Na Rua José dos Reis, 719, sala 01, Vila Prudente, São Paulo — SP. Nesta página você pode abrir o endereço no Google Maps.',
-  },
 ]

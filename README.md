@@ -22,19 +22,31 @@ O comando executa validação de conteúdo, verificações de publicação, test
 
 Comandos separados: `npm run check:content`, `npm run check:publication`, `npm test`, `npm run lint`, `npm run build`, `npm run preview`.
 
-## Onde alterar informações
+## Etapa 5 — fotografias e apresentação profissional
 
-- `src/data/site.js`: telefone, endereço, Instagram, serviços, FAQ, avaliações e `googleReviewsUrl` (opcional, somente com URL confirmada).
-- `src/data/team.js`: profissionais reais, especialidades, biografias, registros e fotos autorizadas.
-- `public/images/equipe/`: retratos individuais em WebP.
-- `src/App.jsx`: seções e navegação.
-- `src/App.css` e `src/index.css`: identidade visual e responsividade.
+Esta atualização foi planejada para **encurtar a página sem perder credibilidade**:
 
-Enquanto não existem profissionais reais em `teamMembers`, a seção de equipe fica oculta no site público. Para ver como ficará, use `npm run dev` e clique em **“Prévia da equipe (local)” no rodapé**, ou acesse `http://localhost:5173/?equipe-preview=1#equipe`. A prévia apresenta três cartões genéricos e um aviso de conteúdo demonstrativo, mas **não é incluída no build de produção**. O link "Sair da prévia" volta ao site normalmente.
+- Mantém a fotografia original do **hero** (`/images/pilates-pose.webp`), conforme solicitado.
+- Substitui a antiga galeria por **cinco fotografias reais** em um carrossel de navegação manual (setas, botões de seleção, swipe e teclado, **sem autoplay**).
+- Mostra **Jessica Edwirges Alves Silva**, usando seu retrato enviado e uma seção editorial (em lugar dos cartões genéricos de equipe).
+- Exibe as **três formações principais** e recolhe os **nove cursos e eventos adicionais** em um elemento expansível.
+- Incorpora a descrição do estúdio à galeria e aos serviços, retirando as antigas seções separadas de "Sobre" e "Como começar".
+- Mantém quatro depoimentos como texto sem links para prints, agendamento pelo WhatsApp, mapa por escolha de privacidade, FAQ, páginas legais e infraestrutura de qualidade.
 
-Os quatro depoimentos são exibidos **como texto na própria página**, sem links para capturas de tela. Os arquivos de referência são mantidos no projeto e identificados como `sourceScreenshot` para conferência editorial. **Não exiba botão “Ver avaliações no Google” até preencher `googleReviewsUrl` com um endereço oficial verificado**. Confira com a responsável os nomes, textos e autorizações antes de publicar.
+**Fontes:** informações de formação e curso fornecidas pelo estúdio em 22/11/2026; fotografias de `imagens.zip` e foto ampla recebida na conversa. Fotos foram reduzidas e convertidas para WebP, sem alterar o conteúdo das cenas. Os originais em alta definição devem ser arquivados pela responsável fora do repositório.
 
-**Não publique dados, nomes, diplomas, registros, depoimentos ou fotografias sem conferir com a responsável e obter as autorizações necessárias.**
+### Arquivos importantes
+
+- `src/data/site.js`: telefone, endereço, Instagram, serviços, perguntas e avaliações.
+- `src/data/team.js`: nome, cargo, biografia, três formações em destaque e cursos/eventos adicionais da Jessica.
+- `src/data/gallery.js`: sequência, legendas, descrições e enquadramento das cinco fotografias.
+- `public/images/01-estudio.webp` a `05-identidade.webp`: fotografias do carrossel.
+- `public/images/jessica-edwirges.webp`: retrato da profissional.
+- `src/App.jsx` e `src/App.css`: apresentação e responsividade.
+
+**PENDÊNCIA IMPORTANTE ANTES DA PUBLICAÇÃO:** confirmar **o número de registro CREFITO** da Jessica e a grafia preferida do nome profissional, além de conferir cursos, autorizações de imagem e avaliações com a responsável. O número não foi fornecido e **não foi inventado nem colocado como placeholder público**. A verificação de conteúdo emite um aviso, sem impedir o desenvolvimento local. Se houver qualquer divergência, ajuste o cadastro antes de usar o site comercialmente.
+
+O parâmetro antigo `?equipe-preview=1` não é mais necessário: a seção da profissional contém dados reais fornecidos e já aparece normalmente no site.
 
 ## Privacidade e segurança
 
@@ -56,13 +68,13 @@ SITE_URL=https://seudominio.com.br
 
 O script gera canonical, `og:url`, URLs absolutas da imagem social, `sitemap.xml` e `robots.txt`, incluindo as páginas institucionais e legais. Confira qual versão com/sem `www` deve ser a oficial e configure o redirecionamento de domínio na plataforma de hospedagem.
 
-**Ainda pendente de configuração externa:** compra do `.com.br`, conexão de DNS/HTTPS, configuração de `SITE_URL`, verificação no Google Search Console, atualização/verificação do Perfil da Empresa no Google, revisão jurídica, dados oficiais do estabelecimento, autorizações de uso de imagem e depoimentos, fotografias finais e profissionais.
+**Ainda pendente de configuração externa:** compra do `.com.br`, conexão de DNS/HTTPS, configuração de `SITE_URL`, verificação no Google Search Console, atualização/verificação do Perfil da Empresa no Google, revisão jurídica, dados oficiais do estabelecimento, autorizações de uso de imagem e depoimentos, confirmação do CREFITO, do nome profissional e das autorizações.
 
 ## Checklist antes de publicar
 
 1. Confirmar telefone, endereço, serviços e oferta de aula experimental com a responsável.
 2. Confirmar informações legais e do controlador, autorização de imagens, avaliações e equipe; aprovar Termos e Privacidade.
-3. Receber e otimizar fotografias do ambiente e retratos da equipe; conferir alt e enquadramentos.
+3. Conferir em desktop/mobile o enquadramento das fotos novas, a navegação manual do carrossel e a expansão da formação da Jessica; validar registro CREFITO antes de publicar.
 4. Rodar `npm run verify` e conferir o workflow verde no GitHub.
 5. Testar visualmente o site nas larguras 320, **360**, 390, 768, 1024 e 1440 px, sem rolagem horizontal.
 6. Testar teclado, foco, menu mobile, o modal, recusa e aceitação do mapa e alternativas quando WhatsApp/Maps forem bloqueados.
