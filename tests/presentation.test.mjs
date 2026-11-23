@@ -148,8 +148,12 @@ test('registro profissional visível e dados de avaliações abreviados', () => 
 })
 
 test('novo enquadramento do hero mostra mais do rosto e o carrossel preserva as cinco posições', () => {
-  assert.match(css, /\.hero-image-shape img \{[^}]*object-position: 50% 9%/)
-  assert.match(css, /\.hero-image-shape img \{ object-position: 50% 0%; \}/)
+  // Etapa 12: o quadro preserva a proporção 3:4 e usa o centro da foto,
+  // em vez do recorte antigo de 9% (que restringia o enquadramento).
+  assert.match(css, /\.hero-image-shape \{[^}]*aspect-ratio:\s*3\s*\/\s*4/)
+  assert.match(css, /\.hero-image-shape img \{[^}]*object-fit:\s*cover;[^}]*object-position:\s*center;/)
+  assert.match(css, /\.hero-image-shape \{\s*width:\s*90%;\s*aspect-ratio:\s*3\s*\/\s*4;/)
+  assert.match(css, /\.hero-image-shape \{\s*width:\s*87%;\s*aspect-ratio:\s*3\s*\/\s*4;/)
   assert.equal(gallery.length, 5)
   assert.deepEqual(gallery.map((p) => p.src), [
     '/images/01-estudio-960.webp', '/images/02-equipamentos-960.webp',
