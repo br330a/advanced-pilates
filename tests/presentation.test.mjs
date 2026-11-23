@@ -147,13 +147,15 @@ test('registro profissional visível e dados de avaliações abreviados', () => 
   for (const r of reviews) assert.match(r.author, /^\S+\s[A-Z]\.$/)
 })
 
-test('novo enquadramento do hero mostra mais do rosto e o carrossel preserva as cinco posições', () => {
-  // Etapa 12: o quadro preserva a proporção 3:4 e usa o centro da foto,
-  // em vez do recorte antigo de 9% (que restringia o enquadramento).
+test('hero revela o rosto com moldura assimétrica e carrossel preserva cinco posições', () => {
+  // A moldura não deve cortar o rosto no canto superior direito.
+  // A foto original permanece intacta, centralizada e com proporção 3:4.
   assert.match(css, /\.hero-image-shape \{[^}]*aspect-ratio:\s*3\s*\/\s*4/)
   assert.match(css, /\.hero-image-shape img \{[^}]*object-fit:\s*cover;[^}]*object-position:\s*center;/)
-  assert.match(css, /\.hero-image-shape \{\s*width:\s*90%;\s*aspect-ratio:\s*3\s*\/\s*4;/)
-  assert.match(css, /\.hero-image-shape \{\s*width:\s*87%;\s*aspect-ratio:\s*3\s*\/\s*4;/)
+  assert.match(css, /\.hero-image-shape \{[^}]*border-radius:\s*112px 24px 18px 18px;/)
+  assert.match(css, /\.hero-art::before \{[^}]*border-radius:\s*132px 34px 18px 18px;/)
+  assert.match(css, /\.hero-image-shape \{\s*width:\s*90%;\s*aspect-ratio:\s*3\s*\/\s*4;\s*border-radius:\s*90px 22px 12px 12px;/)
+  assert.match(css, /\.hero-image-shape \{\s*width:\s*87%;\s*aspect-ratio:\s*3\s*\/\s*4;\s*border-radius:\s*78px 18px 12px 12px;/)
   assert.equal(gallery.length, 5)
   assert.deepEqual(gallery.map((p) => p.src), [
     '/images/01-estudio-960.webp', '/images/02-equipamentos-960.webp',
