@@ -37,7 +37,12 @@ h1 em, h2 em { font-family: "DM Serif Display", Georgia, serif; font-style: ital
 .site-nav { display: flex; justify-content: center; gap: clamp(12px, 1.8vw, 24px); align-items: center; }
 .site-nav > a { white-space: nowrap; color: #39535f; font-size: 13px; font-weight: 700; transition: color .2s; position: relative; }
 .site-nav > a:hover { color: var(--orange-hover); }
-.header-actions { display: flex; align-items: center; }
+.header-actions { display: flex; align-items: center; gap: 11px; }
+.header-socials { display: inline-flex; align-items: center; gap: 7px; flex: none; }
+.header-social-link { width: 42px; height: 42px; border: 1px solid #cce2dc; border-radius: 11px; display: grid; place-items: center; color: #0b6774; background: #edf7f3; transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease; -webkit-tap-highlight-color: transparent; }
+.header-social-link:hover { color: #fff; background: var(--navy); border-color: var(--navy); transform: translateY(-2px); }
+.header-social-whatsapp { background: #e4f3e9; color: #147044; border-color: #cce5d5; }
+.header-social-link svg { display: block; }
 .header-book { min-height: 48px; padding-inline: 17px; }
 .menu-toggle, .nav-mobile-cta { display: none; }
 .hero { background: radial-gradient(ellipse at 74% 43%,rgba(212,239,232,.85) 0%,transparent 50%),linear-gradient(111deg,#fbf9f3 0%,#f4f7f2 100%); position: relative; overflow: hidden; }
@@ -123,6 +128,9 @@ h1 em, h2 em { font-family: "DM Serif Display", Georgia, serif; font-style: ital
 .faq-item summary svg { flex: none; margin-left: auto; color: var(--cyan-dark); transition: transform .2s; }
 .faq-item[open] summary svg { transform: rotate(45deg); }
 .faq-item p { margin: 0 30px 19px 30px; font-size: 14px; line-height: 1.65; color: var(--muted); }
+.faq-whatsapp-link { display: inline-flex; align-items: baseline; gap: 3px; color: #08697b; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #6db9b1; transition: color .2s ease, text-decoration-color .2s ease; }
+.faq-whatsapp-link:hover { color: #ab4b23; text-decoration-color: currentColor; }
+.faq-whatsapp-link svg { flex: none; transform: translateY(2px); }
 .location-section { background: #f4f7f2; }
 .location-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(22px,5vw,65px); align-items: center; }
 .location-copy h2 { margin: 12px 0 14px; font-size: clamp(34px,4vw,49px); }
@@ -180,8 +188,22 @@ h1 em, h2 em { font-family: "DM Serif Display", Georgia, serif; font-style: ital
 .booking-form label { font-size: 13px; font-weight: 800; color: var(--navy); margin-top: 10px; }
 .booking-form label > span:not(.optional) { color: var(--orange-hover); }
 .booking-form .optional { color: #67818a; font-weight: 400; }
-.booking-form input, .booking-form select, .booking-form textarea { width: 100%; min-height: 47px; padding: 11px 14px; border-radius: 8px; border: 1px solid #d2e1e0; background: #f8fbfa; color: var(--navy); font-size: 14px; }
-.booking-form input:focus, .booking-form select:focus, .booking-form textarea:focus { border-color: var(--cyan-dark); }
+.booking-form input:not([type="checkbox"]), .booking-form textarea, .booking-select-trigger { width: 100%; min-height: 47px; padding: 11px 14px; border-radius: 9px; border: 1px solid #cbdeda; background: #f8fbfa; color: var(--navy); font-size: 14px; transition: border-color .2s ease, background .2s ease, box-shadow .2s ease; }
+.booking-form input:not([type="checkbox"]):hover, .booking-form textarea:hover, .booking-select-trigger:hover { border-color: #81b9b4; background: #fcfefc; }
+.booking-form input:not([type="checkbox"]):focus, .booking-form textarea:focus, .booking-select-trigger:focus-visible, .booking-select.is-open .booking-select-trigger { border-color: var(--cyan-dark); background: #fffefa; box-shadow: 0 0 0 3px rgba(0,173,190,.11); }
+.booking-form input::placeholder, .booking-form textarea::placeholder { color: #6e8588; opacity: 1; }
+.booking-select { position: relative; width: 100%; min-width: 0; }
+.booking-select-trigger { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.booking-select-trigger > span { min-width: 0; overflow-wrap: anywhere; }
+.booking-select-chevron { color: #277581; flex: none; transition: transform .2s ease; }
+.booking-select.is-open .booking-select-chevron { transform: rotate(180deg); }
+.booking-select-menu { position: absolute; z-index: 5; left: 0; right: 0; top: calc(100% + 5px); display: grid; gap: 3px; list-style: none; margin: 0; padding: 6px; max-height: min(230px, 36dvh); overflow-y: auto; overscroll-behavior: contain; background: #fffefa; border: 1px solid #cce1db; border-radius: 11px; box-shadow: 0 18px 45px rgba(6,47,65,.17); scrollbar-color: #78bab5 #edf5f1; scrollbar-width: thin; }
+.booking-select-opens-up .booking-select-menu { top: auto; bottom: calc(100% + 5px); }
+.booking-select-option { position: relative; min-height: 41px; border-radius: 7px; padding: 10px 11px; display: flex; justify-content: space-between; gap: 9px; align-items: center; color: #24515d; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
+.booking-select-option:hover, .booking-select-option:focus-visible { background: #e4f3ef; color: #074e5a; }
+.booking-select-option.is-selected { color: #075b69; background: #f0f8f4; font-weight: 800; }
+.booking-select-option.is-selected:hover, .booking-select-option.is-selected:focus-visible { background: #d9efe9; }
+.booking-select-option svg { color: #b9491a; flex: none; }
 .booking-form textarea { resize: vertical; }
 .booking-footnote { display: flex; align-items: flex-start; gap: 8px; margin: 15px 0 6px; font-size: 12px; line-height: 1.6; color: #5a7680; }
 .booking-footnote svg { color: var(--cyan-dark); flex: none; margin-top: 1px; }
@@ -307,7 +329,8 @@ h1 em, h2 em { font-family: "DM Serif Display", Georgia, serif; font-style: ital
 .reviews-extra[hidden] { display: none !important; }
 .reviews-more { display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: transparent; color: #fff; border: 1px solid #9acdd0; border-radius: 10px; min-height: 43px; padding: 10px 17px; font-weight: 800; font-size: 13px; }
 .reviews-more:hover { background: #245464; }
-.reviews-more svg { transform: rotate(90deg); }
+.reviews-more svg { flex: none; }
+.reviews-more[aria-expanded="true"] { background: rgba(255,255,255,.11); border-color: #c6e7e5; }
 .location-book { margin-top: 21px; }
 @keyframes appear-up { from { opacity: 0; transform: translateY(17px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 1170px) {
@@ -315,6 +338,8 @@ h1 em, h2 em { font-family: "DM Serif Display", Georgia, serif; font-style: ital
   .site-nav { gap: 15px; }
   .site-nav > a { font-size: 12px; }
   .header-book { padding-inline: 13px; }
+  .header-actions { gap: 8px; }
+  .header-social-link { width: 38px; height: 38px; }
   .hero-inner { gap: 32px; grid-template-columns: minmax(0,1.09fr) minmax(310px,.91fr); }
   .hero-copy h1 { font-size: clamp(49px,5.3vw,67px); }
 }
@@ -374,6 +399,10 @@ h1 em, h2 em { font-family: "DM Serif Display", Georgia, serif; font-style: ital
   .header-inner { min-height: 70px; }
   .brand-logo { width: 172px; }
   .header-book { display: none; }
+  .header-actions { gap: 6px; }
+  .header-socials { gap: 5px; }
+  .header-social-link { width: 39px; height: 39px; border-radius: 10px; }
+  .menu-toggle { width: 41px; height: 41px; margin-left: 3px; }
   .site-nav { left: 18px; right: 18px; }
   h2 { font-size: clamp(37px,9vw,47px); }
   .eyebrow { font-size: 10px; letter-spacing: .12em; }
@@ -433,7 +462,11 @@ h1 em, h2 em { font-family: "DM Serif Display", Georgia, serif; font-style: ital
   .map-cover { min-height: 320px; }
 }
 @media (max-width: 380px) {
-  .brand-logo { width: 154px; }
+  .header-inner { gap: 7px; }
+  .brand-logo { width: 140px; }
+  .header-socials { gap: 4px; }
+  .header-social-link { width: 35px; height: 35px; }
+  .menu-toggle { width: 38px; height: 38px; margin-left: 2px; }
   .hero-copy h1 { font-size: 42px; }
   .hero-image-label { transform: scale(.9); transform-origin: bottom left; }
   .service-card { padding: 24px; }

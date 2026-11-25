@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Icon from './Icon'
+import StyledSelect from './StyledSelect'
 import { whatsappURL } from '../data/site'
 import { trackWhatsAppClick } from '../utils/analytics'
 import { contactInterests as interests, contactPeriods as periods, createContactMessage } from '../utils/contact'
@@ -104,14 +105,10 @@ export default function BookingModal({ open, onClose, initialInterest = defaults
             aria-invalid={Boolean(error) && values.name.trim().length < 2}
             required
           />
-          <label htmlFor="booking-interest">O que você procura?</label>
-          <select id="booking-interest" value={values.interest} onChange={(event) => update('interest', event.target.value)}>
-            {interests.map((interest) => <option key={interest}>{interest}</option>)}
-          </select>
-          <label htmlFor="booking-period">Qual período é melhor para você?</label>
-          <select id="booking-period" value={values.period} onChange={(event) => update('period', event.target.value)}>
-            {periods.map((period) => <option key={period}>{period}</option>)}
-          </select>
+          <label id="booking-interest-label" htmlFor="booking-interest">O que você procura?</label>
+          <StyledSelect id="booking-interest" options={interests} value={values.interest} onChange={(value) => update('interest', value)} />
+          <label id="booking-period-label" htmlFor="booking-period">Qual período é melhor para você?</label>
+          <StyledSelect id="booking-period" options={periods} value={values.period} onChange={(value) => update('period', value)} />
           <label htmlFor="booking-detail">Quer acrescentar algo? <span className="optional">(opcional)</span></label>
           <textarea id="booking-detail" rows={2} maxLength={220} placeholder="Uma dúvida, por exemplo. Não inclua dados de saúde." value={values.detail} onChange={(event) => update('detail', event.target.value)} />
           <label className="booking-consent" htmlFor="booking-consent">

@@ -67,6 +67,10 @@ function Header({ onBook }) {
             </button>
           </nav>
           <div className="header-actions">
+            <div className="header-socials" role="group" aria-label="Redes sociais e contato">
+              <a className="header-social-link" href={studio.instagram} target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram do Advanced Studio em nova aba" title="Instagram"><Icon name="instagram" size={20} /></a>
+              <a className="header-social-link header-social-whatsapp" href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer" aria-label="Conversar com o Advanced Studio pelo WhatsApp em nova aba" title="WhatsApp"><Icon name="whatsapp" size={21} /></a>
+            </div>
             <button className="button button-accent header-book" type="button" onClick={() => onBook('Aula experimental de Pilates')}>Agendar aula <Icon name="upRight" size={17} /></button>
             <button
               ref={menuButton}
@@ -349,7 +353,7 @@ function Testimonials() {
           {reviews.length > 2 && (
             <button type="button" className="reviews-more" aria-expanded={expanded} aria-controls="additional-reviews" onClick={() => setExpanded((value) => !value)}>
               {expanded ? 'Mostrar menos avaliações' : `Ler mais ${reviews.length - 2} avaliações`}
-              <Icon name="arrow" size={16} />
+              <Icon name={expanded ? 'chevronUp' : 'chevronDown'} size={16} />
             </button>
           )}
           {studio.googleReviewsUrl && <a className="text-link" href={studio.googleReviewsUrl} target="_blank" rel="noopener noreferrer">Ver avaliações no Google <Icon name="upRight" size={18} /></a>}
@@ -357,6 +361,23 @@ function Testimonials() {
         </div>
       </div>
     </section>
+  )
+}
+
+function FaqAnswer({ faq }) {
+  const message = `Olá! Vi a pergunta "${faq.question}" no site do Advanced Studio e gostaria de saber mais.`
+  return faq.answer.split(/(WhatsApp)/gi).map((part, index) =>
+    part.toLowerCase() === 'whatsapp' ? (
+      <a
+        key={`${faq.question}-${index}`}
+        className="faq-whatsapp-link"
+        href={whatsappURL(message)}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Conversar pelo WhatsApp sobre: ${faq.question} (abre em nova aba)`}
+        title="Abrir conversa no WhatsApp"
+      >WhatsApp <Icon name="upRight" size={15} /></a>
+    ) : part,
   )
 }
 
@@ -368,7 +389,7 @@ function Faq() {
         <div className="faq-list">{faqs.map((faq, index) => (
           <details className="faq-item" key={faq.question}>
             <summary><span>{String(index + 1).padStart(2, '0')}</span>{faq.question}<Icon name="plus" size={19} /></summary>
-            <p>{faq.answer}</p>
+            <p><FaqAnswer faq={faq} /></p>
           </details>
         ))}</div>
       </div>
@@ -463,8 +484,10 @@ export default function App() {
       const anchor = event.target?.closest?.('a[href^="https://wa.me/"]')
       if (!anchor) return
       const placement = anchor.classList.contains('whatsapp-float') ? 'flutuante'
-        : anchor.closest('.site-footer') ? 'rodape'
-          : anchor.closest('.location-section') ? 'localizacao' : 'outro'
+        : anchor.closest('.site-header') ? 'cabecalho'
+          : anchor.closest('.faq-section') ? 'faq'
+            : anchor.closest('.site-footer') ? 'rodape'
+              : anchor.closest('.location-section') ? 'localizacao' : 'outro'
       trackWhatsAppClick(placement)
     }
     document.addEventListener('click', trackLinks, true)
