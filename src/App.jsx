@@ -446,9 +446,11 @@ export default function App() {
   const [privacyPreference, setPrivacyPreference] = useExternalContentPreference()
   const [analyticsConsent, setAnalyticsConsent] = useState(readAnalyticsConsent)
   const [privacySettingsOpen, setPrivacySettingsOpen] = useState(false)
+  const [privacyDetailsOpen, setPrivacyDetailsOpen] = useState(false)
   const [mapDraft, setMapDraft] = useState(() => privacyPreference === 'allow')
   const [analyticsDraft, setAnalyticsDraft] = useState(() => analyticsConsent === 'allow')
-  const showPrivacyBanner = privacySettingsOpen || privacyPreference === null || analyticsConsent === null
+  // O mapa pede autorização no próprio local; o aviso inicial trata de estatísticas.
+  const showPrivacyBanner = privacySettingsOpen || analyticsConsent === null
 
   useEffect(() => {
     if (analyticsConsent === 'allow') enableAnalytics()
@@ -475,12 +477,14 @@ export default function App() {
     persistAnalyticsConsent(choice)
     setAnalyticsConsent(choice)
     setPrivacySettingsOpen(false)
+    setPrivacyDetailsOpen(false)
   }, [setPrivacyPreference])
 
   const openPrivacySettings = useCallback(() => {
     setMapDraft(privacyPreference === 'allow')
     setAnalyticsDraft(analyticsConsent === 'allow')
     setPrivacySettingsOpen(true)
+    setPrivacyDetailsOpen(true)
   }, [privacyPreference, analyticsConsent])
   const openBooking = useCallback((interest = 'Aula experimental de Pilates') => { setBookingInterest(interest); setBookingOpen(true) }, [])
   const closeBooking = useCallback(() => setBookingOpen(false), [])
@@ -490,9 +494,17 @@ export default function App() {
       <Header onBook={openBooking} />
       <PrivacyBanner
         open={showPrivacyBanner}
+        expanded={privacyDetailsOpen}
         mapChecked={mapDraft} onMapChecked={setMapDraft}
         analyticsChecked={analyticsDraft} onAnalyticsChecked={setAnalyticsDraft}
         onReject={() => savePreferences(false, false)}
+        onAccept={() => savePreferences(privacyPreference === 'allow', true)}
+        onCustomize={() => {
+          setMapDraft(privacyPreference === 'allow')
+          setAnalyticsDraft(analyticsConsent === 'allow')
+          setPrivacyDetailsOpen(true)
+        }}
+        onBack={() => setPrivacyDetailsOpen(false)}
         onSave={() => savePreferences(mapDraft, analyticsDraft)}
       />
       <main id="conteudo">

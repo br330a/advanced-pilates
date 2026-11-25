@@ -78,7 +78,8 @@ test('painel de privacidade separa estatísticas e mapa com recusa disponível',
   assert.match(privacy, /Estatísticas de visitas/)
   assert.match(privacy, /Mapa do Google/)
   assert.match(privacy, /Recusar opcionais/)
-  assert.match(privacy, /fontes do site são carregadas localmente/)
+  assert.match(privacy, /Sua privacidade importa/)
+  assert.match(privacy, /Personalizar/)
   assert.doesNotMatch(privacy, /Recusar conteúdo externo/)
 })
 

@@ -18,6 +18,10 @@ test('GA4 só carrega após consentimento explícito', () => {
   assert.match(privacyBanner, /type="checkbox"/)
   assert.match(privacyBanner, /Recusar opcionais/)
   assert.match(privacyBanner, /Salvar escolhas/)
+  assert.match(privacyBanner, /Personalizar/)
+  assert.match(privacyBanner, /onAccept/)
+  assert.match(privacyBanner, /onCustomize/)
+  assert.match(privacyBanner, /onReject/)
 })
 
 test('dados pessoais do formulário não são enviados às estatísticas', () => {
@@ -33,4 +37,18 @@ test('CSP é restrita aos fornecedores escolhidos, sem unsafe-inline', () => {
   assert.match(headers, /https:\/\/static\.cloudflareinsights\.com/)
   assert.match(headers, /connect-src 'self'.*https:\/\/www\.google-analytics\.com/)
   assert.doesNotMatch(headers, /'unsafe-inline'|'unsafe-eval'/)
+})
+
+test('aviso compacto apresenta recusa e aceitação com opções inicialmente desligadas', () => {
+  assert.match(privacyBanner, /Sua privacidade importa/)
+  assert.match(privacyBanner, /Recusar<\/button>/)
+  assert.match(privacyBanner, /Personalizar<\/button>/)
+  assert.match(privacyBanner, /Aceitar<\/button>/)
+  assert.match(privacyBanner, /checked=\{analyticsChecked\}/)
+  assert.match(privacyBanner, /checked=\{mapChecked\}/)
+  assert.match(app, /const showPrivacyBanner = privacySettingsOpen \|\| analyticsConsent === null/)
+  assert.match(app, /onAccept=\{\(\) => savePreferences\(privacyPreference === 'allow', true\)\}/)
+  assert.match(app, /onReject=\{\(\) => savePreferences\(false, false\)\}/)
+  assert.match(app, /onPrivacySettings=\{openPrivacySettings\}/)
+  assert.match(app, /onAllowExternalContent=\{\(\) => setPrivacyPreference\('allow'\)\}/)
 })

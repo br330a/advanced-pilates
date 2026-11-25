@@ -28,7 +28,7 @@ test('fontes são compiladas localmente e a primeira foto continua priorizada', 
   assert.match(headers, /font-src 'self'/)
   assert.doesNotMatch(headers, /fonts\.(googleapis|gstatic)\.com/)
   assert.match(privacy, /fontes tipográficas são servidas pelo próprio site/i)
-  assert.match(banner, /fontes do site são carregadas localmente/i)
+  assert.match(banner, /Política de privacidade/)
   assert.match(index, /imagesrcset="\/images\/pilates-pose-480\.webp/)
 })
 
