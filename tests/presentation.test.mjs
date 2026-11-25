@@ -74,8 +74,10 @@ test('página é mais direta, sem três blocos repetitivos', () => {
   assert.match(app, /className="button button-accent location-book"/)
 })
 
-test('preferência externa descreve especificamente o mapa, não todos os serviços', () => {
-  assert.match(privacy, /Não carregar mapa/)
+test('painel de privacidade separa estatísticas e mapa com recusa disponível', () => {
+  assert.match(privacy, /Estatísticas de visitas/)
+  assert.match(privacy, /Mapa do Google/)
+  assert.match(privacy, /Recusar opcionais/)
   assert.match(privacy, /fontes do site são carregadas localmente/)
   assert.doesNotMatch(privacy, /Recusar conteúdo externo/)
 })

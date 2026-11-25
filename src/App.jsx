@@ -4,6 +4,7 @@ import Brand from './components/Brand'
 import BookingModal from './components/BookingModal'
 import PrivacyBanner from './components/PrivacyBanner'
 import { useExternalContentPreference } from './utils/privacyPreference'
+import { disableAnalytics, enableAnalytics, persistAnalyticsConsent, readAnalyticsConsent, trackWhatsAppClick } from './utils/analytics'
 import Icon from './components/Icon'
 import { faqs, reviews, services, studio, whatsappURL } from './data/site'
 import { teamMembers } from './data/team'
@@ -443,13 +444,57 @@ export default function App() {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [bookingInterest, setBookingInterest] = useState('Aula experimental de Pilates')
   const [privacyPreference, setPrivacyPreference] = useExternalContentPreference()
+  const [analyticsConsent, setAnalyticsConsent] = useState(readAnalyticsConsent)
+  const [privacySettingsOpen, setPrivacySettingsOpen] = useState(false)
+  const [mapDraft, setMapDraft] = useState(() => privacyPreference === 'allow')
+  const [analyticsDraft, setAnalyticsDraft] = useState(() => analyticsConsent === 'allow')
+  const showPrivacyBanner = privacySettingsOpen || privacyPreference === null || analyticsConsent === null
+
+  useEffect(() => {
+    if (analyticsConsent === 'allow') enableAnalytics()
+    else disableAnalytics()
+    return undefined
+  }, [analyticsConsent])
+
+  useEffect(() => {
+    function trackLinks(event) {
+      const anchor = event.target?.closest?.('a[href^="https://wa.me/"]')
+      if (!anchor) return
+      const placement = anchor.classList.contains('whatsapp-float') ? 'flutuante'
+        : anchor.closest('.site-footer') ? 'rodape'
+          : anchor.closest('.location-section') ? 'localizacao' : 'outro'
+      trackWhatsAppClick(placement)
+    }
+    document.addEventListener('click', trackLinks, true)
+    return () => document.removeEventListener('click', trackLinks, true)
+  }, [])
+
+  const savePreferences = useCallback((mapChoice, analyticsChoice) => {
+    setPrivacyPreference(mapChoice ? 'allow' : 'decline')
+    const choice = analyticsChoice ? 'allow' : 'decline'
+    persistAnalyticsConsent(choice)
+    setAnalyticsConsent(choice)
+    setPrivacySettingsOpen(false)
+  }, [setPrivacyPreference])
+
+  const openPrivacySettings = useCallback(() => {
+    setMapDraft(privacyPreference === 'allow')
+    setAnalyticsDraft(analyticsConsent === 'allow')
+    setPrivacySettingsOpen(true)
+  }, [privacyPreference, analyticsConsent])
   const openBooking = useCallback((interest = 'Aula experimental de Pilates') => { setBookingInterest(interest); setBookingOpen(true) }, [])
   const closeBooking = useCallback(() => setBookingOpen(false), [])
   return (
     <>
       <a href="#conteudo" className="skip-link">Pular para o conteúdo</a>
       <Header onBook={openBooking} />
-      <PrivacyBanner preference={privacyPreference} onChoose={setPrivacyPreference} />
+      <PrivacyBanner
+        open={showPrivacyBanner}
+        mapChecked={mapDraft} onMapChecked={setMapDraft}
+        analyticsChecked={analyticsDraft} onAnalyticsChecked={setAnalyticsDraft}
+        onReject={() => savePreferences(false, false)}
+        onSave={() => savePreferences(mapDraft, analyticsDraft)}
+      />
       <main id="conteudo">
         <Hero onBook={openBooking} />
         <Services onBook={openBooking} />
@@ -459,8 +504,8 @@ export default function App() {
         <Faq />
         <Location externalContentAllowed={privacyPreference === 'allow'} onAllowExternalContent={() => setPrivacyPreference('allow')} onBook={openBooking} />
       </main>
-      <Footer onPrivacySettings={() => setPrivacyPreference(null)} />
-      {!bookingOpen && privacyPreference !== null && <a className="whatsapp-float" href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer" aria-label="Conversar com o Advanced Studio no WhatsApp"><Icon name="whatsapp" size={26} /><span>WhatsApp</span></a>}
+      <Footer onPrivacySettings={openPrivacySettings} />
+      {!bookingOpen && !showPrivacyBanner && <a className="whatsapp-float" href={whatsappURL(whatsMessage)} target="_blank" rel="noopener noreferrer" aria-label="Conversar com o Advanced Studio no WhatsApp"><Icon name="whatsapp" size={26} /><span>WhatsApp</span></a>}
       {bookingOpen && <BookingModal open onClose={closeBooking} initialInterest={bookingInterest} />}
     </>
   )

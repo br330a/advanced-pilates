@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Icon from './Icon'
 import { whatsappURL } from '../data/site'
+import { trackWhatsAppClick } from '../utils/analytics'
 import { contactInterests as interests, contactPeriods as periods, createContactMessage } from '../utils/contact'
 const defaults = {
   name: '',
@@ -60,6 +61,7 @@ export default function BookingModal({ open, onClose, initialInterest = defaults
 
     const url = whatsappURL(message)
     setPreparedUrl(url)
+    trackWhatsAppClick('formulario')
     // O link é criado somente após o clique e nenhum dado vai a um servidor nosso.
     // Se o navegador bloquear a janela, oferecemos o link de recuperação na tela.
     try {
